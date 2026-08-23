@@ -30,7 +30,7 @@ export function ResumeForm({ onSubmit, loading, error }: ResumeFormProps) {
       <div>
         <label
           htmlFor="target-position"
-          className="mb-1 block text-sm font-medium"
+          className="mb-1 block text-sm font-medium text-ink"
         >
           What position are you looking for?
         </label>
@@ -45,7 +45,7 @@ export function ResumeForm({ onSubmit, loading, error }: ResumeFormProps) {
       <div>
         <label
           htmlFor="resume-text"
-          className="mb-1 block text-sm font-medium"
+          className="mb-1 block text-sm font-medium text-ink"
         >
           Paste your resume text
         </label>
@@ -55,13 +55,11 @@ export function ResumeForm({ onSubmit, loading, error }: ResumeFormProps) {
           onChange={(e) => setText(e.target.value)}
           rows={14}
           placeholder="Paste the text of your resume here..."
-          className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-black dark:border-zinc-700 dark:bg-zinc-900 dark:focus:border-white"
+          className="w-full rounded-md border border-line bg-paper px-3 py-2 text-sm text-ink outline-none transition-colors placeholder:text-slate/60 focus:border-blaze"
         />
       </div>
 
-      {error && (
-        <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
-      )}
+      {error && <p className="text-sm text-danger">{error}</p>}
 
       <Button type="submit" disabled={!canSubmit}>
         {loading ? "Extracting skills..." : "Extract skills"}

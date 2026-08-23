@@ -1,21 +1,4 @@
-"""Roadmap -- one row per generated learning roadmap.
 
-Built from a snapshot of up to MAX_SELECTED_POSTINGS (10, see
-schemas/roadmap.py) job postings the user checked on /jobs (User_Job_Selection
--- see api/routes/roadmaps.py, services/roadmap.py). The Roadmap_Job_posting
-join table lives in this file, same convention as Job_posting_Skill living
-in models/job_posting.py -- it just records which postings a given roadmap
-was generated from, no extra columns, unlike job_posting_skill/user_skill,
-since there's nothing per-pair to describe beyond membership.
-
-`steps` (and now `overview`) are stored as JSONB rather than normalized
-tables -- a roadmap's step list and overview are only ever read/written as
-a whole alongside the rest of that one roadmap, never queried or joined
-against independently, so a separate table would add join complexity
-nothing here needs. This is the DB-persisted version of the same "AI
-result as one shaped object" idea schemas/roadmap.py and services/roadmap.py
-already use in memory.
-"""
 
 import uuid
 from datetime import datetime
@@ -75,6 +58,13 @@ class Roadmap(Base):
 
     
     steps: Mapped[list] = mapped_column(JSONB, nullable=False)
+
+    # {"<step_order>": [<action_item index>, ...]} -- which action_items the
+    # user has checked off per step. Null for rows predating this column
+    # and for rows where nothing's been checked yet; api/routes/roadmaps.py
+    # coerces null to {} at read time. Written via
+    # repositories/roadmaps.py's set_action_item_done, never by AI generation.
+    completed_action_items: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()

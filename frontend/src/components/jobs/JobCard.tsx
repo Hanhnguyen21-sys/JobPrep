@@ -19,33 +19,35 @@ export function JobCard({
   disabled = false,
 }: JobCardProps) {
   return (
-    <Card className={`flex items-start gap-3 ${disabled ? "opacity-60" : ""}`}>
+    <Card
+      className={`flex items-start gap-3 transition-colors ${
+        selected ? "border-blaze" : ""
+      } ${disabled ? "opacity-50" : ""}`}
+    >
       <input
         type="checkbox"
         checked={selected}
         onChange={() => onToggle(posting.id)}
         disabled={disabled}
         aria-label={`Select ${posting.title} at ${posting.company_name}`}
-        className="mt-1 h-4 w-4 shrink-0 rounded border-zinc-300 text-black focus:ring-black disabled:cursor-not-allowed dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
+        className="mt-1 h-4 w-4 shrink-0 rounded border-line text-blaze accent-blaze focus-visible:ring-2 focus-visible:ring-blaze disabled:cursor-not-allowed"
       />
       <div className="flex-1 space-y-1">
         <div className="flex items-baseline justify-between gap-2">
-          <h3 className="font-medium">{posting.title}</h3>
-          <span className="shrink-0 text-sm text-zinc-500">
+          <h3 className="font-medium text-ink">{posting.title}</h3>
+          <span className="shrink-0 font-mono text-xs text-slate">
             {posting.company_name}
           </span>
         </div>
         {posting.location && (
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            {posting.location}
-          </p>
+          <p className="text-sm text-slate">{posting.location}</p>
         )}
         {posting.url && (
           <a
             href={posting.url}
             target="_blank"
             rel="noreferrer"
-            className="inline-block text-sm text-blue-600 underline dark:text-blue-400"
+            className="inline-block text-sm text-blaze underline decoration-blaze/40 underline-offset-2 hover:decoration-blaze"
           >
             View posting →
           </a>

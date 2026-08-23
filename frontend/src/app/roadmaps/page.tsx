@@ -21,87 +21,90 @@ export default function RoadmapsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl space-y-8 p-6">
-      <div>
-        <h1 className="text-xl font-semibold">Your roadmaps</h1>
-        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-          Every roadmap you&apos;ve generated from{" "}
-          <Link href="/jobs" className="underline">
-            selected job postings
-          </Link>
-          , newest first.
-        </p>
-      </div>
-
-      {loading && (
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">Loading...</p>
-      )}
-
-      {error && (
-        <Card className="border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-950/40">
-          <p className="text-sm text-red-800 dark:text-red-300">{error}</p>
-        </Card>
-      )}
-
-      {deleteError && (
-        <Card className="border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-950/40">
-          <p className="text-sm text-red-800 dark:text-red-300">
-            {deleteError}
+    <div className="theme-brand flex-1 bg-paper text-ink">
+      <div className="w-full space-y-8 p-6 sm:p-8 lg:px-16">
+        <div>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blaze">
+            Step 3
           </p>
-        </Card>
-      )}
-
-      {!loading && !error && roadmaps.length === 0 && (
-        <Card>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            No roadmaps yet.{" "}
-            <Link href="/jobs" className="underline">
-              Find matching jobs
+          <h1 className="mt-1 font-display text-2xl font-semibold tracking-tight text-brand">
+            Your roadmaps
+          </h1>
+          <p className="mt-1 text-sm text-slate">
+            Every roadmap you&apos;ve generated from{" "}
+            <Link href="/jobs" className="underline decoration-blaze underline-offset-2">
+              selected job postings
             </Link>
-            , select a few, and create one.
+            , newest first.
           </p>
-        </Card>
-      )}
+        </div>
 
-      <div className="space-y-6">
-        {roadmaps.map((roadmap) => (
-          <div key={roadmap.id} className="relative">
-            <RoadmapViewer roadmap={roadmap} />
-            <div className="absolute right-4 top-4 flex items-center gap-2">
-              {confirmingId === roadmap.id ? (
-                <>
-                  <span className="text-xs text-zinc-500">
-                    Delete this roadmap?
-                  </span>
+        {loading && <p className="text-sm text-slate">Loading...</p>}
+
+        {error && (
+          <Card className="border-danger/30 bg-danger-tint">
+            <p className="text-sm text-danger">{error}</p>
+          </Card>
+        )}
+
+        {deleteError && (
+          <Card className="border-danger/30 bg-danger-tint">
+            <p className="text-sm text-danger">{deleteError}</p>
+          </Card>
+        )}
+
+        {!loading && !error && roadmaps.length === 0 && (
+          <Card className="text-center">
+            <p className="text-sm text-slate">
+              No roadmaps yet — every route starts with a first step.{" "}
+              <Link href="/jobs" className="text-ink underline decoration-blaze underline-offset-2">
+                Find matching jobs
+              </Link>
+              , select a few, and create one.
+            </p>
+          </Card>
+        )}
+
+        <div className="space-y-6">
+          {roadmaps.map((roadmap) => (
+            <div key={roadmap.id} className="relative">
+              <RoadmapViewer roadmap={roadmap} />
+              <div className="absolute right-4 top-4 flex items-center gap-2">
+                {confirmingId === roadmap.id ? (
+                  <>
+                    <span className="text-xs text-slate">
+                      Delete this roadmap?
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => handleConfirmDelete(roadmap.id)}
+                      disabled={deletingId === roadmap.id}
+                      className="text-xs font-medium text-danger underline disabled:opacity-50"
+                    >
+                      {deletingId === roadmap.id ? "Deleting..." : "Confirm"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setConfirmingId(null)}
+                      disabled={deletingId === roadmap.id}
+                      className="text-xs text-slate underline hover:text-ink disabled:opacity-50"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
                   <button
                     type="button"
-                    onClick={() => handleConfirmDelete(roadmap.id)}
-                    disabled={deletingId === roadmap.id}
-                    className="text-xs font-medium text-red-600 underline hover:text-red-700 disabled:opacity-50 dark:text-red-400"
+                    onClick={() => setConfirmingId(roadmap.id)}
+                    className="text-xs text-slate underline hover:text-danger"
                   >
-                    {deletingId === roadmap.id ? "Deleting..." : "Confirm"}
+                    Delete
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => setConfirmingId(null)}
-                    disabled={deletingId === roadmap.id}
-                    className="text-xs text-zinc-500 underline hover:text-zinc-700 disabled:opacity-50 dark:hover:text-zinc-300"
-                  >
-                    Cancel
-                  </button>
-                </>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setConfirmingId(roadmap.id)}
-                  className="text-xs text-zinc-500 underline hover:text-red-600 dark:hover:text-red-400"
-                >
-                  Delete
-                </button>
-              )}
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

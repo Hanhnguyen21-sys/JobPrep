@@ -38,9 +38,7 @@ function SkillGroup({
 }) {
   return (
     <div>
-      <h3 className="mb-2 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-        {title}
-      </h3>
+      <h3 className="mb-2 text-sm font-semibold text-ink">{title}</h3>
       <div className="flex flex-wrap gap-2">
         {skills.map((skill) => (
           <Badge key={skill.id} variant={variant}>

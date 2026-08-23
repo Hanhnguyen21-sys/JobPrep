@@ -29,9 +29,19 @@ export interface Resource {
   url: string | null;
 }
 
+export interface PrioritySkill {
+  skill: string;
+  // 0-100 datapoints the priority-skills gap chart plots -- see
+  // RoadmapViewer / PrioritySkillsChart. current_level is the candidate's
+  // estimated existing proficiency, target_level what the selected
+  // postings expect.
+  current_level: number;
+  target_level: number;
+}
+
 export interface RoadmapOverview {
   headline: string;
-  priority_skills: string[];
+  priority_skills: PrioritySkill[];
   estimated_duration: string;
 }
 
@@ -66,4 +76,9 @@ export interface RoadmapResponse {
   steps: RoadmapStep[];
   source_postings: RoadmapSourcePosting[];
   created_at: string;
+  // {"<step order>": [<action_item index>, ...]} -- which action items are
+  // checked off, keyed by RoadmapStep.order. {} if nothing's checked yet.
+  // See backend/app/models/roadmap.py's Roadmap.completed_action_items and
+  // hooks/useRoadmapProgress.ts, which is what actually reads/writes this.
+  completed_action_items: Record<string, number[]>;
 }

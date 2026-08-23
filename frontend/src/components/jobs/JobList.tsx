@@ -17,7 +17,7 @@ export function JobList({
 }: JobListProps) {
   if (postings.length === 0) {
     return (
-      <p className="text-sm text-zinc-600 dark:text-zinc-400">
+      <p className="text-sm text-slate">
         No postings matched your target position this time — try a
         broader title, or check back later as more get ingested.
       </p>

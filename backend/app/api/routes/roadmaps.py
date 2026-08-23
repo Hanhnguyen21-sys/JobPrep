@@ -36,10 +36,13 @@ from app.repositories.roadmaps import (
     delete_roadmap,
     get_roadmap,
     get_user_roadmaps,
+    set_action_item_done,
 )
 from app.schemas.roadmap import (
     RoadmapCreateRequest,
     RoadmapOverview,
+    RoadmapProgressResponse,
+    RoadmapProgressUpdate,
     RoadmapResponse,
     RoadmapSourcePosting,
     RoadmapStep,
@@ -69,6 +72,18 @@ def _build_title(job_postings: list[JobPosting], now: datetime) -> str:
     return f"{company_part} ({count} {posting_word}) — {now:%b %d}"
 
 
+def _legacy_priority_skill(skill: str | dict) -> dict:
+    """`priority_skills` used to be `list[str]` (bare skill names, no
+    current_level/target_level datapoints). Adapts old string entries into
+    the new shape so old roadmaps still load -- best-effort: there's no old
+    data to source levels from, so both come back 0 (reads as "unknown gap"
+    on the chart rather than a fabricated level).
+    """
+    if isinstance(skill, str):
+        return {"skill": skill, "current_level": 0, "target_level": 0}
+    return skill
+
+
 def _legacy_overview(roadmap: Roadmap) -> dict:
     """Roadmaps created before migration 10 have `overview = null` and
     only the old flat `summary` text. Backfills a RoadmapOverview shape
@@ -78,7 +93,12 @@ def _legacy_overview(roadmap: Roadmap) -> dict:
     so they come back empty.
     """
     if roadmap.overview:
-        return roadmap.overview
+        overview = dict(roadmap.overview)
+        overview["priority_skills"] = [
+            _legacy_priority_skill(skill)
+            for skill in overview.get("priority_skills", [])
+        ]
+        return overview
     return {
         "headline": roadmap.summary,
         "priority_skills": [],
@@ -125,6 +145,7 @@ def _to_response(roadmap: Roadmap) -> RoadmapResponse:
             for jp in roadmap.source_postings
         ],
         created_at=roadmap.created_at,
+        completed_action_items=roadmap.completed_action_items or {},
     )
 
 
@@ -221,6 +242,36 @@ def get_roadmap_detail(
     if roadmap is None:
         raise NotFoundException("Roadmap not found")
     return _to_response(roadmap)
+
+
+@router.patch("/{roadmap_id}/progress", response_model=RoadmapProgressResponse)
+def update_roadmap_progress(
+    roadmap_id: uuid.UUID,
+    payload: RoadmapProgressUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> RoadmapProgressResponse:
+    roadmap = get_roadmap(db, current_user.id, roadmap_id)
+    if roadmap is None:
+        raise NotFoundException("Roadmap not found")
+
+    step = next((s for s in roadmap.steps if s.get("order") == payload.step_order), None)
+    action_items = step.get("action_items", []) if step else []
+    if not (0 <= payload.item_index < len(action_items)):
+        raise BadRequestException(
+            "That step/action item doesn't exist on this roadmap."
+        )
+
+    completed = set_action_item_done(
+        db,
+        roadmap,
+        step_order=payload.step_order,
+        item_index=payload.item_index,
+        done=payload.done,
+    )
+    db.commit()
+
+    return RoadmapProgressResponse(completed_action_items=completed)
 
 
 @router.delete("/{roadmap_id}", status_code=status.HTTP_204_NO_CONTENT)

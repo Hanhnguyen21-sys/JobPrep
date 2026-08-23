@@ -73,6 +73,42 @@ def get_roadmap(
     )
 
 
+def set_action_item_done(
+    db: Session,
+    roadmap: Roadmap,
+    *,
+    step_order: int,
+    item_index: int,
+    done: bool,
+) -> dict[str, list[int]]:
+    """Marks (or unmarks) one action item done for one step, persisting
+    into Roadmap.completed_action_items. Reassigns the whole dict rather
+    than mutating the existing one in place -- SQLAlchemy's dirty-tracking
+    doesn't see an in-place mutation of a JSONB column's Python dict,
+    only a reassignment of the attribute. Flushes but does not commit --
+    caller's transaction, same convention as create_roadmap.
+    """
+    current = {
+        key: list(indices) for key, indices in (roadmap.completed_action_items or {}).items()
+    }
+    key = str(step_order)
+    indices = set(current.get(key, []))
+
+    if done:
+        indices.add(item_index)
+    else:
+        indices.discard(item_index)
+
+    if indices:
+        current[key] = sorted(indices)
+    else:
+        current.pop(key, None)
+
+    roadmap.completed_action_items = current
+    db.flush()
+    return current
+
+
 def delete_roadmap(db: Session, user_id: uuid.UUID, roadmap_id: uuid.UUID) -> bool:
     """Delete a roadmap if it exists and belongs to user_id. Returns True if
     a row was deleted, False if no matching roadmap was found (caller 404s

@@ -1,27 +1,4 @@
-"""Roadmap generation.
 
-Takes the (up to MAX_SELECTED_POSTINGS, see schemas/roadmap.py) job
-postings a user selected on /jobs, the user's target position, and their
-current skills, and asks the model for ONE combined learning roadmap that
-prepares them for all of the selected postings together -- not one roadmap
-per posting. Deliberately doesn't touch the database, same "text in,
-structured result out" split as services/skill_extraction.py and
-services/job_skill_extraction.py; api/routes/roadmaps.py turns the result
-into a `Roadmap` row.
-
-Unlike job_skill_extraction.py's batching, this is always a single call,
-never chunked -- a roadmap is one synthesis across all selected postings at
-once (the model needs to see all of them together to find the skills they
-share and prioritize accordingly), so there's nothing to gain by splitting
-the request the way per-posting extraction does.
-
-Output is deliberately atomized into small fields (see RoadmapStepResult
-below) rather than one prose paragraph per step -- asking the model for
-short, scoped fields (one line each for "why it matters", a checklist for
-"what to do", a separate list for "how you'll know you're done") produces
-shorter, more scannable text per field than asking it to write a paragraph
-that covers all of those at once.
-"""
 
 from typing import Literal
 
@@ -31,11 +8,7 @@ from app.core.ai_client import get_ai_client
 
 MODEL = "gpt-4o-mini"
 
-# Truncates any single posting's description before it goes into the
-# prompt -- keeps one unusually long or noisy posting from blowing the
-# prompt budget or crowding out the other (up to 9) postings in the same
-# call. Same defensive instinct as job_skill_extraction.py's BATCH_SIZE,
-# just applied to length instead of call count.
+
 MAX_DESCRIPTION_CHARS = 6_000
 
 SYSTEM_PROMPT = """You are a career roadmap generation system for students, new graduates, and early-career job seekers.
@@ -54,7 +27,10 @@ Keep every field short and scannable -- one line per field unless told otherwise
 Return:
 - overview:
   - headline: one sentence on the overall gap between where the candidate is now and what these postings need.
-  - priority_skills: the 3-6 skills/tools that matter most across the selected postings, short phrases (e.g. "Distributed systems", not a sentence).
+  - priority_skills: the 3-6 skills/tools that matter most across the selected postings, ordered most-critical first. Each is a datapoint, not a sentence:
+    - skill: short phrase (e.g. "Distributed systems", not a sentence).
+    - current_level: 0-100 rating of the candidate's existing proficiency in this skill, estimated from their listed skills/evidence. 0 if they don't have it at all; don't round every value to a multiple of 10 -- use the full range so skills at genuinely different levels don't collide.
+    - target_level: 0-100 rating of the proficiency these postings expect for this skill. Should be meaningfully higher than current_level for a skill that's actually a gap; close to current_level only for a skill listed mainly to deepen.
   - estimated_duration: a short phrase for the whole plan, e.g. "2-3 months".
 - steps: an ordered list of concrete milestones (typically 4-8) the candidate should work through in sequence. Each step needs:
   - order: 1-based position in the sequence.
@@ -80,9 +56,15 @@ class ResourceResult(BaseModel):
     url: str | None = None
 
 
+class PrioritySkillResult(BaseModel):
+    skill: str
+    current_level: int
+    target_level: int
+
+
 class RoadmapOverviewResult(BaseModel):
     headline: str
-    priority_skills: list[str]
+    priority_skills: list[PrioritySkillResult]
     estimated_duration: str
 
 
@@ -109,19 +91,7 @@ def generate_roadmap(
     existing_skills: list[str],
     postings: list[dict],
 ) -> RoadmapGenerationResult | None:
-    """`postings` is a list of {"company_name": str, "title": str,
-    "description": str | None} dicts, already limited to the user's
-    selection -- this function trusts its caller (api/routes/roadmaps.py)
-    to have already enforced MAX_SELECTED_POSTINGS; it doesn't re-check
-    the cap itself.
-
-    Returns None if the model refused or its output didn't fit the schema
-    after retries. Unlike skill_extraction.py's "found nothing" fallback,
-    there's no sane empty roadmap to silently return here -- an empty
-    roadmap isn't a valid "nothing found" result, it's just broken -- so
-    this pushes the decision of what to do back to the caller instead of
-    manufacturing a fake empty one.
-    """
+    
     client = get_ai_client()
 
     postings_block = "\n\n".join(

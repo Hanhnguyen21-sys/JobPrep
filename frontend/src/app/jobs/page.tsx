@@ -48,81 +48,84 @@ export default function JobsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl space-y-8 p-6">
-      <div>
-        <h1 className="text-xl font-semibold">Matching jobs</h1>
-        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-          Pulls live postings from Greenhouse and Lever, filtered to the
-          position you saved on your resume, and compares their required skills
-          against yours. This can take longer than a normal page load.
-        </p>
-      </div>
-
-      <Card className="space-y-4">
-        <Button onClick={handleFindMatches} disabled={loading}>
-          {loading ? "Searching..." : "Find matching jobs"}
-        </Button>
-
-        {needsTargetPosition && (
-          <p className="text-sm text-red-600 dark:text-red-400">
-            You haven&apos;t set a target position yet.{" "}
-            <Link href="/resume" className="underline">
-              Submit your resume
-            </Link>{" "}
-            with the position you&apos;re looking for first.
+    <div className="theme-brand flex-1 bg-paper text-ink">
+      <div className="mx-auto w-full max-w-6xl space-y-8 p-6 sm:p-8">
+        <div>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blaze">
+            Step 2
           </p>
-        )}
+          <h1 className="mt-1 font-display text-2xl font-semibold tracking-tight text-brand">
+            Matching jobs
+          </h1>
+          <p className="mt-1 text-sm text-slate">
+            Pulls live postings from Greenhouse and Lever, filtered to the
+            position you saved on your resume, and compares their required skills
+            against yours. This can take longer than a normal page load.
+          </p>
+        </div>
 
-        {error && (
-          <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
-        )}
-      </Card>
-
-      {result && (
         <Card className="space-y-4">
-          <div className="flex items-baseline justify-between gap-2">
-            <h2 className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-              {result.postings.length} matching posting
-              {result.postings.length === 1 ? "" : "s"}
-            </h2>
-            {result.postings.length > 0 && (
-              <p className="text-xs text-zinc-500">
-                Check up to 10 to build a roadmap from
-              </p>
-            )}
-          </div>
-          <JobList
-            postings={result.postings}
-            isSelected={isSelected}
-            onToggle={toggle}
-            isMaxed={isMaxed}
-          />
+          <Button onClick={handleFindMatches} disabled={loading}>
+            {loading ? "Searching..." : "Find matching jobs"}
+          </Button>
+
+          {needsTargetPosition && (
+            <p className="text-sm text-danger">
+              You haven&apos;t set a target position yet.{" "}
+              <Link href="/resume" className="underline">
+                Submit your resume
+              </Link>{" "}
+              with the position you&apos;re looking for first.
+            </p>
+          )}
+
+          {error && <p className="text-sm text-danger">{error}</p>}
         </Card>
-      )}
 
-      {roadmapError && (
-        <Card className="space-y-1 border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-950/40">
-          <p className="text-sm text-red-800 dark:text-red-300">
-            {roadmapError}
-          </p>
-        </Card>
-      )}
+        {result && (
+          <Card className="space-y-4">
+            <div className="flex items-baseline justify-between gap-2">
+              <h2 className="font-mono text-xs uppercase tracking-[0.15em] text-slate">
+                {result.postings.length} matching posting
+                {result.postings.length === 1 ? "" : "s"}
+              </h2>
+              {result.postings.length > 0 && (
+                <p className="text-xs text-slate">
+                  Check up to 10 to build a roadmap from
+                </p>
+              )}
+            </div>
+            <JobList
+              postings={result.postings}
+              isSelected={isSelected}
+              onToggle={toggle}
+              isMaxed={isMaxed}
+            />
+          </Card>
+        )}
 
-      {roadmap && <RoadmapViewer roadmap={roadmap} />}
+        {roadmapError && (
+          <Card className="space-y-1 border-danger/30 bg-danger-tint">
+            <p className="text-sm text-danger">{roadmapError}</p>
+          </Card>
+        )}
 
-      <SelectionBar
-        selectedCount={selectedCount}
-        onClear={clear}
-        onCreateRoadmap={handleCreateRoadmap}
-        generating={generatingRoadmap}
-      />
+        {roadmap && <RoadmapViewer roadmap={roadmap} />}
 
-      {showCreatedModal && roadmap && (
-        <RoadmapCreatedModal
-          roadmap={roadmap}
-          onClose={() => setShowCreatedModal(false)}
+        <SelectionBar
+          selectedCount={selectedCount}
+          onClear={clear}
+          onCreateRoadmap={handleCreateRoadmap}
+          generating={generatingRoadmap}
         />
-      )}
+
+        {showCreatedModal && roadmap && (
+          <RoadmapCreatedModal
+            roadmap={roadmap}
+            onClose={() => setShowCreatedModal(false)}
+          />
+        )}
+      </div>
     </div>
   );
 }

@@ -42,7 +42,7 @@ export function SignupForm() {
 
   if (submitted) {
     return (
-      <p className="text-sm text-zinc-600 dark:text-zinc-400">
+      <p className="text-sm text-slate">
         Check your email to confirm your account, then log in.
       </p>
     );
@@ -51,7 +51,7 @@ export function SignupForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
-        <label htmlFor="fullName" className="text-sm font-medium">
+        <label htmlFor="fullName" className="text-sm font-medium text-ink">
           Full name
         </label>
         <Input
@@ -63,7 +63,7 @@ export function SignupForm() {
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="email" className="text-sm font-medium">
+        <label htmlFor="email" className="text-sm font-medium text-ink">
           Email
         </label>
         <Input
@@ -77,7 +77,7 @@ export function SignupForm() {
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="password" className="text-sm font-medium">
+        <label htmlFor="password" className="text-sm font-medium text-ink">
           Password
         </label>
         <Input
@@ -91,7 +91,7 @@ export function SignupForm() {
         />
       </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-danger">{error}</p>}
 
       <Button type="submit" disabled={loading}>
         {loading ? "Signing up..." : "Sign up"}

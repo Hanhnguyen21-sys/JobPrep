@@ -1,26 +1,111 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* Trail-map token system — light mode */
+  --paper: #f2f3ee;
+  --surface: #fbfbf8;
+  --ink: #14181f;
+  --slate: #5b6259;
+  --line: #dcdfd5;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --blaze: #d2531f;
+  --blaze-strong: #b8441a;
+  --blaze-tint: #fbe7dc;
+
+  --pine: #2c5f4e;
+  --pine-tint: #e4eee8;
+
+  --danger: #b3392a;
+  --danger-tint: #f7e3df;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --paper: #12161c;
+    --surface: #181d25;
+    --ink: #f2f3ee;
+    --slate: #9aa3a0;
+    --line: #2a313a;
+
+    --blaze: #e2673a;
+    --blaze-strong: #f0794c;
+    --blaze-tint: rgba(226, 103, 58, 0.16);
+
+    --pine: #4c9679;
+    --pine-tint: rgba(76, 150, 121, 0.18);
+
+    --danger: #e0685a;
+    --danger-tint: rgba(224, 104, 90, 0.16);
   }
 }
 
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-slate: var(--slate);
+  --color-line: var(--line);
+
+  --color-blaze: var(--blaze);
+  --color-blaze-strong: var(--blaze-strong);
+  --color-blaze-tint: var(--blaze-tint);
+
+  --color-pine: var(--pine);
+  --color-pine-tint: var(--pine-tint);
+
+  --color-danger: var(--danger);
+  --color-danger-tint: var(--danger-tint);
+
+  --color-brand: var(--brand);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* New brand palette — scoped to .theme-brand rather than :root. Redefines
+   the SAME token names Button/Card/Badge/Input already consume (--paper,
+   --ink, --blaze, --line, --slate, --surface, --pine), so those shared
+   components render in the new palette automatically wherever this class
+   wraps them, with zero changes to their own files. Applied to the root
+   element of each of Dashboard/Resume/Jobs/Roadmaps' page.tsx files.
+   Nothing outside this class is affected — Login/Signup/the marketing
+   page, and the Navbar (which lives outside every page.tsx, in
+   layout.tsx), keep the current trail-map palette until they get their
+   own pass. --brand has no equivalent in the shared token set (nothing
+   else uses a distinct heading color), so it's new rather than reused.
+   --pine is remapped to --ink rather than left as green -- the brand
+   brief is explicitly a 4-color system (cream/navy/brown/amber), so the
+   "have this skill" / checklist-done accent that used to be a green pine
+   becomes a solid navy instead of introducing a 5th hue. */
+.theme-brand {
+  --paper: #f3e4c9;
+  --surface: #faf1dc;
+  --ink: #0a2947;
+  --slate: rgba(10, 41, 71, 0.62);
+  --line: rgba(78, 34, 15, 0.16);
+
+  --blaze: #eaa64d;
+  --blaze-strong: #d9922f;
+  --blaze-tint: rgba(234, 166, 77, 0.16);
+
+  --pine: #0a2947;
+  --pine-tint: rgba(10, 41, 71, 0.1);
+
+  --brand: #4e220f;
+}
+
+/* Respect reduced-motion for the ambient route-line animations used in
+   the hero and roadmap timeline. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

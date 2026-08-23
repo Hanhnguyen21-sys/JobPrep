@@ -24,20 +24,15 @@ export function SelectionBar({
   if (selectedCount === 0) return null;
 
   return (
-    <div className="sticky bottom-4 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-zinc-200 bg-white px-4 py-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-      <span className="text-sm font-medium">
+    <div className="sticky bottom-4 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-line bg-surface px-4 py-3 shadow-lg shadow-black/5">
+      <span className="font-mono text-sm font-medium text-ink">
         {selectedCount} job{selectedCount === 1 ? "" : "s"} selected
         {selectedCount >= MAX_SELECTED_POSTINGS ? " (max)" : ""}
       </span>
       <div className="flex flex-wrap items-center gap-3">
-        <button
-          type="button"
-          onClick={onClear}
-          disabled={generating}
-          className="text-sm text-zinc-500 underline hover:text-zinc-700 disabled:opacity-50 disabled:pointer-events-none dark:hover:text-zinc-300"
-        >
+        <Button variant="ghost" onClick={onClear} disabled={generating}>
           Clear
-        </button>
+        </Button>
         <Button onClick={onCreateRoadmap} disabled={generating}>
           {generating ? "Generating..." : "Create roadmap"}
         </Button>

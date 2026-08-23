@@ -1,6 +1,8 @@
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import type { Resource, RoadmapResponse } from "@/types/roadmap";
+import { RoadmapPhaseColumn } from "@/components/roadmap/RoadmapPhaseColumn";
+import { useRoadmapProgress } from "@/hooks/useRoadmapProgress";
+import type { Resource, RoadmapResponse, RoadmapStep } from "@/types/roadmap";
 
 interface RoadmapViewerProps {
   roadmap: RoadmapResponse;
@@ -14,79 +16,91 @@ const RESOURCE_TYPE_LABEL: Record<Resource["type"], string> = {
   tool: "Tool",
 };
 
-function ResourceLink({ resource }: { resource: Resource }) {
-  const label = [RESOURCE_TYPE_LABEL[resource.type], resource.provider]
-    .filter(Boolean)
-    .join(" · ");
+interface PickedResource {
+  resource: Resource;
+  stepOrder: number;
+}
 
-  const content = (
-    <>
-      <span className="font-medium">{resource.title}</span>
-      {label && <span className="text-zinc-500"> ({label})</span>}
-    </>
+// One shared "Recommended resources" section for the whole roadmap
+// (rather than one per phase) -- flattens every step's resources,
+// prefers one course/tutorial-shaped pick and one article/doc-shaped
+// pick (the closest we have to "book or documentation"), then fills any
+// remaining slot in step order. Never invents a resource -- an empty
+// result renders an empty state instead.
+function pickRoadmapResources(steps: RoadmapStep[]): PickedResource[] {
+  const flat: PickedResource[] = steps.flatMap((step) =>
+    step.resources.map((resource) => ({ resource, stepOrder: step.order })),
   );
+  const course = flat.find((f) => f.resource.type === "course");
+  const article = flat.find((f) => f.resource.type === "article" && f !== course);
+  const preferred = [course, article].filter((f): f is PickedResource => Boolean(f));
+  const rest = flat.filter((f) => !preferred.includes(f));
+  return [...preferred, ...rest].slice(0, 2);
+}
 
+function ResourceCard({ resource, stepOrder }: PickedResource) {
   return (
-    <li className="text-sm text-zinc-600 dark:text-zinc-400">
-      {resource.url ? (
+    <div className="flex items-start justify-between gap-3 rounded-lg border border-line bg-paper p-4">
+      <div className="min-w-0 space-y-1">
+        <div className="flex items-center gap-2">
+          <Badge>{RESOURCE_TYPE_LABEL[resource.type]}</Badge>
+          <span className="font-mono text-[11px] text-slate">Phase {stepOrder}</span>
+        </div>
+        <p title={resource.title} className="truncate text-sm font-medium text-ink">
+          {resource.title}
+        </p>
+        {resource.provider && <p className="text-xs text-slate">{resource.provider}</p>}
+      </div>
+      {resource.url && (
         <a
           href={resource.url}
           target="_blank"
           rel="noreferrer"
-          className="underline decoration-dotted underline-offset-2 hover:text-zinc-900 dark:hover:text-zinc-200"
+          className="shrink-0 text-sm font-medium text-ink underline decoration-blaze underline-offset-4 hover:text-blaze"
         >
-          {content}
+          View →
         </a>
-      ) : (
-        content
       )}
-    </li>
+    </div>
   );
 }
 
-// Renders a generated roadmap: a short overview (headline, priority
-// skills, estimated duration), which postings it was built from, and a
-// vertical timeline of steps -- each with the skills it targets, why it
-// matters, a concrete checklist, suggested resources, an optional project,
-// duration, and how to know it's done. No dedicated RoadmapCard.tsx yet
-// (that's for a future roadmaps list page, per the file-structure plan) --
-// this is the single full view used inline on /jobs right after
-// generation and reused as-is on /roadmaps.
-//
-// Deliberately a linear timeline, not a node/branch graph -- steps are a
-// flat ordered sequence with no dependencies between them, so a graph
-// library would be complexity this data doesn't need. See
-// claude/roadmap-restructure-plan.md in the project for the reasoning.
+// Renders a generated roadmap: a short overview (headline, estimated
+// duration, source postings), a horizontal timeline of phases -- a
+// waypoint node per phase on one continuous connecting line
+// (RoadmapPhaseColumn), each with its goal and an interactive checklist
+// built from action_items -- and one combined "Recommended resources"
+// section below it. No dedicated RoadmapCard.tsx yet (that's for a
+// future roadmaps list page, per the file-structure plan) -- this is the
+// single full view used inline on /jobs right after generation and
+// reused as-is on /roadmaps.
 export function RoadmapViewer({ roadmap }: RoadmapViewerProps) {
   const steps = [...roadmap.steps].sort((a, b) => a.order - b.order);
   const { overview } = roadmap;
+  const resources = pickRoadmapResources(steps);
+  const progress = useRoadmapProgress(roadmap);
 
   return (
-    <Card className="space-y-6">
+    <Card className="space-y-8">
       <div>
-        <h2 className="text-lg font-semibold">
+        <h2 className="font-display text-2xl font-bold tracking-tight text-brand sm:text-3xl">
           {roadmap.title ?? `Roadmap for ${roadmap.target_position}`}
         </h2>
         {roadmap.title && (
-          <p className="text-xs text-zinc-500">For {roadmap.target_position}</p>
+          <p className="font-mono text-xs text-slate">
+            For {roadmap.target_position}
+          </p>
         )}
 
-        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-          {overview.headline}
-        </p>
+        <p className="mt-2 text-sm text-slate">{overview.headline}</p>
 
-        <div className="mt-2 flex flex-wrap items-center gap-2">
-          {overview.estimated_duration && (
+        {overview.estimated_duration && (
+          <div className="mt-3">
             <Badge>{overview.estimated_duration}</Badge>
-          )}
-          {overview.priority_skills.map((skill) => (
-            <Badge key={skill} variant="technical">
-              {skill}
-            </Badge>
-          ))}
-        </div>
+          </div>
+        )}
 
-        <p className="mt-3 text-xs text-zinc-500">
+        <p className="mt-3 text-xs text-slate">
           Built from {roadmap.source_postings.length} posting
           {roadmap.source_postings.length === 1 ? "" : "s"}:{" "}
           {roadmap.source_postings
@@ -95,101 +109,37 @@ export function RoadmapViewer({ roadmap }: RoadmapViewerProps) {
         </p>
       </div>
 
-      <ol className="space-y-6">
-        {steps.map((step) => (
-          <li
-            key={step.order}
-            className="border-l-2 border-zinc-200 pl-4 dark:border-zinc-800"
-          >
-            <div className="flex flex-wrap items-baseline gap-2">
-              <span className="text-xs font-semibold text-zinc-500">
-                Step {step.order}
-              </span>
-              <h3 className="font-medium">{step.title}</h3>
-              {step.duration && (
-                <span className="text-xs text-zinc-500">
-                  · {step.duration}
-                </span>
-              )}
-            </div>
+      <div className="-mx-6 overflow-x-auto px-6">
+        <div className="flex w-max">
+          {steps.map((step, index) => (
+            <RoadmapPhaseColumn
+              key={step.order}
+              step={step}
+              isFirst={index === 0}
+              isLast={index === steps.length - 1}
+              isItemDone={(itemIndex) => progress.isDone(step.order, itemIndex)}
+              onToggleItem={(itemIndex) => progress.toggle(step.order, itemIndex)}
+            />
+          ))}
+        </div>
+      </div>
 
-            {step.skills.length > 0 && (
-              <div className="mt-2 flex flex-wrap gap-2">
-                {step.skills.map((skill) => (
-                  <Badge
-                    key={skill}
-                    variant="technical"
-                    className={
-                      skill === step.focus_skill
-                        ? "ring-1 ring-blue-400 dark:ring-blue-600"
-                        : undefined
-                    }
-                  >
-                    {skill}
-                  </Badge>
-                ))}
-              </div>
-            )}
-
-            {step.why_it_matters && (
-              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                {step.why_it_matters}
-              </p>
-            )}
-
-            {step.action_items.length > 0 && (
-              <ul className="mt-2 space-y-1">
-                {step.action_items.map((item, index) => (
-                  <li
-                    key={index}
-                    className="flex gap-2 text-sm text-zinc-700 dark:text-zinc-300"
-                  >
-                    <span aria-hidden className="text-zinc-400">
-                      ☐
-                    </span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {step.project && (
-              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                <span className="font-medium text-zinc-700 dark:text-zinc-300">
-                  Project:
-                </span>{" "}
-                {step.project}
-              </p>
-            )}
-
-            {step.resources.length > 0 && (
-              <ul className="mt-2 space-y-1">
-                {step.resources.map((resource, index) => (
-                  <ResourceLink key={index} resource={resource} />
-                ))}
-              </ul>
-            )}
-
-            {step.success_criteria.length > 0 && (
-              <div className="mt-2">
-                <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                  Done when
-                </p>
-                <ul className="mt-1 space-y-1">
-                  {step.success_criteria.map((criterion, index) => (
-                    <li
-                      key={index}
-                      className="text-sm text-zinc-600 dark:text-zinc-400"
-                    >
-                      {criterion}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </li>
-        ))}
-      </ol>
+      <div className="border-t border-line pt-6">
+        <p className="font-mono text-xs uppercase tracking-[0.15em] text-slate">
+          Recommended resources
+        </p>
+        {resources.length > 0 ? (
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            {resources.map((picked, index) => (
+              <ResourceCard key={index} {...picked} />
+            ))}
+          </div>
+        ) : (
+          <p className="mt-3 text-sm text-slate">
+            No resources suggested for this roadmap yet.
+          </p>
+        )}
+      </div>
     </Card>
   );
 }

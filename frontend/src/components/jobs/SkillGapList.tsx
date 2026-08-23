@@ -6,8 +6,9 @@ interface SkillGapListProps {
 }
 
 // Same grouping idea as ExtractedSkillsList, but the axis that matters
-// here is "do you already have it," not category -- category still shows
-// via Badge variant, have/missing shows via a checkmark + opacity.
+// here is "do you already have it," not category -- a skill you have is a
+// solid, reached waypoint (Badge variant="have"); a skill you're missing
+// is an open one still ahead on the route (variant="missing").
 export function SkillGapList({ skillGap }: SkillGapListProps) {
   if (skillGap.length === 0) return null;
 
@@ -33,16 +34,10 @@ function SkillGapGroup({
 }) {
   return (
     <div>
-      <h3 className="mb-2 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-        {title}
-      </h3>
+      <h3 className="mb-2 text-sm font-semibold text-ink">{title}</h3>
       <div className="flex flex-wrap gap-2">
         {items.map((item) => (
-          <Badge
-            key={item.skill_id}
-            variant={item.category === "technical" ? "technical" : "soft"}
-            className={item.user_has ? "" : "opacity-50"}
-          >
+          <Badge key={item.skill_id} variant={item.user_has ? "have" : "missing"}>
             {item.user_has ? "✓ " : ""}
             {item.name}
           </Badge>

@@ -30,3 +30,24 @@ export async function listRoadmaps(): Promise<RoadmapResponse[]> {
 export async function deleteRoadmap(roadmapId: string): Promise<void> {
   await apiFetch<void>(`/roadmaps/${roadmapId}`, { method: "DELETE" });
 }
+
+// Calls PATCH /roadmaps/{id}/progress -- checks or unchecks one action
+// item on one step. Returns the roadmap's full updated
+// completed_action_items map (not just the one item) so the caller can
+// resync local state directly from the server's version rather than
+// trusting its own optimistic guess. See hooks/useRoadmapProgress.ts.
+export async function updateRoadmapProgress(
+  roadmapId: string,
+  stepOrder: number,
+  itemIndex: number,
+  done: boolean,
+): Promise<Record<string, number[]>> {
+  const response = await apiFetch<{ completed_action_items: Record<string, number[]> }>(
+    `/roadmaps/${roadmapId}/progress`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({ step_order: stepOrder, item_index: itemIndex, done }),
+    },
+  );
+  return response.completed_action_items;
+}

@@ -57,11 +57,7 @@ class User(Base):
     email: Mapped[str] = mapped_column(String, unique=True, nullable=False, index=True)
     full_name: Mapped[str | None] = mapped_column(String, nullable=True)
 
-    # The job title/role the user is looking for, captured alongside their
-    # resume submission (see api/routes/resumes.py). Persisted -- unlike
-    # resume text itself, which is discarded after extraction -- because
-    # api/routes/jobs.py's targeted-ingestion endpoint reads it on every
-    # "Find Matching Jobs" call, not just the one that first set it.
+   
     target_position: Mapped[str | None] = mapped_column(String, nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())

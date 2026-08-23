@@ -1,4 +1,4 @@
-# JobPrep — root .gitignore
+    # JobPrep — root .gitignore
 # Covers both frontend/ (Next.js) and backend/ (FastAPI) since this is a
 # single monorepo. frontend/ also has its own .gitignore (from
 # create-next-app) which still applies within that folder — this file
