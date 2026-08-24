@@ -146,6 +146,7 @@ def _to_response(roadmap: Roadmap) -> RoadmapResponse:
         ],
         created_at=roadmap.created_at,
         completed_action_items=roadmap.completed_action_items or {},
+        last_interacted_step_order=roadmap.last_interacted_step_order,
     )
 
 
@@ -268,10 +269,14 @@ def update_roadmap_progress(
         step_order=payload.step_order,
         item_index=payload.item_index,
         done=payload.done,
+        interacted_at=payload.interacted_at or datetime.now(timezone.utc),
     )
     db.commit()
 
-    return RoadmapProgressResponse(completed_action_items=completed)
+    return RoadmapProgressResponse(
+        completed_action_items=completed,
+        last_interacted_step_order=roadmap.last_interacted_step_order,
+    )
 
 
 @router.delete("/{roadmap_id}", status_code=status.HTTP_204_NO_CONTENT)

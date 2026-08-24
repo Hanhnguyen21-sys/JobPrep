@@ -36,8 +36,13 @@ export function useRoadmapProgress(roadmap: RoadmapResponse) {
     setCompleted({ ...completed, [key]: nextForStep });
 
     try {
-      const confirmed = await updateRoadmapProgress(roadmap.id, stepOrder, itemIndex, done);
-      setCompleted(confirmed);
+      const { completedActionItems } = await updateRoadmapProgress(
+        roadmap.id,
+        stepOrder,
+        itemIndex,
+        done,
+      );
+      setCompleted(completedActionItems);
     } catch {
       setCompleted(previous);
     }

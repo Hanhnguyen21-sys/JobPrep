@@ -81,4 +81,11 @@ export interface RoadmapResponse {
   // See backend/app/models/roadmap.py's Roadmap.completed_action_items and
   // hooks/useRoadmapProgress.ts, which is what actually reads/writes this.
   completed_action_items: Record<string, number[]>;
+  // Which step (RoadmapStep.order) the user most recently checked/unchecked
+  // an action item on -- see backend/app/models/roadmap.py's
+  // Roadmap.last_interacted_step_order. null if nothing's ever been
+  // interacted with. Drives the Dashboard's "current phase" card
+  // (components/dashboard/ActiveRoadmap.tsx) instead of always showing the
+  // earliest incomplete step.
+  last_interacted_step_order: number | null;
 }

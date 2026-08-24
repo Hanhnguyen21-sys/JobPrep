@@ -44,15 +44,23 @@ function ActiveRoadmapCard({ roadmap }: { roadmap: RoadmapResponse }) {
   const steps = [...roadmap.steps].sort((a, b) => a.order - b.order);
   const progress = useRoadmapProgress(roadmap);
 
-  // The first step that isn't fully checked off yet -- falls back to the
-  // last step once everything's done. Real, since it's derived from
-  // persisted completed_action_items, not a guess at "current phase."
-  const nextStep =
+  // The step the user most recently checked/unchecked an action item on --
+  // persisted server-side (roadmap.last_interacted_step_order), so it
+  // survives refresh/new session and isn't a guess. Falls back to the
+  // first step that isn't fully checked off yet (and finally the last
+  // step once everything's done) only when nothing's ever been
+  // interacted with, or the recorded step no longer exists on this
+  // roadmap.
+  const activeStep =
+    (roadmap.last_interacted_step_order != null
+      ? steps.find((step) => step.order === roadmap.last_interacted_step_order)
+      : undefined) ??
     steps.find(
       (step) =>
         step.action_items.length > 0 &&
         progress.completedCountForStep(step.order) < step.action_items.length,
-    ) ?? steps[steps.length - 1];
+    ) ??
+    steps[steps.length - 1];
 
   const percent =
     progress.totalCount > 0
@@ -99,23 +107,23 @@ function ActiveRoadmapCard({ roadmap }: { roadmap: RoadmapResponse }) {
         </div>
       )}
 
-      {nextStep && (
+      {activeStep && (
         <div className="border-t border-line pt-4">
           <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-slate">
-            Next — Phase {nextStep.order}
+            Current — Phase {activeStep.order}
           </p>
           <p className="mt-1 font-display text-base font-semibold text-ink">
-            {nextStep.title}
+            {activeStep.title}
           </p>
-          {nextStep.why_it_matters && (
+          {activeStep.why_it_matters && (
             <p className="mt-1 line-clamp-2 text-sm text-slate">
-              {nextStep.why_it_matters}
+              {activeStep.why_it_matters}
             </p>
           )}
-          {nextStep.action_items.length > 0 && (
+          {activeStep.action_items.length > 0 && (
             <p className="mt-1 text-xs text-slate">
-              {progress.completedCountForStep(nextStep.order)} of{" "}
-              {nextStep.action_items.length} action items done
+              {progress.completedCountForStep(activeStep.order)} of{" "}
+              {activeStep.action_items.length} action items done
             </p>
           )}
         </div>

@@ -40,12 +40,20 @@ tied to them isn't silently lost.
 
 Two entry points:
 - run_ingestion() -- the broad, standalone-script path above: pulls
-  everything from DEFAULT_COMPANIES, keeps job_postings generally
-  populated, marks postings that vanished as inactive.
+  everything from the tracked companies in the `companies` table (see
+  _get_tracked_companies), keeps job_postings generally populated, marks
+  postings that vanished as inactive.
 - run_targeted_ingestion() -- the on-demand, per-user path: filters to
   postings matching a desired position *before* saving/extracting
   anything, called from api/routes/jobs.py with the request's own DB
   session. Never touches is_active -- see its docstring for why.
+
+Company source of truth: both entry points read the companies to ingest
+from the `companies` table (_get_tracked_companies), not from a hardcoded
+list. A company row needs both `ats_platform` and `ats_identifier` set to
+be picked up -- see db/sql/12_seed_verified_greenhouse_sources.sql for how
+new sources get added. Callers can still pass an explicit `companies=`
+override (used by tests) to bypass the DB read entirely.
 
 Caching (run_targeted_ingestion only): the live fetch+extract pipeline is
 the slow part of a job match request (sequential ATS calls + sequential
@@ -60,22 +68,29 @@ currently match" is ambiguous between "genuinely zero" and "never
 searched" -- a dedicated timestamp resolves that.
 """
 
+import asyncio
 import hashlib
+import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Callable, Literal
 
-from sqlalchemy import delete, select
+import httpx
+from openai import OpenAIError
+from sqlalchemy import delete, func, select
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import tuple_
 
+from app.core.config import get_settings
 from app.db.session import SessionLocal
 from app.ingestion import greenhouse, lever
 from app.ingestion.common import NormalizedJobPosting
+from app.ingestion.query_normalization import cache_key, normalize_query
 from app.models.company import Company
 from app.models.job_posting import JobPosting, job_posting_skill
 from app.models.search_cache import JobSearchCache
-from app.repositories.skills import get_or_create_skill
+from app.models.skill import Skill
 from app.services.job_skill_extraction import (
     ExtractedJobSkill,
     JobSkillExtractionResult,
@@ -90,20 +105,70 @@ class CompanySource:
     ats_identifier: str
 
 
-# Verified live at write time: gitlab/coinbase are real, active Greenhouse
-# boards; leverdemo is Lever's own public demo board (safer as a default
-# than a real company's Lever slug, which could break silently if they
-# ever switch ATS providers).
-DEFAULT_COMPANIES: list[CompanySource] = [
-    CompanySource(name="GitLab", ats_platform="greenhouse", ats_identifier="gitlab"),
-    CompanySource(name="Coinbase", ats_platform="greenhouse", ats_identifier="coinbase"),
-    CompanySource(name="Lever (demo board)", ats_platform="lever", ats_identifier="leverdemo"),
-]
-
 FETCHERS: dict[str, Callable[[str], list[NormalizedJobPosting]]] = {
     "greenhouse": greenhouse.fetch_jobs,
     "lever": lever.fetch_jobs,
 }
+
+# Title-filtered counterpart to FETCHERS -- see greenhouse.py's
+# fetch_jobs_filtered docstring. Used by the targeted/on-demand path
+# (_ingest_company_for_position) instead of FETCHERS + a post-hoc filter,
+# so a big board's non-matching postings never get their HTML-stripped/
+# constructed in the first place.
+FETCHERS_FILTERED: dict[str, Callable[[str, Callable[[str], bool]], list[NormalizedJobPosting]]] = {
+    "greenhouse": greenhouse.fetch_jobs_filtered,
+    "lever": lever.fetch_jobs_filtered,
+}
+
+# Async counterpart to FETCHERS_FILTERED -- used by
+# _fetch_sources_concurrently_async to fetch every tracked company's
+# board at once (bounded concurrency) instead of one company at a time.
+FETCHERS_FILTERED_ASYNC = {
+    "greenhouse": greenhouse.fetch_jobs_filtered_async,
+    "lever": lever.fetch_jobs_filtered_async,
+}
+
+# ATS/network-shaped failures that are safe to isolate to one company
+# without aborting the rest of the search -- httpx.HTTPError covers both
+# connection/timeout failures and non-2xx responses; KeyError/ValueError
+# cover a malformed/unexpected ATS payload (a missing "title" field, an
+# unparseable date). Deliberately NOT a bare `except Exception`: a real
+# programming error or a genuine database issue should fail loudly, not
+# be silently swallowed per-company (see run_ingestion()/
+# run_targeted_ingestion()'s use of this).
+COMPANY_ISOLATABLE_ERRORS = (httpx.HTTPError, KeyError, ValueError)
+
+
+def _get_tracked_companies(db: Session) -> list[Company]:
+    """Company rows with a usable ATS source -- the runtime registry both
+    entry points default to when no explicit `companies=` override is
+    given. Ordered by name for a deterministic ingestion order run to run.
+
+    Excludes any company missing `ats_platform` and/or `ats_identifier`
+    (e.g. a future career-page-only row with nothing to fetch from yet).
+    Add a new tracked company by inserting a row into `companies` --
+    see db/sql/12_seed_verified_greenhouse_sources.sql -- not by editing
+    this module.
+    """
+    return list(
+        db.scalars(
+            select(Company)
+            .where(Company.ats_platform.isnot(None), Company.ats_identifier.isnot(None))
+            .order_by(Company.name)
+        )
+    )
+
+
+def _as_company_sources(companies: list[Company]) -> list[CompanySource]:
+    """Adapts DB `Company` rows into the `CompanySource` shape the
+    per-company ingestion helpers (_ingest_company, _ingest_company_for_
+    position) already expect -- keeps this a runtime-registry change only,
+    not a rework of how a company gets fetched/upserted.
+    """
+    return [
+        CompanySource(name=c.name, ats_platform=c.ats_platform, ats_identifier=c.ats_identifier)
+        for c in companies
+    ]
 
 
 def run_ingestion(
@@ -111,8 +176,9 @@ def run_ingestion(
     extraction_limit_per_company: int | None = 5,
     fetch_limit_per_company: int | None = None,
 ) -> None:
-    """Entry point: ingest every company in `companies` (defaults to
-    DEFAULT_COMPANIES). Each company commits independently, so one
+    """Entry point: ingest every company in `companies` (defaults to the
+    tracked companies in the `companies` table -- see
+    _get_tracked_companies). Each company commits independently, so one
     company's failure (bad token, ATS downtime) doesn't roll back
     everything ingested before it.
 
@@ -132,18 +198,27 @@ def run_ingestion(
     extracted (e.g. fetch_limit_per_company=10,
     extraction_limit_per_company=10 or None).
     """
-    companies = companies if companies is not None else DEFAULT_COMPANIES
     db = SessionLocal()
     try:
-        for source in companies:
+        sources = (
+            companies if companies is not None else _as_company_sources(_get_tracked_companies(db))
+        )
+        if not sources:
+            print("[ingestion] no tracked companies in the database -- nothing to ingest")
+            return
+
+        for source in sources:
             try:
                 _ingest_company(
                     db, source, extraction_limit_per_company, fetch_limit_per_company
                 )
                 db.commit()
-            except Exception as exc:  # one bad company shouldn't stop the run
+            except COMPANY_ISOLATABLE_ERRORS as exc:
+                # ATS/data-shape failure for one company shouldn't stop
+                # the run -- a real programming/DB error is NOT caught
+                # here (see COMPANY_ISOLATABLE_ERRORS) and will surface.
                 db.rollback()
-                print(f"[ingestion] {source.name}: FAILED -- {exc}")
+                print(f"[ingestion] {source.name}: FAILED ({type(exc).__name__}) -- {exc}")
     finally:
         db.close()
 
@@ -206,12 +281,19 @@ def run_targeted_ingestion(
     companies: list[CompanySource] | None = None,
     extraction_limit_per_company: int | None = 10,
     freshness_minutes: int = 60,
+    stats: dict | None = None,
 ) -> list[JobPosting]:
-    """On-demand counterpart to run_ingestion(): fetches the same
-    DEFAULT_COMPANIES but filters to postings whose title matches
-    `desired_position` *before* saving or extracting anything, and
-    returns the matched JobPosting rows directly for the caller to use
-    (see api/routes/jobs.py).
+    """On-demand counterpart to run_ingestion(): fetches the same tracked
+    companies (see _get_tracked_companies) but filters to postings whose
+    title matches `desired_position` *before* saving or extracting
+    anything, and returns the matched JobPosting rows directly for the
+    caller to use (see api/routes/jobs.py).
+
+    If no tracked companies exist in the database (and no explicit
+    `companies=` override was given), this returns an empty list without
+    making any Greenhouse/Lever/OpenAI call and without marking
+    `desired_position` as ingested -- there's nothing to retry sooner for,
+    and nothing was actually processed.
 
     Takes an existing `db` Session rather than opening its own -- this is
     meant to be called from inside a FastAPI request (via Depends(get_db)),
@@ -230,44 +312,135 @@ def run_targeted_ingestion(
     recently than this, skip the live fetch+extract pipeline entirely and
     return already-ingested matches straight from job_postings. Pass 0 to
     always force a live pull.
+
+    Fetch step runs concurrently across companies (bounded by
+    settings.ats_max_concurrency -- see _fetch_sources_concurrently),
+    *then* every DB write happens afterward, sequentially, on this one
+    Session -- a plain sync SQLAlchemy Session is not thread/task-safe to
+    share across concurrent requests, so it is never touched until all
+    the concurrent I/O has finished.
+
+    `stats`, if given, gets `attempted`/`succeeded`/`failed` company
+    counts written into it (int values) -- used by api/routes/jobs.py's
+    background refresh task to decide 'completed' vs 'partial_failure'
+    vs 'failed' for a JobSearchTask. None (default) means no tracking,
+    same behavior as before this parameter existed.
     """
-    normalized_position = desired_position.strip().lower()
+    key = cache_key(desired_position)
 
     if freshness_minutes > 0:
-        cached = _get_cached_matches(db, normalized_position, freshness_minutes)
+        cached = _get_cached_matches(db, key, freshness_minutes)
         if cached is not None:
             print(f"[jobs] cache hit for {desired_position!r} ({len(cached)} posting(s))")
             return cached
 
-    companies = companies if companies is not None else DEFAULT_COMPANIES
+    sources = companies if companies is not None else _as_company_sources(_get_tracked_companies(db))
+    if not sources:
+        print("[jobs] no tracked companies in the database -- skipping live ingestion")
+        return []
+
+    fetch_results = _fetch_sources_concurrently(
+        sources, desired_position, get_settings().ats_max_concurrency
+    )
+
     matched: list[JobPosting] = []
-    for source in companies:
+    any_company_succeeded = False
+    for result in fetch_results:
+        if stats is not None:
+            stats["attempted"] = stats.get("attempted", 0) + 1
+        if result.error is not None:
+            if stats is not None:
+                stats["failed"] = stats.get("failed", 0) + 1
+            print(f"[jobs] {result.source.name}: FAILED ({type(result.error).__name__}) -- {result.error}")
+            continue
         try:
             matched.extend(
-                _ingest_company_for_position(
-                    db, source, desired_position, extraction_limit_per_company
+                _persist_company_postings(
+                    db, result.source, result.postings, extraction_limit_per_company
                 )
             )
             db.commit()  # per company, same isolation reasoning as run_ingestion()
-        except Exception as exc:
+            any_company_succeeded = True
+            if stats is not None:
+                stats["succeeded"] = stats.get("succeeded", 0) + 1
+        except COMPANY_ISOLATABLE_ERRORS as exc:
+            # A DB/data-shape failure for one company shouldn't discard
+            # matches already found from healthy companies -- a real
+            # programming/DB-integrity error is NOT caught here (see
+            # COMPANY_ISOLATABLE_ERRORS) and will surface as a 500.
             db.rollback()
-            print(f"[jobs] {source.name}: FAILED -- {exc}")
+            if stats is not None:
+                stats["failed"] = stats.get("failed", 0) + 1
+            print(f"[jobs] {result.source.name}: FAILED ({type(exc).__name__}) -- {exc}")
 
-    _mark_position_ingested(db, normalized_position)
-    db.commit()
+    if any_company_succeeded:
+        _mark_position_ingested(db, key)
+        db.commit()
+    else:
+        # Every company failed -- nothing was actually ingested, so don't
+        # claim this position is fresh; the next search should retry
+        # immediately rather than trusting an empty cache entry for
+        # freshness_minutes.
+        print(f"[jobs] all {len(sources)} companies failed for {desired_position!r} -- not caching")
     return matched
 
 
-def _get_cached_matches(
-    db: Session, normalized_position: str, freshness_minutes: int
-) -> list[JobPosting] | None:
-    """Returns already-ingested matches if `normalized_position` was fully
-    ingested within `freshness_minutes`, else None (meaning: no fresh
-    cache entry, caller should run the live pipeline).
+@dataclass
+class _FetchResult:
+    source: CompanySource
+    postings: list[NormalizedJobPosting]
+    error: Exception | None
+
+
+async def _fetch_sources_concurrently_async(
+    sources: list[CompanySource], desired_position: str, max_concurrency: int
+) -> list[_FetchResult]:
+    """Fetches every source's board concurrently, bounded by
+    `max_concurrency` (a semaphore, not one task per company) -- see
+    core/config.py's ats_max_concurrency. One shared httpx.AsyncClient for
+    the whole batch, not one per company. Each company's outcome
+    (postings or the isolatable error it hit) is captured individually --
+    asyncio.gather is never allowed to let one company's exception cancel
+    or discard another's already-fetched result.
     """
-    cache_row = db.scalar(
-        select(JobSearchCache).where(JobSearchCache.target_position == normalized_position)
-    )
+    title_matches = _title_matcher(desired_position)
+    semaphore = asyncio.Semaphore(max_concurrency)
+
+    async def fetch_one(client: httpx.AsyncClient, source: CompanySource) -> _FetchResult:
+        fetch = FETCHERS_FILTERED_ASYNC[source.ats_platform]
+        async with semaphore:
+            try:
+                postings = await fetch(client, source.ats_identifier, title_matches)
+                return _FetchResult(source=source, postings=postings, error=None)
+            except COMPANY_ISOLATABLE_ERRORS as exc:
+                return _FetchResult(source=source, postings=[], error=exc)
+
+    async with httpx.AsyncClient() as client:
+        return list(await asyncio.gather(*(fetch_one(client, source) for source in sources)))
+
+
+def _fetch_sources_concurrently(
+    sources: list[CompanySource], desired_position: str, max_concurrency: int
+) -> list[_FetchResult]:
+    """Sync entry point run_targeted_ingestion actually calls -- wraps
+    _fetch_sources_concurrently_async in its own event loop
+    (asyncio.run), so the rest of this module (and its callers -- the
+    sync FastAPI route, sync tests) never has to deal with async/await
+    itself. Only the ATS fetch step runs concurrently; every DB write
+    still happens afterward on the caller's single sync Session.
+    """
+    return asyncio.run(_fetch_sources_concurrently_async(sources, desired_position, max_concurrency))
+
+
+def _get_cached_matches(
+    db: Session, key: str, freshness_minutes: int
+) -> list[JobPosting] | None:
+    """Returns already-ingested matches if `key` (see
+    query_normalization.cache_key) was fully ingested within
+    `freshness_minutes`, else None (meaning: no fresh cache entry, caller
+    should run the live pipeline).
+    """
+    cache_row = db.scalar(select(JobSearchCache).where(JobSearchCache.target_position == key))
     if cache_row is None:
         return None
 
@@ -275,22 +448,23 @@ def _get_cached_matches(
     if cache_row.last_ingested_at < cutoff:
         return None  # stale -- caller falls through to a live pull
 
+    needle = key.split(":", 1)[1] if ":" in key else key
     return list(
         db.scalars(
             select(JobPosting).where(
-                JobPosting.title.ilike(f"%{normalized_position}%"),
+                JobPosting.title.ilike(f"%{needle}%"),
                 JobPosting.is_active.is_(True),
             )
         )
     )
 
 
-def _mark_position_ingested(db: Session, normalized_position: str) -> None:
-    """Upsert job_search_cache so the next search for this exact
-    normalized position within freshness_minutes hits the cache.
+def _mark_position_ingested(db: Session, key: str) -> None:
+    """Upsert job_search_cache so the next search for this exact cache
+    key within freshness_minutes hits the cache.
     """
     stmt = pg_insert(JobSearchCache.__table__).values(
-        target_position=normalized_position,
+        target_position=key,
         last_ingested_at=datetime.now(timezone.utc),
     )
     stmt = stmt.on_conflict_do_update(
@@ -300,25 +474,25 @@ def _mark_position_ingested(db: Session, normalized_position: str) -> None:
     db.execute(stmt)
 
 
-def _ingest_company_for_position(
+def _persist_company_postings(
     db: Session,
     source: CompanySource,
-    desired_position: str,
+    postings: list[NormalizedJobPosting],
     extraction_limit: int | None,
 ) -> list[JobPosting]:
-    fetch = FETCHERS[source.ats_platform]
-    postings = fetch(source.ats_identifier)
-    matched = _filter_postings_by_position(postings, desired_position)
-    print(
-        f"[jobs] {source.name}: {len(matched)}/{len(postings)} posting(s) "
-        f"match {desired_position!r}"
-    )
-
+    """DB-write half of the targeted-ingestion pipeline for one company --
+    upsert + batched extraction for postings already fetched (concurrently,
+    see _fetch_sources_concurrently) before this ever runs. Split from the
+    fetch step so the I/O-bound fetch (safe to run concurrently across
+    companies) and DB writes (must stay on the caller's single,
+    non-thread-safe Session) are never interleaved across companies.
+    """
+    print(f"[jobs] {source.name}: {len(postings)} posting(s) match")
     company = _get_or_create_company(db, source)
 
     results: list[JobPosting] = []
     pending: list[tuple[JobPosting, str | None]] = []
-    for posting in matched:
+    for posting in postings:
         job_posting, needs_extraction, new_hash = _upsert_job_posting(db, company, posting)
         if needs_extraction and (extraction_limit is None or len(pending) < extraction_limit):
             pending.append((job_posting, new_hash))
@@ -329,17 +503,21 @@ def _ingest_company_for_position(
     return results
 
 
-def _filter_postings_by_position(
-    postings: list[NormalizedJobPosting], desired_position: str
-) -> list[NormalizedJobPosting]:
-    """Case-insensitive substring match against posting title. Simple on
-    purpose -- matching by extracted skills or semantic/embedding
-    similarity is services/matching.py's job, later, not this.
+def _title_matcher(desired_position: str) -> Callable[[str], bool]:
+    """Case-insensitive substring match against a posting's raw title,
+    using the same normalization as the cache key (query_normalization.
+    normalize_query) so e.g. a live "SWE" search matches the same
+    postings a "Software Engineer" search would. Simple on purpose --
+    matching by extracted skills or semantic/embedding similarity is
+    services/matching.py's job, later, not this. Returns a predicate
+    (rather than filtering a list directly) so FETCHERS_FILTERED can
+    apply it before a posting's description is even parsed -- see
+    greenhouse.py's fetch_jobs_filtered.
     """
-    needle = desired_position.strip().lower()
+    needle = normalize_query(desired_position)
     if not needle:
-        return postings
-    return [p for p in postings if needle in p.title.lower()]
+        return lambda title: True
+    return lambda title: needle in title.lower()
 
 
 def _get_or_create_company(db: Session, source: CompanySource) -> Company:
@@ -419,7 +597,7 @@ def _sync_job_posting_skills_batch(
     db: Session,
     pending: list[tuple[JobPosting, str | None]],
     log_prefix: str,
-) -> None:
+) -> bool:
     """Batch counterpart to the old one-OpenAI-call-per-posting flow:
     extracts skills for every (job_posting, new_hash) pair in `pending`
     using as few OpenAI calls as possible
@@ -429,9 +607,18 @@ def _sync_job_posting_skills_batch(
     once extraction actually completes" rule as before, so a posting
     left out of `pending` by the caller's extraction_limit is still
     correctly flagged as needing extraction on the next run.
+
+    Returns True unless the OpenAI call itself failed. On failure, the
+    postings in `pending` are deliberately left with their hash unstamped
+    (never marked as "extraction complete") and the exception is NOT
+    re-raised -- an OpenAI outage/timeout must not roll back the job
+    postings already upserted by the caller (they're still real, current
+    postings even without skills yet), only skip extraction for this
+    batch, retried automatically next time this company is searched
+    (same reasoning as the extraction_limit skip path above).
     """
     if not pending:
-        return
+        return True
 
     # No description at all -- nothing to send to the model, same
     # short-circuit the old per-posting path had.
@@ -441,63 +628,141 @@ def _sync_job_posting_skills_batch(
             job_posting.description_hash = new_hash
 
     if not to_extract:
-        return
+        return True
 
     print(f"{log_prefix}   extracting skills: batch of {len(to_extract)} posting(s)")
-    results = extract_job_skills_batch([jp.description for jp, _ in to_extract])
+    try:
+        results = extract_job_skills_batch([jp.description for jp, _ in to_extract])
+    except OpenAIError as exc:
+        print(
+            f"{log_prefix}   skill extraction FAILED ({type(exc).__name__}) -- {exc}; "
+            f"{len(to_extract)} posting(s) left pending, retried next time"
+        )
+        return False
+
+    _apply_job_skill_extractions_batch(db, to_extract, results)
+    return True
+
+
+def _bulk_resolve_skills(db: Session, skill_specs: list[tuple[str, str]]) -> dict[str, Skill]:
+    """Resolves many (name, category) pairs to Skill rows in at most two
+    round trips total (one SELECT ... IN, one bulk INSERT for anything
+    missing) instead of one SELECT-plus-maybe-INSERT per skill name --
+    the dominant N+1 source when extracting skills for a whole batch of
+    postings at once, since each posting can name several skills. Keyed
+    by lowercased name in the returned dict. Case-insensitive dedup
+    within `skill_specs` mirrors repositories/skills.py's
+    get_or_create_skill (first category wins for a name repeated within
+    this batch).
+
+    Safe against a uniqueness race with a concurrent request creating the
+    same skill name: on_conflict_do_nothing's RETURNING won't include a
+    row for a name that lost the race, so anything still missing after
+    the bulk insert is re-selected once more (same guarantee
+    get_or_create_skill's docstring already accepts at the single-skill
+    scale, just applied across a batch).
+    """
+    by_lower: dict[str, tuple[str, str]] = {}
+    for name, category in skill_specs:
+        key = name.strip().lower()
+        by_lower.setdefault(key, (name.strip(), category))
+
+    if not by_lower:
+        return {}
+
+    resolved: dict[str, Skill] = {
+        skill.name.strip().lower(): skill
+        for skill in db.scalars(select(Skill).where(func.lower(Skill.name).in_(by_lower.keys())))
+    }
+
+    missing = [(name, category) for key, (name, category) in by_lower.items() if key not in resolved]
+    if missing:
+        stmt = (
+            pg_insert(Skill.__table__)
+            .values([{"name": name, "category": category} for name, category in missing])
+            .on_conflict_do_nothing(index_elements=[Skill.__table__.c.name])
+            .returning(Skill.__table__.c.id, Skill.__table__.c.name, Skill.__table__.c.category)
+        )
+        for row in db.execute(stmt):
+            resolved[row.name.strip().lower()] = Skill(id=row.id, name=row.name, category=row.category)
+
+        still_missing_keys = [key for key, _ in ((n.strip().lower(), c) for n, c in missing) if key not in resolved]
+        if still_missing_keys:
+            for skill in db.scalars(select(Skill).where(func.lower(Skill.name).in_(still_missing_keys))):
+                resolved[skill.name.strip().lower()] = skill
+
+    return resolved
+
+
+def _apply_job_skill_extractions_batch(
+    db: Session,
+    to_extract: list[tuple[JobPosting, str | None]],
+    results: list[JobSkillExtractionResult],
+) -> None:
+    """Batched counterpart to the old per-posting apply step: resolves
+    every skill named anywhere in this whole batch in one round trip (see
+    _bulk_resolve_skills) and issues one bulk upsert for every
+    job_posting_skill row instead of one statement per (posting, skill)
+    pair -- same per-posting semantics as before (technical wins on a
+    name collision within one posting's own lists, stale links for that
+    posting are removed), just far fewer SQL statements to produce them.
+    """
+    per_posting: list[tuple[JobPosting, str | None, dict[str, tuple[str, ExtractedJobSkill]]]] = []
+    all_skill_specs: list[tuple[str, str]] = []
 
     for (job_posting, new_hash), result in zip(to_extract, results):
-        _apply_job_skill_extraction(db, job_posting, new_hash, result)
+        by_name: dict[str, tuple[str, ExtractedJobSkill]] = {}
+        for item in result.required_skills:
+            by_name.setdefault(item.skill.strip().lower(), ("required", item))
+        for item in result.preferred_skills:
+            by_name.setdefault(item.skill.strip().lower(), ("preferred", item))
+        per_posting.append((job_posting, new_hash, by_name))
+        for _, item in by_name.values():
+            all_skill_specs.append((item.skill, item.category))
 
+    resolved_skills = _bulk_resolve_skills(db, all_skill_specs)
 
-def _apply_job_skill_extraction(
-    db: Session,
-    job_posting: JobPosting,
-    new_hash: str | None,
-    result: JobSkillExtractionResult,
-) -> None:
-    """Writes one posting's extraction result to job_posting_skill rows
-    and stamps description_hash. Split out from
-    _sync_job_posting_skills_batch so "how the result was obtained"
-    (batched now) stays separate from "what to do with one posting's
-    result" (unchanged from before batching).
-    """
-    by_name: dict[str, tuple[str, ExtractedJobSkill]] = {}
-    for item in result.required_skills:
-        by_name.setdefault(item.skill.strip().lower(), ("required", item))
-    for item in result.preferred_skills:
-        by_name.setdefault(item.skill.strip().lower(), ("preferred", item))
-
-    resolved = [
-        (get_or_create_skill(db, item.skill, item.category), requirement_level, item)
-        for requirement_level, item in by_name.values()
-    ]
-
-    new_skill_ids = {skill.id for skill, _, _ in resolved}
-
-    existing_skill_ids = set(
-        db.scalars(
-            select(job_posting_skill.c.skill_id).where(
-                job_posting_skill.c.job_posting_id == job_posting.id
+    posting_ids = [jp.id for jp, _, _ in per_posting]
+    existing_by_posting: dict[uuid.UUID, set[uuid.UUID]] = {}
+    if posting_ids:
+        for posting_id, skill_id in db.execute(
+            select(job_posting_skill.c.job_posting_id, job_posting_skill.c.skill_id).where(
+                job_posting_skill.c.job_posting_id.in_(posting_ids)
             )
-        )
-    )
-    stale_skill_ids = existing_skill_ids - new_skill_ids
-    if stale_skill_ids:
+        ):
+            existing_by_posting.setdefault(posting_id, set()).add(skill_id)
+
+    stale_pairs: list[tuple[uuid.UUID, uuid.UUID]] = []
+    upsert_rows: list[dict] = []
+
+    for job_posting, new_hash, by_name in per_posting:
+        new_skill_ids: set[uuid.UUID] = set()
+        for requirement_level, item in by_name.values():
+            skill = resolved_skills[item.skill.strip().lower()]
+            new_skill_ids.add(skill.id)
+            upsert_rows.append(
+                {
+                    "job_posting_id": job_posting.id,
+                    "skill_id": skill.id,
+                    "requirement_level": requirement_level,
+                    "evidence": item.evidence,
+                }
+            )
+        stale = existing_by_posting.get(job_posting.id, set()) - new_skill_ids
+        stale_pairs.extend((job_posting.id, skill_id) for skill_id in stale)
+        job_posting.description_hash = new_hash
+
+    if stale_pairs:
         db.execute(
             delete(job_posting_skill).where(
-                job_posting_skill.c.job_posting_id == job_posting.id,
-                job_posting_skill.c.skill_id.in_(stale_skill_ids),
+                tuple_(job_posting_skill.c.job_posting_id, job_posting_skill.c.skill_id).in_(
+                    stale_pairs
+                )
             )
         )
 
-    for skill, requirement_level, item in resolved:
-        stmt = pg_insert(job_posting_skill).values(
-            job_posting_id=job_posting.id,
-            skill_id=skill.id,
-            requirement_level=requirement_level,
-            evidence=item.evidence,
-        )
+    if upsert_rows:
+        stmt = pg_insert(job_posting_skill).values(upsert_rows)
         stmt = stmt.on_conflict_do_update(
             index_elements=[job_posting_skill.c.job_posting_id, job_posting_skill.c.skill_id],
             set_={
@@ -506,8 +771,6 @@ def _apply_job_skill_extraction(
             },
         )
         db.execute(stmt)
-
-    job_posting.description_hash = new_hash
 
 
 if __name__ == "__main__":

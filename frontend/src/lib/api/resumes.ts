@@ -20,3 +20,26 @@ export async function extractSkillsFromResume(
 
   return response.skills;
 }
+
+// Submits a resume file (PNG/JPG/JPEG image, or a PDF) to
+// POST /resumes/extract-skills-from-file for the backend to OCR (see
+// backend/app/services/resume_ocr.py -- a PDF is rendered to page images
+// first, then OCR'd the same way) and run through the exact same
+// skill-extraction/persistence pipeline as extractSkillsFromResume above
+// -- same response shape, so callers don't need to care which input
+// method produced these skills.
+export async function extractSkillsFromResumeFile(
+  file: File,
+  targetPosition: string,
+): Promise<Skill[]> {
+  const body = new FormData();
+  body.append("file", file);
+  body.append("target_position", targetPosition);
+
+  const response = await apiFetch<ResumeSkillsResponse>(
+    "/resumes/extract-skills-from-file",
+    { method: "POST", body },
+  );
+
+  return response.skills;
+}

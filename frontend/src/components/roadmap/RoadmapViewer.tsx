@@ -27,18 +27,74 @@ interface PickedResource {
 // pick (the closest we have to "book or documentation"), then fills any
 // remaining slot in step order. Never invents a resource -- an empty
 // result renders an empty state instead.
+//
+// Resources with a real `url` are preferred over ones without, within
+// that same course/article/step-order preference -- the AI (see
+// backend/app/services/roadmap.py's prompt) only sets `url` when it's
+// confident it's a real link, so plenty of resources legitimately have
+// none; picking a link-less one over a linked one elsewhere in the same
+// roadmap just because of its `type` was the actual bug here.
 function pickRoadmapResources(steps: RoadmapStep[]): PickedResource[] {
   const flat: PickedResource[] = steps.flatMap((step) =>
     step.resources.map((resource) => ({ resource, stepOrder: step.order })),
   );
-  const course = flat.find((f) => f.resource.type === "course");
-  const article = flat.find((f) => f.resource.type === "article" && f !== course);
-  const preferred = [course, article].filter((f): f is PickedResource => Boolean(f));
-  const rest = flat.filter((f) => !preferred.includes(f));
-  return [...preferred, ...rest].slice(0, 2);
+
+  function byTypePreference(pool: PickedResource[]): PickedResource[] {
+    const course = pool.find((f) => f.resource.type === "course");
+    const article = pool.find((f) => f.resource.type === "article" && f !== course);
+    const preferred = [course, article].filter((f): f is PickedResource => Boolean(f));
+    const rest = pool.filter((f) => !preferred.includes(f));
+    return [...preferred, ...rest];
+  }
+
+  const withUrl = flat.filter((f) => f.resource.url);
+  const withoutUrl = flat.filter((f) => !f.resource.url);
+  return [...byTypePreference(withUrl), ...byTypePreference(withoutUrl)].slice(0, 2);
+}
+
+// Known-provider search pages -- used when the AI didn't include a `url`
+// (it deliberately omits one rather than guess, see the prompt) so a
+// resource card is never a dead end: a search link that will actually
+// resolve beats a specific link that might be wrong. Matched loosely
+// (case-insensitive substring) against whatever free-text `provider` the
+// AI returned.
+const PROVIDER_SEARCH_URL: Record<string, (query: string) => string> = {
+  coursera: (q) => `https://www.coursera.org/search?query=${q}`,
+  udemy: (q) => `https://www.udemy.com/courses/search/?q=${q}`,
+  oreilly: (q) => `https://www.oreilly.com/search/?q=${q}`,
+  "o'reilly": (q) => `https://www.oreilly.com/search/?q=${q}`,
+  codecademy: (q) => `https://www.codecademy.com/search?query=${q}`,
+  pluralsight: (q) => `https://www.pluralsight.com/search?q=${q}`,
+  linkedin: (q) => `https://www.linkedin.com/learning/search?keywords=${q}`,
+  edx: (q) => `https://www.edx.org/search?q=${q}`,
+  freecodecamp: (q) => `https://www.freecodecamp.org/news/search/?query=${q}`,
+  youtube: (q) => `https://www.youtube.com/results?search_query=${q}`,
+  medium: (q) => `https://medium.com/search?q=${q}`,
+  github: (q) => `https://github.com/search?q=${q}&type=repositories`,
+};
+
+function fallbackSearchHref(resource: Resource): string {
+  const query = encodeURIComponent(
+    resource.provider ? `${resource.title} ${resource.provider}` : resource.title,
+  );
+  const provider = resource.provider?.toLowerCase() ?? "";
+  const matchedBuilder = Object.entries(PROVIDER_SEARCH_URL).find(([key]) =>
+    provider.includes(key),
+  )?.[1];
+  return (matchedBuilder ?? ((q: string) => `https://www.google.com/search?q=${q}`))(query);
 }
 
 function ResourceCard({ resource, stepOrder }: PickedResource) {
+  // The AI sometimes returns `url: ""` rather than omitting it entirely --
+  // `??` only falls back on null/undefined, so an empty string was
+  // slipping through as a literal empty href (which the browser resolves
+  // to the *current* page, not a real destination -- looks like the link
+  // "does nothing"/reloads the roadmap page). Treat blank/whitespace-only
+  // the same as missing.
+  const directUrl = resource.url?.trim() || null;
+  const isDirectLink = Boolean(directUrl);
+  const href = directUrl ?? fallbackSearchHref(resource);
+
   return (
     <div className="flex items-start justify-between gap-3 rounded-lg border border-line bg-paper p-4">
       <div className="min-w-0 space-y-1">
@@ -51,16 +107,15 @@ function ResourceCard({ resource, stepOrder }: PickedResource) {
         </p>
         {resource.provider && <p className="text-xs text-slate">{resource.provider}</p>}
       </div>
-      {resource.url && (
-        <a
-          href={resource.url}
-          target="_blank"
-          rel="noreferrer"
-          className="shrink-0 text-sm font-medium text-ink underline decoration-blaze underline-offset-4 hover:text-blaze"
-        >
-          View →
-        </a>
-      )}
+      <a
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        className="shrink-0 text-sm font-medium text-ink underline decoration-blaze underline-offset-4 hover:text-blaze"
+        title={isDirectLink ? undefined : "No confirmed link -- search for this resource instead"}
+      >
+        {isDirectLink ? "View →" : "Search →"}
+      </a>
     </div>
   );
 }

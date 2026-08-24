@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/Card";
 import { useResume } from "@/hooks/useResume";
 
 export default function ResumePage() {
-  const { skills, loading, error, submitResume } = useResume();
+  const { skills, loading, error, submitResume, submitResumeFile } = useResume();
 
   return (
     <div className="theme-brand flex-1 bg-paper text-ink">
@@ -21,14 +21,19 @@ export default function ResumePage() {
             Resume
           </h1>
           <p className="mt-1 text-sm text-slate">
-            Tell us the position you&apos;re after and paste your resume text
-            below. We&apos;ll pull out your skills so you can match against
-            jobs next.
+            Tell us the position you&apos;re after, then paste your resume text
+            or upload an image/PDF of it. We&apos;ll pull out your skills so
+            you can match against jobs next.
           </p>
         </div>
 
         <Card>
-          <ResumeForm onSubmit={submitResume} loading={loading} error={error} />
+          <ResumeForm
+            onSubmitText={submitResume}
+            onSubmitFile={submitResumeFile}
+            loading={loading}
+            error={error}
+          />
         </Card>
 
         {skills.length > 0 && (

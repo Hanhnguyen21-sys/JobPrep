@@ -25,8 +25,26 @@ export interface SkillGapItem {
   user_has: boolean;
 }
 
+// See backend/app/schemas/job.py's DataFreshness/TaskStatus for the
+// meaning of each value -- Phase 3 of the /jobs/match latency work
+// (database-only + non-blocking + background-refresh polling).
+export type DataFreshness = "fresh" | "stale" | "pending";
+export type TaskStatus = "queued" | "running" | "completed" | "partial_failure" | "failed";
+
 export interface JobMatchResponse {
   target_position: string;
   postings: MatchedJobPosting[];
   skill_gap: SkillGapItem[];
+  freshness: DataFreshness;
+  // Set whenever a background refresh was enqueued (freshness is
+  // "stale" or "pending") -- poll GET /jobs/match/status/{task_id}.
+  task_id: string | null;
+}
+
+export interface JobMatchStatusResponse {
+  task_id: string;
+  status: TaskStatus;
+  data_freshness: DataFreshness;
+  last_updated_at: string | null;
+  error_summary: string | null;
 }

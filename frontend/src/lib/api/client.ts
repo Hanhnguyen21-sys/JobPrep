@@ -29,10 +29,17 @@ export async function apiFetch<T>(
 ): Promise<T> {
   const authHeader = await getAuthHeader();
 
+  // A FormData body (file uploads -- see lib/api/resumes.ts's
+  // extractSkillsFromResumeFile) must NOT get a manually-set
+  // Content-Type: the browser needs to set its own
+  // multipart/form-data; boundary=... header, which it only does when
+  // Content-Type is left unset.
+  const isFormData = options.body instanceof FormData;
+
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
     headers: {
-      "Content-Type": "application/json",
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
       ...authHeader,
       ...options.headers,
     },

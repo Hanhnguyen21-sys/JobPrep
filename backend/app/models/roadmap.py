@@ -3,7 +3,7 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, ForeignKey, Table, Text
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, Table, Text
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
@@ -65,6 +65,18 @@ class Roadmap(Base):
     # coerces null to {} at read time. Written via
     # repositories/roadmaps.py's set_action_item_done, never by AI generation.
     completed_action_items: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+
+    # Which step the user most recently checked/unchecked an action item
+    # on, and when -- lets the Dashboard show that step instead of always
+    # defaulting to the earliest incomplete one. Both null until the first
+    # interaction (existing rows included). Written via
+    # repositories/roadmaps.py's set_action_item_done, guarded there so an
+    # out-of-order/delayed request can't roll this back to an earlier
+    # interaction.
+    last_interacted_step_order: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    last_interacted_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()

@@ -13,7 +13,7 @@ import { useJobSelection } from "@/hooks/useJobSelection";
 import { useRoadmapGeneration } from "@/hooks/useRoadmapGeneration";
 
 export default function JobsPage() {
-  const { result, loading, error, needsTargetPosition, findMatches } =
+  const { result, loading, refreshing, error, needsTargetPosition, findMatches } =
     useJobMatch();
   const { isSelected, toggle, clear, selectedPostings, selectedCount, isMaxed } =
     useJobSelection(result?.postings ?? []);
@@ -58,9 +58,9 @@ export default function JobsPage() {
             Matching jobs
           </h1>
           <p className="mt-1 text-sm text-slate">
-            Pulls live postings from Greenhouse and Lever, filtered to the
-            position you saved on your resume, and compares their required skills
-            against yours. This can take longer than a normal page load.
+            Matches postings from Greenhouse and Lever against the position you
+            saved on your resume, and compares their required skills against
+            yours.
           </p>
         </div>
 
@@ -95,6 +95,13 @@ export default function JobsPage() {
                 </p>
               )}
             </div>
+            {refreshing && (
+              <p className="text-xs text-slate">
+                {result.postings.length > 0
+                  ? "Showing existing matches while we check for new postings..."
+                  : "Looking for matches -- this can take a little while the first time..."}
+              </p>
+            )}
             <JobList
               postings={result.postings}
               isSelected={isSelected}

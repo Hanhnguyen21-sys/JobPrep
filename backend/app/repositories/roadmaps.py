@@ -8,6 +8,7 @@ directly.
 """
 
 import uuid
+from datetime import datetime
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
@@ -80,6 +81,7 @@ def set_action_item_done(
     step_order: int,
     item_index: int,
     done: bool,
+    interacted_at: datetime,
 ) -> dict[str, list[int]]:
     """Marks (or unmarks) one action item done for one step, persisting
     into Roadmap.completed_action_items. Reassigns the whole dict rather
@@ -87,6 +89,15 @@ def set_action_item_done(
     doesn't see an in-place mutation of a JSONB column's Python dict,
     only a reassignment of the attribute. Flushes but does not commit --
     caller's transaction, same convention as create_roadmap.
+
+    Also records this as the roadmap's most recent interaction
+    (last_interacted_step_order/last_interacted_at) -- regardless of
+    `done`, since unchecking an item is still an interaction with that
+    step, same as checking one. Guarded by `interacted_at` so a
+    slow/delayed request for an *older* interaction can't roll this
+    pointer back past a newer interaction that already landed; the
+    item's own checked state above is unaffected by this guard either
+    way.
     """
     current = {
         key: list(indices) for key, indices in (roadmap.completed_action_items or {}).items()
@@ -105,6 +116,11 @@ def set_action_item_done(
         current.pop(key, None)
 
     roadmap.completed_action_items = current
+
+    if roadmap.last_interacted_at is None or interacted_at >= roadmap.last_interacted_at:
+        roadmap.last_interacted_step_order = step_order
+        roadmap.last_interacted_at = interacted_at
+
     db.flush()
     return current
 

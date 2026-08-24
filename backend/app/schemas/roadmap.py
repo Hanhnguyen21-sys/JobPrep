@@ -77,13 +77,25 @@ class RoadmapResponse(BaseModel):
     # models/roadmap.py's Roadmap.completed_action_items. Empty for rows
     # with nothing checked off yet (the route coerces null to {}).
     completed_action_items: dict[str, list[int]] = {}
+    # Which step the user most recently checked/unchecked an action item
+    # on -- see models/roadmap.py's Roadmap.last_interacted_step_order.
+    # None if no interaction has ever been recorded; the Dashboard falls
+    # back to its old "first incomplete step" logic in that case.
+    last_interacted_step_order: int | None = None
 
 
 class RoadmapProgressUpdate(BaseModel):
     step_order: int = Field(ge=1)
     item_index: int = Field(ge=0)
     done: bool
+    # When the user actually made this change, client-side -- lets the
+    # backend tell a genuinely newer interaction apart from an older
+    # request that happens to arrive/resolve later (see
+    # repositories/roadmaps.py's set_action_item_done). Optional so an
+    # older client build still works; the route falls back to server time.
+    interacted_at: datetime | None = None
 
 
 class RoadmapProgressResponse(BaseModel):
     completed_action_items: dict[str, list[int]]
+    last_interacted_step_order: int | None = None

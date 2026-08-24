@@ -36,18 +36,33 @@ export async function deleteRoadmap(roadmapId: string): Promise<void> {
 // completed_action_items map (not just the one item) so the caller can
 // resync local state directly from the server's version rather than
 // trusting its own optimistic guess. See hooks/useRoadmapProgress.ts.
+//
+// Sends `interacted_at` (this moment, client-side) so the backend can tell
+// a genuinely newer interaction apart from an older request that happens
+// to arrive/resolve later -- see repositories/roadmaps.py's
+// set_action_item_done. Whichever interaction actually has the latest
+// timestamp wins the "current phase" pointer, regardless of network
+// ordering.
 export async function updateRoadmapProgress(
   roadmapId: string,
   stepOrder: number,
   itemIndex: number,
   done: boolean,
-): Promise<Record<string, number[]>> {
-  const response = await apiFetch<{ completed_action_items: Record<string, number[]> }>(
-    `/roadmaps/${roadmapId}/progress`,
-    {
-      method: "PATCH",
-      body: JSON.stringify({ step_order: stepOrder, item_index: itemIndex, done }),
-    },
-  );
-  return response.completed_action_items;
+): Promise<{ completedActionItems: Record<string, number[]>; lastInteractedStepOrder: number | null }> {
+  const response = await apiFetch<{
+    completed_action_items: Record<string, number[]>;
+    last_interacted_step_order: number | null;
+  }>(`/roadmaps/${roadmapId}/progress`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      step_order: stepOrder,
+      item_index: itemIndex,
+      done,
+      interacted_at: new Date().toISOString(),
+    }),
+  });
+  return {
+    completedActionItems: response.completed_action_items,
+    lastInteractedStepOrder: response.last_interacted_step_order,
+  };
 }
