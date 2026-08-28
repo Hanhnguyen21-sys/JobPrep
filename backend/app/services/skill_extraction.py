@@ -1,14 +1,4 @@
-"""Resume skill extraction.
 
-Takes raw resume text and asks the model for technical and soft skills,
-each with a confidence level, supporting evidence quoted/paraphrased from
-the resume, and where in the resume it came from. Deliberately doesn't
-touch the database — turning this structured result into `Skill` /
-`user_skill` rows is the route layer's job (see `api/routes/resumes.py`).
-Keeping this "text in, structured result out" makes it easy to unit test
-(mock `get_ai_client()`, no DB needed) and easy to swap models/providers
-later.
-"""
 
 from typing import Literal
 

@@ -58,9 +58,9 @@ export default function JobsPage() {
             Matching jobs
           </h1>
           <p className="mt-1 text-sm text-slate">
-            Matches postings from Greenhouse and Lever against the position you
-            saved on your resume, and compares their required skills against
-            yours.
+            Matches postings from the new-grad job board against the position
+            you saved on your resume, and compares their required skills
+            against yours.
           </p>
         </div>
 

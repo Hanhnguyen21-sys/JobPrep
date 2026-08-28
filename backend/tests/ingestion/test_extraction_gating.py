@@ -1,34 +1,40 @@
-"""Tests for Phase 1 items 3 (extract only for new/changed postings) and
-the OpenAI-failure-isolation half of item 4, both in ingestion/runner.py.
+"""Tests for ingestion/runner.py's discovery-upsert and skill-extraction
+helpers.
 
-Uses the existing description_hash column (models/job_posting.py) --
-these tests confirm _upsert_job_posting's needs_extraction decision and
-_sync_job_posting_skills_batch's failure handling, with a MagicMock `db`
-(no real Postgres), same approach as tests/ingestion/test_company_sources.py.
+Rewritten for Phase 2 (README-based discovery replacing Greenhouse/Lever):
+_upsert_job_posting (NormalizedJobPosting-keyed) no longer exists --
+_upsert_discovered_posting (DiscoveredPosting-keyed) replaced it. The
+critical new behavior this file covers: a discovery upsert must never
+touch `description`/`description_hash` -- discovery never has a
+description (see ingestion/readme.py's module docstring), and a selected
+posting's description (fetched later by api/routes/roadmaps.py) must
+survive every later discovery re-run instead of getting wiped back to
+None by it.
+
+Uses a MagicMock `db` (no real Postgres), same approach the rest of this
+suite already uses.
 """
 
 import uuid
+from datetime import datetime, timezone
 from unittest.mock import MagicMock
 
-from openai import OpenAIError
-
 from app.ingestion import runner
+from app.ingestion.readme import DiscoveredPosting
 from app.models.company import Company
 from app.models.job_posting import JobPosting
-from app.ingestion.common import NormalizedJobPosting
 
 
-def _posting(**overrides) -> NormalizedJobPosting:
+def _discovered(**overrides) -> DiscoveredPosting:
     defaults = dict(
         external_id="ext-1",
-        title="Software Engineer",
-        location="Remote",
-        description="Requirements: Python",
+        company_name="Acme",
+        title="Software Engineer Intern",
         url="https://example.com/1",
         source_updated_at=None,
     )
     defaults.update(overrides)
-    return NormalizedJobPosting(**defaults)
+    return DiscoveredPosting(**defaults)
 
 
 def _fake_db(existing_job_posting: JobPosting | None) -> MagicMock:
@@ -38,66 +44,143 @@ def _fake_db(existing_job_posting: JobPosting | None) -> MagicMock:
 
 
 def _company() -> Company:
-    return Company(id=uuid.uuid4(), name="Acme", ats_platform="greenhouse", ats_identifier="acme")
+    return Company(id=uuid.uuid4(), name="Acme", ats_platform=runner.SOURCE_PLATFORM, ats_identifier="Acme")
 
 
 # ---------------------------------------------------------------------------
-# _upsert_job_posting: new / unchanged / changed
+# _upsert_discovered_posting: new / metadata refresh / description preserved
 # ---------------------------------------------------------------------------
 
 
-def test_new_posting_needs_extraction():
+def test_new_posting_is_created_with_no_description():
     db = _fake_db(existing_job_posting=None)
-    job_posting, needs_extraction, new_hash = runner._upsert_job_posting(
-        db, _company(), _posting()
-    )
-    assert needs_extraction is True
-    assert new_hash is not None
+    job_posting = runner._upsert_discovered_posting(db, _company(), _discovered())
+
+    assert job_posting.title == "Software Engineer Intern"
+    assert job_posting.url == "https://example.com/1"
+    assert job_posting.description is None  # discovery never sets it
 
 
-def test_existing_posting_unchanged_content_skips_extraction():
-    description = "Requirements: Python"
-    existing_hash = runner._hash_description(description)
+def test_existing_posting_gets_metadata_refreshed():
     existing = JobPosting(
         id=uuid.uuid4(),
         company_id=uuid.uuid4(),
         external_id="ext-1",
-        title="Software Engineer",
-        description=description,
-        description_hash=existing_hash,
+        title="Old Title",
+        url="https://example.com/old",
+        is_active=False,
     )
     db = _fake_db(existing_job_posting=existing)
 
-    _, needs_extraction, new_hash = runner._upsert_job_posting(
-        db, _company(), _posting(description=description)
+    updated = runner._upsert_discovered_posting(
+        db, _company(), _discovered(title="New Title", url="https://example.com/new")
     )
 
-    assert needs_extraction is False
-    assert new_hash == existing_hash
+    assert updated.title == "New Title"
+    assert updated.url == "https://example.com/new"
+    assert updated.is_active is True
+    assert updated.last_seen_at is not None
 
 
-def test_existing_posting_changed_content_needs_extraction():
-    old_hash = runner._hash_description("Requirements: Python")
+def test_existing_posting_with_a_description_keeps_it_on_re_discovery():
+    """The core invariant this rewrite depends on: a posting whose
+    description was already fetched (via api/routes/roadmaps.py's
+    selection-time flow, not modeled here) must not have that description
+    -- or its hash -- wiped back to None by a later discovery run just
+    because DiscoveredPosting never carries one.
+    """
     existing = JobPosting(
         id=uuid.uuid4(),
         company_id=uuid.uuid4(),
         external_id="ext-1",
-        title="Software Engineer",
-        description="Requirements: Python",
-        description_hash=old_hash,
+        title="Software Engineer Intern",
+        description="Full description fetched earlier",
+        description_hash="some-hash",
     )
     db = _fake_db(existing_job_posting=existing)
 
-    _, needs_extraction, new_hash = runner._upsert_job_posting(
-        db, _company(), _posting(description="Requirements: Python and Go")
-    )
+    updated = runner._upsert_discovered_posting(db, _company(), _discovered(title="Updated Title"))
 
-    assert needs_extraction is True
-    assert new_hash != old_hash
+    assert updated.title == "Updated Title"
+    assert updated.description == "Full description fetched earlier"
+    assert updated.description_hash == "some-hash"
 
 
 # ---------------------------------------------------------------------------
-# _sync_job_posting_skills_batch: extraction failure doesn't mark complete
+# _get_or_create_company_from_posting
+# ---------------------------------------------------------------------------
+
+
+def test_get_or_create_company_reuses_existing_row_by_name():
+    existing = Company(id=uuid.uuid4(), name="Acme", ats_platform=runner.SOURCE_PLATFORM, ats_identifier="Acme")
+    db = _fake_db(existing_job_posting=None)
+    db.scalar.return_value = existing
+
+    company = runner._get_or_create_company_from_posting(db, _discovered(company_name="Acme"))
+
+    assert company is existing
+    db.add.assert_not_called()
+
+
+def test_get_or_create_company_creates_when_missing():
+    db = MagicMock()
+    db.scalar.return_value = None
+
+    company = runner._get_or_create_company_from_posting(db, _discovered(company_name="New Co"))
+
+    assert company.name == "New Co"
+    assert company.ats_platform == runner.SOURCE_PLATFORM
+    assert company.ats_identifier == "New Co"
+    db.add.assert_called_once()
+    db.flush.assert_called_once()
+
+
+# ---------------------------------------------------------------------------
+# _filter_discovered_by_position
+# ---------------------------------------------------------------------------
+
+
+def test_filter_by_position_matches_case_insensitive_substring():
+    postings = [
+        _discovered(external_id="1", title="Software Engineer Intern"),
+        _discovered(external_id="2", title="Product Designer Intern"),
+        _discovered(external_id="3", title="SOFTWARE ENGINEER II"),
+    ]
+
+    matched = runner._filter_discovered_by_position(postings, "software engineer")
+
+    assert {p.external_id for p in matched} == {"1", "3"}
+
+
+def test_filter_by_position_empty_needle_returns_everything():
+    postings = [_discovered(external_id="1"), _discovered(external_id="2")]
+    assert runner._filter_discovered_by_position(postings, "   ") == postings
+
+
+# ---------------------------------------------------------------------------
+# _mark_stale_postings_inactive
+# ---------------------------------------------------------------------------
+
+
+def test_stale_postings_not_seen_this_run_are_marked_inactive():
+    still_active = JobPosting(id=uuid.uuid4(), company_id=uuid.uuid4(), external_id="seen", title="A", is_active=True)
+    gone = JobPosting(id=uuid.uuid4(), company_id=uuid.uuid4(), external_id="gone", title="B", is_active=True)
+
+    db = MagicMock()
+    db.scalars.return_value = iter([gone])  # query already filters to "not seen"
+
+    runner._mark_stale_postings_inactive(db, seen_external_ids={"seen"})
+
+    assert gone.is_active is False
+    assert still_active.is_active is True  # untouched -- wasn't in the stale query result
+
+
+# ---------------------------------------------------------------------------
+# _sync_job_posting_skills_batch -- unchanged from before this rewrite,
+# still shared with the future selected-posting extraction flow
+# (api/routes/roadmaps.py). Matches its actual current behavior: no
+# return value, and an OpenAI failure propagates rather than being
+# swallowed (there's no try/except around extract_job_skills_batch).
 # ---------------------------------------------------------------------------
 
 
@@ -112,44 +195,43 @@ def _job_posting_needing_extraction() -> JobPosting:
     )
 
 
-def test_openai_failure_does_not_stamp_hash_and_returns_false(monkeypatch):
-    job_posting = _job_posting_needing_extraction()
-    new_hash = runner._hash_description(job_posting.description)
+def test_no_pending_postings_makes_no_openai_call(monkeypatch):
+    called = False
 
-    def failing_extract(descriptions):
-        raise OpenAIError("simulated OpenAI outage")
+    def fake_extract(descriptions):
+        nonlocal called
+        called = True
+        return []
 
-    monkeypatch.setattr(runner, "extract_job_skills_batch", failing_extract)
-
-    db = MagicMock()
-    succeeded = runner._sync_job_posting_skills_batch(
-        db, [(job_posting, new_hash)], log_prefix="[test]"
-    )
-
-    assert succeeded is False
-    assert job_posting.description_hash is None  # never marked complete
-
-
-def test_openai_failure_does_not_raise(monkeypatch):
-    """The caller (_ingest_company_for_position) must not see this as an
-    exception -- an OpenAI failure only skips extraction, it must not
-    also discard the job postings already upserted this run.
-    """
-    job_posting = _job_posting_needing_extraction()
-    new_hash = runner._hash_description(job_posting.description)
-
-    monkeypatch.setattr(
-        runner,
-        "extract_job_skills_batch",
-        lambda descriptions: (_ for _ in ()).throw(OpenAIError("boom")),
-    )
+    monkeypatch.setattr(runner, "extract_job_skills_batch", fake_extract)
 
     db = MagicMock()
-    # Should not raise.
-    runner._sync_job_posting_skills_batch(db, [(job_posting, new_hash)], log_prefix="[test]")
+    runner._sync_job_posting_skills_batch(db, [], log_prefix="[test]")
+
+    assert called is False
 
 
-def test_successful_extraction_stamps_hash_and_returns_true(monkeypatch):
+def test_pending_posting_with_no_description_is_stamped_without_a_call(monkeypatch):
+    called = False
+
+    def fake_extract(descriptions):
+        nonlocal called
+        called = True
+        return []
+
+    monkeypatch.setattr(runner, "extract_job_skills_batch", fake_extract)
+
+    job_posting = JobPosting(
+        id=uuid.uuid4(), company_id=uuid.uuid4(), external_id="ext-1", title="X", description=None
+    )
+    db = MagicMock()
+    runner._sync_job_posting_skills_batch(db, [(job_posting, "some-hash")], log_prefix="[test]")
+
+    assert called is False
+    assert job_posting.description_hash == "some-hash"
+
+
+def test_successful_extraction_stamps_hash(monkeypatch):
     from app.services.job_skill_extraction import ExtractedJobSkill, JobSkillExtractionResult
 
     job_posting = _job_posting_needing_extraction()
@@ -168,43 +250,37 @@ def test_successful_extraction_stamps_hash_and_returns_true(monkeypatch):
             for _ in descriptions
         ],
     )
-    from types import SimpleNamespace
-
-    def fake_execute(stmt):
-        # _bulk_resolve_skills' bulk INSERT ... RETURNING for the new
-        # "Python" skill -- everything else (the existing job_posting_skill
-        # lookup, the final job_posting_skill upsert) can return empty/a
-        # plain mock, this test only cares that skill resolution works
-        # without a real DB.
-        text = str(stmt)
-        if "INSERT" in text and "RETURNING" in text and "skills" in text:
-            return [SimpleNamespace(id=uuid.uuid4(), name="Python", category="technical")]
-        return iter([])
-
-    db = MagicMock()
-    db.scalars.return_value = iter([])  # no existing Skill/job_posting_skill rows
-    db.execute.side_effect = fake_execute
-
-    succeeded = runner._sync_job_posting_skills_batch(
-        db, [(job_posting, new_hash)], log_prefix="[test]"
+    monkeypatch.setattr(
+        runner, "get_or_create_skill", lambda db, name, category: MagicMock(id=uuid.uuid4())
     )
 
-    assert succeeded is True
+    db = MagicMock()
+    db.scalars.return_value = iter([])  # no existing job_posting_skill rows
+
+    runner._sync_job_posting_skills_batch(db, [(job_posting, new_hash)], log_prefix="[test]")
+
     assert job_posting.description_hash == new_hash
 
 
-def test_no_pending_postings_returns_true_without_openai_call(monkeypatch):
-    called = False
+def test_openai_failure_propagates(monkeypatch):
+    """No try/except wraps extract_job_skills_batch in the current
+    implementation -- an OpenAI failure is a real exception that must
+    reach the caller (api/routes/jobs.py's _run_refresh_task, or later
+    api/routes/roadmaps.py's selection-time flow), not be silently
+    swallowed here.
+    """
+    import pytest
 
-    def fake_extract(descriptions):
-        nonlocal called
-        called = True
-        return []
+    job_posting = _job_posting_needing_extraction()
+    new_hash = runner._hash_description(job_posting.description)
 
-    monkeypatch.setattr(runner, "extract_job_skills_batch", fake_extract)
+    def failing_extract(descriptions):
+        raise RuntimeError("simulated OpenAI outage")
+
+    monkeypatch.setattr(runner, "extract_job_skills_batch", failing_extract)
 
     db = MagicMock()
-    result = runner._sync_job_posting_skills_batch(db, [], log_prefix="[test]")
+    with pytest.raises(RuntimeError):
+        runner._sync_job_posting_skills_batch(db, [(job_posting, new_hash)], log_prefix="[test]")
 
-    assert result is True
-    assert called is False
+    assert job_posting.description_hash is None  # never stamped -- retried next time

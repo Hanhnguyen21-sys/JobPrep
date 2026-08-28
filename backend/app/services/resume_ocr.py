@@ -1,36 +1,4 @@
-"""Resume file (image or PDF) -> plain text, via local Tesseract OCR.
 
-File in, text out -- nothing else. Deliberately doesn't touch the
-database and doesn't call the skill-extraction LLM: turning the resulting
-text into skills is services/skill_extraction.py's job (extract_skills),
-same "text in, structured result out" split api/routes/resumes.py already
-relies on for the manual-text flow. This keeps OCR and skill extraction as
-two independently testable/swappable responsibilities instead of one
-"file in, skills out" blob.
-
-Two entry points, one shared OCR step (_ocr_image):
-- extract_text_from_image(file) -- PNG/JPG/JPEG, opened directly by Pillow.
-- extract_text_from_pdf(file) -- rendered to one Pillow image per page by
-  pdf2image, then OCR'd the same way. Pillow itself cannot read/rasterize
-  PDF pages (its PDF support is write-only -- saving images *as* a PDF,
-  not opening one), so this needs a real PDF renderer. pdf2image is a
-  thin wrapper around the `poppler` command-line tools (pdftoppm/
-  pdftocairo), which is why poppler is a second system dependency here,
-  same shape as Tesseract itself.
-
-Requires two system binaries installed on the host separately -- neither
-`pip install pytesseract`/`pip install pdf2image` provides them, since
-both are thin Python wrappers around external command-line tools:
-
-    macOS:  brew install tesseract poppler
-    Debian/Ubuntu (e.g. inside a future Docker image):
-            apt-get install tesseract-ocr poppler-utils
-
-There is no Dockerfile/deployment manifest in this repo today, so there's
-nowhere in-repo to wire that install step in -- whoever manages wherever
-this backend actually runs needs to ensure both are present at the
-OS/container level.
-"""
 
 import io
 

@@ -1,8 +1,6 @@
 """Job routes.
 
-POST /jobs/match is database-only and non-blocking (Phase 3 of the
-/jobs/match latency work -- see ingestion/runner.py's module docstring
-for Phases 1-2). It never calls Greenhouse/Lever/OpenAI itself:
+POST /jobs/match 
 
   - Fresh cached data exists -> return it immediately, freshness="fresh",
     no background work enqueued.
@@ -14,11 +12,6 @@ for Phases 1-2). It never calls Greenhouse/Lever/OpenAI itself:
   - GET /jobs/match/status/{task_id} is how the frontend polls that
     refresh to completion.
 
-The actual live ATS+OpenAI pipeline (ingestion/runner.py's
-run_targeted_ingestion) now only ever runs inside _run_refresh_task, via
-FastAPI's BackgroundTasks -- see that function's docstring for its
-durability caveat (in-process, not a separate durable worker; revisit
-with a real queue if refresh volume/reliability needs grow).
 """
 
 import uuid
@@ -58,7 +51,10 @@ router = APIRouter(prefix="/jobs", tags=["jobs"])
 # retired) synchronous live-pull path.
 FRESHNESS_MINUTES = 60
 
-
+# input : a list of job postings and return a list of matched job posting
+# job posting - SQLAlchemy model representing data record
+# matched job posting: pydantic schema representing data that returns for API
+# convert jp into response format called matched jb
 def _to_matched_postings(job_postings: list[JobPosting]) -> list[MatchedJobPosting]:
     return [
         MatchedJobPosting(
@@ -71,7 +67,11 @@ def _to_matched_postings(job_postings: list[JobPosting]) -> list[MatchedJobPosti
         for jp in job_postings
     ]
 
-
+#check skill gap between user's skills and job postings
+# if user has a skill -> marked as True, otherwise -> False
+# dict - list of skill that job requires
+# have_ids - skills' id of users
+# return a list of skill that user has or does not have
 def _to_skill_gap_items(
     skill_gap_raw: list[dict], have_ids: set[uuid.UUID]
 ) -> list[SkillGapItem]:
@@ -88,10 +88,7 @@ def _to_skill_gap_items(
 
 
 def _existing_matches(db: Session, needle: str) -> list[JobPosting]:
-    """Whatever's already in job_postings for this (normalized) query --
-    the database-only read POST /jobs/match now always does first,
-    regardless of freshness.
-    """
+    
     return list(
         db.scalars(
             select(JobPosting).where(
@@ -101,6 +98,7 @@ def _existing_matches(db: Session, needle: str) -> list[JobPosting]:
         )
     )
 
+# prepare response to return
 
 def _build_response(
     db: Session,
@@ -109,8 +107,11 @@ def _build_response(
     freshness: DataFreshness,
     task_id: uuid.UUID | None = None,
 ) -> JobMatchResponse:
+    # get skills from job requirements
     skill_gap_raw = aggregate_required_skills(db, postings)
+    # get skills that a user has
     have_ids = get_user_skill_ids(db, current_user.id)
+    # create response with target position, postings info, skill gap
     return JobMatchResponse(
         target_position=current_user.target_position,
         postings=_to_matched_postings(postings),
@@ -119,23 +120,10 @@ def _build_response(
         task_id=task_id,
     )
 
+# run background job to refresh data of specific target position
 
 def _run_refresh_task(task_id: uuid.UUID, desired_position: str) -> None:
-    """Runs via FastAPI BackgroundTasks, after the response for the
-    request that enqueued it has already been sent. Opens its own DB
-    session (same pattern as ingestion/runner.py's run_ingestion()
-    standalone-script usage) since it must outlive that request's
-    session/lifecycle.
-
-    Durability caveat (see also models/job_search_task.py): BackgroundTasks
-    runs in-process on the same web server -- if the process crashes or
-    restarts while this is mid-flight, the task is simply lost (stuck at
-    'running', no automatic resume/retry). Acceptable at this app's
-    current scale; swap for a real queue (RQ/Celery+Redis, ARQ) if that
-    changes. Idempotent either way: re-running run_targeted_ingestion for
-    the same position is always safe (upserts + description_hash gating),
-    so a manual retry (re-enqueue) after a stuck task is harmless.
-    """
+   
     db = SessionLocal()
     try:
         task = get_task(db, task_id)
