@@ -21,22 +21,11 @@ from app.services.job_skill_extraction import (
     extract_job_skills_batch,
 )
 
-# Company.ats_platform value for companies discovered via the README
-# source -- distinct from the retired 'greenhouse'/'lever' values (see
-# models/company.py). ats_identifier is just the company's display name
-# as parsed from the README (see ingestion/readme.py) -- no separate slug.
 SOURCE_PLATFORM = "readme"
 
 
 def run_ingestion(discovered_postings: list[DiscoveredPosting] | None = None) -> None:
-    """Standalone entry point: sync every currently discoverable posting
-    into companies/job_postings, then mark any previously-active
-    README-sourced posting not seen this run as inactive.
-
-    `discovered_postings` lets tests/scripts bypass the live README fetch
-    with a fixed list -- same purpose the old `companies=` override served
-    for tests, applied to the one remaining source.
-    """
+   
     db = SessionLocal()
     try:
         discovered = (

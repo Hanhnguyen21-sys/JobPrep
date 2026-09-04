@@ -18,4 +18,3 @@ trafilatura==2.2.0
 pytest==8.3.3
 asyncpg
 cryptography
-openai==1.54
