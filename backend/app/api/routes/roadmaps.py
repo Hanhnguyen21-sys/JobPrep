@@ -1,36 +1,25 @@
-"""Roadmap routes.
-
-POST /roadmaps is the User_Job_Selection -> roadmap step: the frontend
-sends the job postings the user checked on /jobs (capped at
-MAX_SELECTED_POSTINGS, see schemas/job.py), this route resolves them,
-combines their descriptions into a single prompt, and asks
-services/roadmap.py for one roadmap that covers all of them together --
-not the individual per-posting skill_gap api/routes/jobs.py's
-/jobs/skill-gap (the fast, free, unpersisted "quick prep note" alternative
-to this) returns. Unlike /jobs/match's or /jobs/skill-gap's responses,
-the result here is persisted (`Roadmap` + `roadmap_job_posting`), since a
-roadmap is meant to be revisited later, not just a one-off check --
-hence also the GET routes below, the auto-generated `title` (see
-_build_title) that makes those persisted roadmaps distinguishable in a
-history list, and DELETE for removing ones the user no longer wants
-cluttering that history.
-"""
 
 import uuid
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, BackgroundTasks, Depends, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.api.dependencies import get_current_user
 from app.core.exceptions import BadRequestException, NotFoundException
-from app.db.session import get_db
+from app.db.session import SessionLocal, get_db
 from app.models.job_posting import JobPosting
 from app.models.roadmap import Roadmap
 from app.models.skill import Skill
 from app.models.user import User, user_skill
 from app.repositories.jobs import get_job_postings_by_ids
+from app.repositories.roadmap_generation_tasks import (
+    create_task,
+    get_task,
+    mark_finished,
+    mark_running,
+)
 from app.repositories.roadmaps import (
     create_roadmap,
     delete_roadmap,
@@ -38,8 +27,12 @@ from app.repositories.roadmaps import (
     get_user_roadmaps,
     set_action_item_done,
 )
+from app.ingestion.runner import hash_description, sync_job_posting_skills_batch
+from app.services.job_description_fetch import fetch_job_description
 from app.schemas.roadmap import (
     RoadmapCreateRequest,
+    RoadmapGenerationAcceptedResponse,
+    RoadmapGenerationStatusResponse,
     RoadmapOverview,
     RoadmapProgressResponse,
     RoadmapProgressUpdate,
@@ -53,12 +46,7 @@ router = APIRouter(prefix="/roadmaps", tags=["roadmaps"])
 
 
 def _build_title(job_postings: list[JobPosting], now: datetime) -> str:
-    """Deterministic label distinguishing this roadmap from others in the
-    user's /roadmaps history -- e.g. "Coinbase & 1 more (3 postings) --
-    Aug 15". Built from the selected postings' companies, count, and
-    today's date, not from anything the AI returns -- keeps it stable and
-    free (no extra token spend/round-trip just to name the thing).
-    """
+    
     companies = list(dict.fromkeys(jp.company.name for jp in job_postings))
     if len(companies) == 1:
         company_part = companies[0]
@@ -71,27 +59,44 @@ def _build_title(job_postings: list[JobPosting], now: datetime) -> str:
     posting_word = "posting" if count == 1 else "postings"
     return f"{company_part} ({count} {posting_word}) — {now:%b %d}"
 
+def _ensure_descriptions(db: Session, job_postings: list[JobPosting]) -> None:
+    """Fetches + extracts skills for any selected posting
+    that's missing a description, or whose fetched content has changed
+    since it was last extracted (see hash_description/
+    sync_job_posting_skills_batch in ingestion/runner.py -- this is the
+    selection-time wiring their module docstring says was still needed).
+
+    """
+    pending: list[tuple[JobPosting, str | None]] = []
+
+    for jp in job_postings:
+        if not jp.url:
+            continue
+
+        text = fetch_job_description(jp.url)
+        if text is None:
+            continue  # dead link/timeout/SPA/too-short -- leave as-is
+
+        new_hash = hash_description(text)
+        if new_hash == jp.description_hash:
+            continue  # unchanged since last extraction -- skip re-billing the LLM
+
+        jp.description = text
+        pending.append((jp, new_hash))
+
+    sync_job_posting_skills_batch(db, pending, log_prefix="[roadmaps]")
+    if pending:
+        db.commit()
 
 def _legacy_priority_skill(skill: str | dict) -> dict:
-    """`priority_skills` used to be `list[str]` (bare skill names, no
-    current_level/target_level datapoints). Adapts old string entries into
-    the new shape so old roadmaps still load -- best-effort: there's no old
-    data to source levels from, so both come back 0 (reads as "unknown gap"
-    on the chart rather than a fabricated level).
-    """
+   
     if isinstance(skill, str):
         return {"skill": skill, "current_level": 0, "target_level": 0}
     return skill
 
 
 def _legacy_overview(roadmap: Roadmap) -> dict:
-    """Roadmaps created before migration 10 have `overview = null` and
-    only the old flat `summary` text. Backfills a RoadmapOverview shape
-    from that at read time so old roadmaps still load instead of failing
-    RoadmapResponse validation -- best-effort, not a real backfill:
-    `priority_skills`/`estimated_duration` have no old data to source from,
-    so they come back empty.
-    """
+    
     if roadmap.overview:
         overview = dict(roadmap.overview)
         overview["priority_skills"] = [
@@ -107,14 +112,7 @@ def _legacy_overview(roadmap: Roadmap) -> dict:
 
 
 def _legacy_step(step: dict) -> dict:
-    """Roadmaps created before this schema change stored steps shaped like
-    {order, title, description, skills_to_develop}. Adapts those into the
-    new RoadmapStep shape so old roadmaps still load -- best-effort:
-    `why_it_matters` carries the old description forward, `focus_skill`
-    takes the first old skill (if any), and action_items/resources/
-    success_criteria come back empty since there's no old data to source
-    them from.
-    """
+    
     if "why_it_matters" in step:
         return step  # already new-shape
 
@@ -149,23 +147,118 @@ def _to_response(roadmap: Roadmap) -> RoadmapResponse:
         last_interacted_step_order=roadmap.last_interacted_step_order,
     )
 
+def _run_roadmap_generation_task(
+    task_id: uuid.UUID, user_id: uuid.UUID, job_posting_ids: list[uuid.UUID]
+) -> None:
+    """Runs via FastAPI BackgroundTasks, after the response for the
+    POST /roadmaps request that enqueued it has already been sent. Opens
+    its own DB session -- same pattern as api/routes/jobs.py's
+    _run_refresh_task -- since it must outlive that request's
+    session/lifecycle. Durability caveat: same as
+    models/roadmap_generation_task.py's docstring (in-process
+    BackgroundTasks, not a durable queue).
 
-@router.post("", response_model=RoadmapResponse)
+    Does the actual work POST /roadmaps used to do synchronously: fetch
+    descriptions for whichever selected postings need it (up to
+    MAX_SELECTED_POSTINGS sequential external fetches -- this is exactly
+    why it's off the request path now), extract their skills, then
+    generate + persist the roadmap.
+    """
+    db = SessionLocal()
+    try:
+        task = get_task(db, task_id, user_id)
+        if task is None:
+            return
+
+        mark_running(db, task)
+        db.commit()
+
+        try:
+            current_user = db.get(User, user_id)
+            job_postings = get_job_postings_by_ids(db, job_posting_ids)
+
+            _ensure_descriptions(db, job_postings)
+
+            existing_skill_names = list(
+                db.scalars(
+                    select(Skill.name)
+                    .select_from(user_skill)
+                    .join(Skill, Skill.id == user_skill.c.skill_id)
+                    .where(user_skill.c.user_id == user_id)
+                )
+            )
+
+            result = generate_roadmap(
+                target_position=current_user.target_position,
+                existing_skills=existing_skill_names,
+                postings=[
+                    {
+                        "company_name": jp.company.name,
+                        "title": jp.title,
+                        "description": jp.description,
+                    }
+                    for jp in job_postings
+                ],
+            )
+
+            if result is None:
+                mark_finished(
+                    db,
+                    task,
+                    status="failed",
+                    error_summary="Couldn't generate a roadmap from these postings.",
+                )
+                db.commit()
+                return
+
+            roadmap = create_roadmap(
+                db,
+                user_id=user_id,
+                title=_build_title(job_postings, datetime.now(timezone.utc)),
+                target_position=current_user.target_position,
+                summary=result.overview.headline,
+                overview=result.overview.model_dump(),
+                steps=[step.model_dump() for step in result.steps],
+                job_postings=job_postings,
+            )
+            mark_finished(db, task, status="completed", roadmap_id=roadmap.id)
+            db.commit()
+        except Exception as exc:  # noqa: BLE001 -- genuinely unexpected (a bug or
+            # DB/LLM error), not a per-posting failure (those are isolated
+            # inside _ensure_descriptions/sync_job_posting_skills_batch
+            # already). Never include str(exc) here -- only the
+            # exception's type name, same reasoning as api/routes/jobs.py's
+            # _run_refresh_task.
+            db.rollback()
+            mark_finished(
+                db, task, status="failed", error_summary=f"{type(exc).__name__} during roadmap generation"
+            )
+            db.commit()
+    finally:
+        db.close()
+
+
+@router.post("", response_model=RoadmapGenerationAcceptedResponse, status_code=status.HTTP_202_ACCEPTED)
 def create_roadmap_from_selection(
     payload: RoadmapCreateRequest,
+    background_tasks: BackgroundTasks,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
-) -> RoadmapResponse:
+) -> RoadmapGenerationAcceptedResponse:
+    """Validates the selection synchronously (cheap: a target_position
+    check and one DB lookup), then enqueues the actual generation --
+    description fetches + skill extraction + the two LLM calls -- as a
+    background task and returns immediately. See
+    _run_roadmap_generation_task for the work itself and
+    GET /roadmaps/status/{task_id} for how the frontend polls it to
+    completion (mirrors api/routes/jobs.py's POST /jobs/match ->
+    GET /jobs/match/status split).
+    """
     if not current_user.target_position:
         raise BadRequestException(
             "No target position set -- submit a resume with a target position first."
         )
 
-    # De-dup up front -- Field(max_length=...) on the request schema counts
-    # raw list entries, so a request repeating one id past the cap could
-    # otherwise slip through with fewer *distinct* postings than the limit
-    # implies. Order preserved (dict.fromkeys, not set()) purely so error
-    # messages / prompts stay in the order the user picked them.
     requested_ids = list(dict.fromkeys(payload.job_posting_ids))
 
     job_postings = get_job_postings_by_ids(db, requested_ids)
@@ -177,52 +270,39 @@ def create_roadmap_from_selection(
             "they may have been removed. Refresh your matches and try again."
         )
 
-    existing_skill_names = list(
-        db.scalars(
-            select(Skill.name)
-            .select_from(user_skill)
-            .join(Skill, Skill.id == user_skill.c.skill_id)
-            .where(user_skill.c.user_id == current_user.id)
-        )
-    )
-
-    result = generate_roadmap(
-        target_position=current_user.target_position,
-        existing_skills=existing_skill_names,
-        postings=[
-            {
-                "company_name": jp.company.name,
-                "title": jp.title,
-                "description": jp.description,
-            }
-            for jp in job_postings
-        ],
-    )
-
-    if result is None:
-        raise BadRequestException(
-            "Couldn't generate a roadmap from these postings -- try again, "
-            "or try a different selection."
-        )
-
-    roadmap = create_roadmap(
-        db,
-        user_id=current_user.id,
-        title=_build_title(job_postings, datetime.now(timezone.utc)),
-        target_position=current_user.target_position,
-        # `summary` kept in sync with `overview.headline` for now rather
-        # than left blank -- it's a deprecated column (see models/roadmap.py)
-        # but not dropped, so it stays a sane one-line summary instead of
-        # going stale/empty on every new row.
-        summary=result.overview.headline,
-        overview=result.overview.model_dump(),
-        steps=[step.model_dump() for step in result.steps],
-        job_postings=job_postings,
-    )
+    task = create_task(db, user_id=current_user.id, job_posting_ids=requested_ids)
     db.commit()
-    db.refresh(roadmap)
 
-    return _to_response(roadmap)
+    background_tasks.add_task(
+        _run_roadmap_generation_task, task.id, current_user.id, requested_ids
+    )
+
+    return RoadmapGenerationAcceptedResponse(task_id=task.id)
+
+
+@router.get("/status/{task_id}", response_model=RoadmapGenerationStatusResponse)
+def get_roadmap_generation_status(
+    task_id: uuid.UUID,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> RoadmapGenerationStatusResponse:
+    """Polled by the frontend after POST /roadmaps' 202 response until
+    `status` reaches a terminal state (completed/failed), then fetches
+    GET /roadmaps/{roadmap_id} to load the full result. Scoped to
+    current_user -- unlike api/routes/jobs.py's job-search tasks (shared,
+    global data), a roadmap generation is private to whoever requested
+    it, so another user's task_id 404s here rather than leaking status.
+    """
+    task = get_task(db, task_id, current_user.id)
+    if task is None:
+        raise NotFoundException("Task not found")
+
+    return RoadmapGenerationStatusResponse(
+        task_id=task.id,
+        status=task.status,
+        roadmap_id=task.roadmap_id,
+        error_summary=task.error_summary,
+    )
 
 
 @router.get("", response_model=list[RoadmapResponse])

@@ -36,7 +36,11 @@ def _discovered(**overrides) -> DiscoveredPosting:
 
 def test_cache_hit_skips_discovery_and_reports_zero_attempted(monkeypatch):
     fresh_cache_row = MagicMock(last_ingested_at=datetime.now(timezone.utc))
-    existing_posting = MagicMock()
+    # _get_cached_matches now filters candidates in Python via
+    # title_matches_query (see query_normalization.py), so this needs a
+    # real string title, not a bare MagicMock -- it must actually match
+    # the "Software Engineer" position searched for below.
+    existing_posting = MagicMock(title="Software Engineer Intern")
 
     db = MagicMock()
     db.scalar.return_value = fresh_cache_row
@@ -153,7 +157,150 @@ def test_position_ingested_marker_is_always_written(monkeypatch):
 
     runner.run_targeted_ingestion(db, "Software Engineer")
 
-    assert mark_calls == ["software engineer"]
+    # Versioned cache_key() format ("v1:software engineer"), not the old
+    # bare .strip().lower() -- see the cache-key-consistency tests below
+    # for why this specific format matters.
+    assert mark_calls == ["v1:software engineer"]
+
+
+# ---------------------------------------------------------------------------
+# Cache-key consistency -- regression coverage for the bug where
+# run_targeted_ingestion wrote job_search_cache under a bare
+# .strip().lower() key while api/routes/jobs.py's find_matching_jobs read
+# it back via query_normalization.cache_key() ("v1:" prefixed). The two
+# never matched, so POST /jobs/match's freshness check always saw a cache
+# miss and re-enqueued a refresh on every single call. These tests pin
+# runner.py to query_normalization's cache_key()/normalize_query(), not a
+# hardcoded literal, so they still catch a regression even if
+# NORMALIZATION_VERSION is bumped later.
+# ---------------------------------------------------------------------------
+
+
+def test_mark_position_ingested_key_matches_query_normalization_cache_key(monkeypatch):
+    """The exact string run_targeted_ingestion hands to
+    _mark_position_ingested must be query_normalization.cache_key()'s
+    output for the same input -- that's what api/routes/jobs.py's
+    find_matching_jobs looks up job_search_cache by (see
+    tests/api/test_jobs_route.py for the jobs.py side of this contract).
+    """
+    from app.ingestion.query_normalization import cache_key
+
+    db = MagicMock()
+    db.scalar.return_value = None
+    monkeypatch.setattr(runner.readme_source, "discover_postings", lambda: [])
+
+    mark_calls = []
+    monkeypatch.setattr(
+        runner, "_mark_position_ingested", lambda db, key: mark_calls.append(key)
+    )
+
+    runner.run_targeted_ingestion(db, "Software Engineer")
+
+    assert mark_calls == [cache_key("Software Engineer")]
+
+
+def test_get_cached_matches_is_looked_up_by_the_same_versioned_key(monkeypatch):
+    """A fresh cache row keyed by cache_key(position) must actually be
+    found on the next call within freshness_minutes -- exercises the
+    write (_mark_position_ingested) and read (_get_cached_matches) sides
+    of the same key end to end, through run_targeted_ingestion's two
+    calls, rather than just asserting the same string in isolation.
+    """
+    from app.ingestion.query_normalization import cache_key
+
+    store: dict[str, MagicMock] = {}
+
+    def fake_scalar(stmt):
+        # Both the JobSearchCache lookup (_get_cached_matches) and the
+        # Company lookup (_get_or_create_company_from_posting) go through
+        # db.scalar -- only the cache-row shape matters here, so key off
+        # whatever's currently in `store` for the position we're testing.
+        return store.get(cache_key("Software Engineer"))
+
+    db = MagicMock()
+    db.scalar.side_effect = fake_scalar
+    db.scalars.return_value = iter([])
+
+    def fake_mark(db, key):
+        store[key] = MagicMock(last_ingested_at=datetime.now(timezone.utc))
+
+    monkeypatch.setattr(runner, "_mark_position_ingested", fake_mark)
+    monkeypatch.setattr(runner.readme_source, "discover_postings", lambda: [])
+
+    # First call: no cache row yet -- live path runs, then writes the row.
+    runner.run_targeted_ingestion(db, "Software Engineer")
+    assert cache_key("Software Engineer") in store
+
+    # Second call: the row just written must now register as a cache hit.
+    discover_called = False
+
+    def fail_if_called_again():
+        nonlocal discover_called
+        discover_called = True
+        raise AssertionError("must not re-discover -- the cache row should have hit")
+
+    monkeypatch.setattr(runner.readme_source, "discover_postings", fail_if_called_again)
+
+    stats: dict = {}
+    runner.run_targeted_ingestion(db, "Software Engineer", stats=stats)
+
+    assert discover_called is False
+    assert stats == {"attempted": 0, "succeeded": 0, "failed": 0}
+
+
+# ---------------------------------------------------------------------------
+# Abbreviation-aware filtering -- regression coverage for the bug where
+# _filter_discovered_by_position matched on a bare .strip().lower() needle
+# instead of normalize_query(), so an abbreviation like "SWE" never
+# matched a title containing "Software Engineer" even though
+# query_normalization expands it.
+# ---------------------------------------------------------------------------
+
+
+def test_filter_discovered_by_position_expands_known_abbreviations():
+    postings = [
+        _discovered(external_id="1", title="Software Engineer Intern", company_name="Acme"),
+        _discovered(external_id="2", title="Product Designer Intern", company_name="Other"),
+    ]
+
+    filtered = runner._filter_discovered_by_position(postings, "SWE")
+
+    assert [p.external_id for p in filtered] == ["1"]
+
+
+def test_run_targeted_ingestion_matches_postings_via_abbreviation(monkeypatch):
+    """End-to-end through run_targeted_ingestion (not just the filter
+    helper) -- a live/stale-cache search for "SWE" must actually sync the
+    "Software Engineer Intern" posting, not silently ingest zero matches.
+    """
+    db = MagicMock()
+    db.scalar.return_value = None  # no cache row -- live path runs
+
+    discovered = [
+        _discovered(external_id="1", title="Software Engineer Intern", company_name="Acme"),
+        _discovered(external_id="2", title="Product Designer Intern", company_name="Other"),
+    ]
+
+    company = MagicMock()
+    monkeypatch.setattr(runner, "_get_or_create_company_from_posting", lambda db, p: company)
+
+    upserted = []
+
+    def fake_upsert(db, company, posting):
+        job_posting = MagicMock(external_id=posting.external_id)
+        upserted.append(job_posting)
+        return job_posting
+
+    monkeypatch.setattr(runner, "_upsert_discovered_posting", fake_upsert)
+
+    stats: dict = {}
+    result = runner.run_targeted_ingestion(
+        db, "SWE", stats=stats, discovered_postings=discovered
+    )
+
+    assert len(result) == 1
+    assert upserted[0].external_id == "1"
+    assert stats == {"attempted": 1, "succeeded": 1, "failed": 0}
 
 
 # ---------------------------------------------------------------------------

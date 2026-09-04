@@ -12,6 +12,7 @@ a live fetch while building this module), not an invented shape.
 from unittest.mock import patch
 
 import httpx
+from bs4 import BeautifulSoup, Tag
 
 from app.ingestion import readme as readme_source
 
@@ -37,7 +38,7 @@ SOFTWARE_SECTION_HTML = """
 <td>Application Developer Intern</td>
 <td>Tampa, FL<br>Dallas, TX<br>Jersey City, NJ</td>
 <td><div align="center"><a href="https://ebxr.fa.us2.oraclecloud.com/job/214459"><img src="apply.png" alt="Apply"></a> <a href="https://simplify.jobs/p/a1eb1e2b-bd12-4ee2-b019-34e40010a803?utm_source=GHList"><img src="simplify.png" alt="Simplify"></a></div></td>
-<td>0d</td>
+<td>10d</td>
 </tr>
 <tr>
 <td><strong><a href="https://simplify.jobs/c/Compeer-Financial?utm_source=GHList">Compeer Financial</a></strong></td>
@@ -73,7 +74,22 @@ Some intro text.
 <td>PM Intern</td>
 <td>Remote</td>
 <td><div align="center"><a href="https://jobs.lever.co/otherco/xyz"><img src="apply.png" alt="Apply"></a> <a href="https://simplify.jobs/p/11111111-1111-1111-1111-111111111111"><img src="simplify.png" alt="Simplify"></a></div></td>
-<td>3d</td>
+<td>10d</td>
+</tr>
+</tbody>
+</table>
+
+## \U0001f3a8 Design Internship Roles
+
+<table>
+<thead><tr><th>Company</th><th>Role</th><th>Location</th><th>Application</th><th>Age</th></tr></thead>
+<tbody>
+<tr>
+<td><strong><a href="https://simplify.jobs/c/DesignCo?utm_source=GHList">DesignCo</a></strong></td>
+<td>Design Intern</td>
+<td>Remote</td>
+<td><div align="center"><a href="https://jobs.lever.co/designco/xyz"><img src="apply.png" alt="Apply"></a> <a href="https://simplify.jobs/p/22222222-2222-2222-2222-222222222222"><img src="simplify.png" alt="Simplify"></a></div></td>
+<td>10d</td>
 </tr>
 </tbody>
 </table>
@@ -159,6 +175,45 @@ def test_unparseable_age_returns_none():
 
 
 # ---------------------------------------------------------------------------
+# minimum posting age filter (MIN_POSTING_AGE)
+# ---------------------------------------------------------------------------
+
+
+def _row_with_age(age_text: str) -> Tag:
+    html = f"""
+    <tr>
+    <td><strong><a href="https://simplify.jobs/c/AgeCo">AgeCo</a></strong></td>
+    <td>Some Intern</td>
+    <td>Remote</td>
+    <td><div align="center"><a href="https://example.com/apply"><img src="apply.png"></a> <a href="https://simplify.jobs/p/33333333-3333-3333-3333-333333333333"><img src="simplify.png"></a></div></td>
+    <td>{age_text}</td>
+    </tr>
+    """
+    return BeautifulSoup(html, "html.parser").find("tr")
+
+
+def test_posting_exactly_at_min_age_is_excluded():
+    posting, _ = readme_source._parse_row(_row_with_age("7d"), carry=None)
+    assert posting is None
+
+
+def test_posting_older_than_min_age_is_included():
+    posting, _ = readme_source._parse_row(_row_with_age("8d"), carry=None)
+    assert posting is not None
+    assert posting.company_name == "AgeCo"
+
+
+def test_posting_younger_than_min_age_is_excluded():
+    posting, _ = readme_source._parse_row(_row_with_age("1d"), carry=None)
+    assert posting is None
+
+
+def test_posting_with_unparseable_age_is_excluded():
+    posting, _ = readme_source._parse_row(_row_with_age("unknown"), carry=None)
+    assert posting is None
+
+
+# ---------------------------------------------------------------------------
 # discover_postings -- section filtering end to end
 # ---------------------------------------------------------------------------
 
@@ -166,22 +221,23 @@ def test_unparseable_age_returns_none():
 def test_discover_postings_only_includes_wanted_sections():
     postings = readme_source.discover_postings(readme_text=FULL_README)
 
+    # DEFAULT_SECTION_NAMES now covers Software Engineering *and* Product
+    # Management (among others) -- both are included by default. "Design
+    # Internship Roles" is not in DEFAULT_SECTION_NAMES, so DesignCo must
+    # still be excluded.
     companies = {p.company_name for p in postings}
-    assert companies == {"DTCC", "Compeer Financial"}
-    assert "OtherCo" not in companies
+    assert companies == {"DTCC", "Compeer Financial", "OtherCo"}
+    assert "DesignCo" not in companies
 
 
 def test_discover_postings_can_widen_to_additional_sections():
     postings = readme_source.discover_postings(
-        section_names=(
-            "Software Engineering Internship Roles",
-            "Product Management Internship Roles",
-        ),
+        section_names=("Design Internship Roles",),
         readme_text=FULL_README,
     )
 
     companies = {p.company_name for p in postings}
-    assert companies == {"DTCC", "Compeer Financial", "OtherCo"}
+    assert companies == {"DesignCo"}
 
 
 # ---------------------------------------------------------------------------

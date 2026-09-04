@@ -24,10 +24,7 @@ export default function RoadmapsPage() {
     <div className="theme-brand flex-1 bg-paper text-ink">
       <div className="w-full space-y-8 p-6 sm:p-8 lg:px-16">
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blaze">
-            Step 3
-          </p>
-          <h1 className="mt-1 font-display text-2xl font-semibold tracking-tight text-brand">
+          <h1 className="font-display text-2xl font-semibold tracking-tight text-brand">
             Your roadmaps
           </h1>
           <p className="mt-1 text-sm text-slate">

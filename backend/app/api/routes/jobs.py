@@ -24,7 +24,7 @@ from sqlalchemy.orm import Session
 from app.api.dependencies import get_current_user
 from app.core.exceptions import BadRequestException, NotFoundException
 from app.db.session import SessionLocal, get_db
-from app.ingestion.query_normalization import cache_key, normalize_query
+from app.ingestion.query_normalization import cache_key, title_matches_query
 from app.ingestion.runner import run_targeted_ingestion
 from app.models.job_posting import JobPosting
 from app.models.search_cache import JobSearchCache
@@ -87,16 +87,15 @@ def _to_skill_gap_items(
     ]
 
 
-def _existing_matches(db: Session, needle: str) -> list[JobPosting]:
-    
-    return list(
-        db.scalars(
-            select(JobPosting).where(
-                JobPosting.title.ilike(f"%{needle}%"),
-                JobPosting.is_active.is_(True),
-            )
-        )
+def _existing_matches(db: Session, target_position: str) -> list[JobPosting]:
+    # Broad token-based match, not a raw ILIKE -- see
+    # ingestion/query_normalization.title_matches_query for why (near-miss
+    # phrasing like "SWE Intern" / "Software Engineering Internship"
+    # needs more than substring containment of the whole query phrase).
+    candidates = db.scalars(
+        select(JobPosting).where(JobPosting.is_active.is_(True))
     )
+    return [jp for jp in candidates if title_matches_query(target_position, jp.title)]
 
 # prepare response to return
 
@@ -178,22 +177,17 @@ def find_matching_jobs(
         )
 
     key = cache_key(current_user.target_position)
-    needle = normalize_query(current_user.target_position)
 
     cache_row = db.scalar(select(JobSearchCache).where(JobSearchCache.target_position == key))
     cutoff = datetime.now(timezone.utc) - timedelta(minutes=FRESHNESS_MINUTES)
     is_fresh = cache_row is not None and cache_row.last_ingested_at >= cutoff
 
-    existing = _existing_matches(db, needle)
+    existing = _existing_matches(db, current_user.target_position)
 
     if is_fresh:
         return _build_response(db, current_user, existing, freshness="fresh")
 
-    # Stale or never-ingested -- enqueue exactly one refresh. Deduped at
-    # the database level (a partial unique index on
-    # (cache_key) WHERE status IN ('queued','running')), so two
-    # concurrent requests for the same position can never create two
-    # active tasks.
+    
     task, _created = enqueue_or_get_active(db, key)
     db.commit()
     background_tasks.add_task(_run_refresh_task, task.id, current_user.target_position)
@@ -203,10 +197,7 @@ def find_matching_jobs(
         response.status_code = status.HTTP_200_OK
         return _build_response(db, current_user, existing, freshness="stale", task_id=task.id)
 
-    # Nothing at all yet -- 202 Accepted: the request was accepted and is
-    # being processed, but there's no result to represent yet (as
-    # opposed to 200, which would misleadingly imply "here are your zero
-    # matches" when really "we haven't looked yet").
+    
     response.status_code = status.HTTP_202_ACCEPTED
     return _build_response(db, current_user, [], freshness="pending", task_id=task.id)
 

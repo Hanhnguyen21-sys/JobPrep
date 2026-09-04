@@ -25,25 +25,24 @@ class ResumeSubmit(BaseModel):
 
 
 class SkillWithContext(BaseModel):
-    """A skill now linked to the user, plus why it was extracted.
+    """A skill now linked to the user, plus its estimated proficiency.
 
     Built by hand in the route (not straight from an ORM object) since
-    confidence/evidence/source live on `user_skill`, not on `Skill`
-    itself — the route joins the two before returning this.
+    proficiency_level/proficiency_confidence live on `user_skill`, not on
+    `Skill` itself — the route joins the two before returning this.
     """
 
     id: uuid.UUID
     name: str
     category: Literal["technical", "soft"]
-    confidence: str
-    evidence: str
-    source: str
+    proficiency_level: int = Field(ge=0, le=100)
+    proficiency_confidence: Literal["low", "medium", "high"]
 
 
 class ResumeSkillsResponse(BaseModel):
     """What the frontend gets back: the skills now linked to this user,
-    each with the evidence that justified it — lets the UI show the user
-    *why* a skill was extracted so they can correct anything wrong.
+    each with an estimated proficiency — lets the UI show the user how
+    strong each extracted skill looks based on their resume.
     """
 
     skills: list[SkillWithContext]

@@ -1,8 +1,8 @@
-
+# extract skills from users' resume by calling openAI api
 
 from typing import Literal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.core.ai_client import get_ai_client
 
@@ -10,7 +10,7 @@ MODEL = "gpt-4o-mini"
 
 SYSTEM_PROMPT = """You are a resume skill extraction system designed for students, new graduates, and early-career job seekers.
 
-Your task is to analyze resume text and identify professional skills that the candidate can reasonably claim based on evidence in the resume.
+Your task is to analyze the complete resume text and identify professional skills the candidate can reasonably claim, estimating their demonstrated proficiency in each one.
 
 Extract two categories of skills:
 
@@ -54,33 +54,6 @@ Do NOT infer vague personality traits such as:
 
 unless the resume contains strong behavioral evidence demonstrating a professionally relevant skill.
 
-### Evidence Rules
-
-Every extracted skill must be supported by resume content.
-
-For technical skills:
-
-* The skill may appear explicitly in a Skills section, project, coursework, or work experience.
-* Technologies clearly demonstrated through project descriptions count even if they are not listed in a dedicated Skills section.
-
-For soft skills:
-
-* Prefer behavioral evidence over simple claims.
-
-* Example:
-  "Tutored students in programming and explained complex concepts"
-  -> Communication, Mentoring
-
-* Example:
-  "Led a team of four students to build a full-stack application"
-  -> Leadership, Collaboration
-
-* Example:
-  "Worked with designers and developers to launch..."
-  -> Collaboration
-
-Do not invent skills that cannot reasonably be supported by the resume.
-
 ### Student / New-Grad Considerations
 
 Because candidates may have limited professional work experience, treat the following as valid evidence:
@@ -97,6 +70,41 @@ Because candidates may have limited professional work experience, treat the foll
 * Open-source contributions
 
 Do not penalize a candidate simply because the experience was academic rather than professional.
+
+### Proficiency Estimation
+
+For every skill you return, estimate `proficiency_level`: an integer from
+0 through 100 representing how proficient the candidate appears to be,
+based only on what the resume actually says. Use this rubric:
+
+* 0-20: Exposure, coursework, or mention only.
+* 21-40: Basic use, generally requiring guidance.
+* 41-60: Independent practical use in a project.
+* 61-80: Complex implementation, debugging, optimization, or ownership.
+* 81-100: Expert-level design, leadership, mentoring, or teaching.
+
+Rules for estimating proficiency:
+
+* Use only information contained in the resume -- never outside knowledge
+  about the skill, the company, or the role.
+* A skill listed in a skills section is not sufficient evidence of high
+  proficiency on its own.
+* Do not infer expertise from a job title alone.
+* Consider complexity, ownership, practical application, repeated usage,
+  and measurable outcomes when the resume mentions them.
+* Prefer conservative scores when information is limited -- when in
+  doubt, score lower.
+
+Alongside `proficiency_level`, assign `proficiency_confidence` --
+how reliable that estimate is, given the amount and quality of resume
+information (this is NOT the proficiency score itself):
+
+* high: The resume provides strong, specific, or repeated information
+  supporting the proficiency estimate.
+* medium: The resume provides some practical information, but the depth
+  or extent of experience is incomplete.
+* low: The skill is only listed, briefly mentioned, or supported by
+  insufficient information.
 
 ### Normalization
 
@@ -121,37 +129,21 @@ Do not treat these as skills:
 * Project names
 * Generic resume section headings
 
-### Confidence
-
-Assign each skill a confidence level:
-
-* high: explicitly mentioned or clearly demonstrated
-* medium: strongly implied by an activity or responsibility
-* low: weak inference
-
-Avoid returning low-confidence skills unless there is meaningful evidence.
+Return only skills reasonably supported by the resume -- do not invent
+skills that cannot be backed by resume content.
 
 ### Output
 
-Return valid JSON only, matching the provided schema. Use concise evidence
-copied or closely paraphrased from the resume. Do not include explanations
-outside the JSON."""
+Return valid JSON only, matching the provided schema. For every skill,
+return only `name`, `proficiency_level`, and `proficiency_confidence`.
+`proficiency_level` must be an integer. Do not include evidence,
+reasoning, or any explanation outside the JSON."""
 
 
 class ExtractedSkill(BaseModel):
-    skill: str
-    confidence: Literal["high", "medium", "low"]
-    evidence: str
-    source: Literal[
-        "skills",
-        "experience",
-        "project",
-        "coursework",
-        "research",
-        "volunteer",
-        "leadership",
-        "other",
-    ]
+    name: str
+    proficiency_level: int = Field(ge=0, le=100)
+    proficiency_confidence: Literal["low", "medium", "high"]
 
 
 class SkillExtractionResult(BaseModel):

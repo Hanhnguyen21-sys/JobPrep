@@ -11,10 +11,34 @@ from app.schemas.job import MAX_SELECTED_POSTINGS
 # MAX_SELECTED_POSTINGS : can select up to 10 postings
 
 class RoadmapCreateRequest(BaseModel):
-   
+
     job_posting_ids: list[uuid.UUID] = Field(
         min_length=1, max_length=MAX_SELECTED_POSTINGS
     )
+
+
+RoadmapTaskStatus = Literal["queued", "running", "completed", "failed"]
+
+
+class RoadmapGenerationAcceptedResponse(BaseModel):
+    """POST /roadmaps' response -- always 202, since generation always
+    runs in the background now (see api/routes/roadmaps.py). Poll
+    GET /roadmaps/status/{task_id} for completion.
+    """
+
+    task_id: uuid.UUID
+
+
+class RoadmapGenerationStatusResponse(BaseModel):
+    task_id: uuid.UUID
+    status: RoadmapTaskStatus
+    # Set once status == "completed" -- fetch the full roadmap via
+    # GET /roadmaps/{roadmap_id}, same split as JobMatchStatusResponse
+    # (status + pointer, not the payload itself).
+    roadmap_id: uuid.UUID | None = None
+    # Sanitized -- never a raw exception string. None unless status is
+    # "failed".
+    error_summary: str | None = None
 
 
 class Resource(BaseModel):

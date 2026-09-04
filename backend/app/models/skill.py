@@ -2,9 +2,10 @@
 
 `category` ("technical" | "soft") is a property of the skill itself, not
 of a particular user's resume — "Python" is always technical, regardless
-of who has it. Per-user, per-extraction specifics (confidence, evidence,
-source) live on the `user_skill` join table in models/user.py instead,
-since those vary by user and by extraction, not by skill.
+of who has it. Per-user, per-extraction specifics (proficiency_level,
+proficiency_confidence) live on the `user_skill` join table in
+models/user.py instead, since those vary by user and by extraction, not
+by skill.
 """
 
 import uuid

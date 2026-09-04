@@ -14,6 +14,7 @@ openai==1.54.0
 pytesseract==0.3.13
 Pillow==10.4.0
 pdf2image==1.17.0
+trafilatura==2.2.0
 pytest==8.3.3
 asyncpg
 cryptography

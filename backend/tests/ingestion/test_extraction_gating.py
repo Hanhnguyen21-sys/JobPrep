@@ -176,11 +176,13 @@ def test_stale_postings_not_seen_this_run_are_marked_inactive():
 
 
 # ---------------------------------------------------------------------------
-# _sync_job_posting_skills_batch -- unchanged from before this rewrite,
-# still shared with the future selected-posting extraction flow
-# (api/routes/roadmaps.py). Matches its actual current behavior: no
-# return value, and an OpenAI failure propagates rather than being
-# swallowed (there's no try/except around extract_job_skills_batch).
+# sync_job_posting_skills_batch -- shared with api/routes/roadmaps.py's
+# selection-time extraction flow (_ensure_descriptions), which is why it's
+# no longer prefixed with an underscore. Fail-open around
+# extract_job_skills_batch: a whole-batch OpenAI failure is caught and
+# logged rather than raised, so one bad batch can't crash the entire
+# POST /roadmaps generation for postings whose extraction *did* succeed
+# earlier in the request.
 # ---------------------------------------------------------------------------
 
 
@@ -206,7 +208,7 @@ def test_no_pending_postings_makes_no_openai_call(monkeypatch):
     monkeypatch.setattr(runner, "extract_job_skills_batch", fake_extract)
 
     db = MagicMock()
-    runner._sync_job_posting_skills_batch(db, [], log_prefix="[test]")
+    runner.sync_job_posting_skills_batch(db, [], log_prefix="[test]")
 
     assert called is False
 
@@ -225,7 +227,7 @@ def test_pending_posting_with_no_description_is_stamped_without_a_call(monkeypat
         id=uuid.uuid4(), company_id=uuid.uuid4(), external_id="ext-1", title="X", description=None
     )
     db = MagicMock()
-    runner._sync_job_posting_skills_batch(db, [(job_posting, "some-hash")], log_prefix="[test]")
+    runner.sync_job_posting_skills_batch(db, [(job_posting, "some-hash")], log_prefix="[test]")
 
     assert called is False
     assert job_posting.description_hash == "some-hash"
@@ -235,7 +237,7 @@ def test_successful_extraction_stamps_hash(monkeypatch):
     from app.services.job_skill_extraction import ExtractedJobSkill, JobSkillExtractionResult
 
     job_posting = _job_posting_needing_extraction()
-    new_hash = runner._hash_description(job_posting.description)
+    new_hash = runner.hash_description(job_posting.description)
 
     monkeypatch.setattr(
         runner,
@@ -257,22 +259,21 @@ def test_successful_extraction_stamps_hash(monkeypatch):
     db = MagicMock()
     db.scalars.return_value = iter([])  # no existing job_posting_skill rows
 
-    runner._sync_job_posting_skills_batch(db, [(job_posting, new_hash)], log_prefix="[test]")
+    runner.sync_job_posting_skills_batch(db, [(job_posting, new_hash)], log_prefix="[test]")
 
     assert job_posting.description_hash == new_hash
 
 
-def test_openai_failure_propagates(monkeypatch):
-    """No try/except wraps extract_job_skills_batch in the current
-    implementation -- an OpenAI failure is a real exception that must
-    reach the caller (api/routes/jobs.py's _run_refresh_task, or later
-    api/routes/roadmaps.py's selection-time flow), not be silently
-    swallowed here.
+def test_openai_failure_is_caught_not_propagated(monkeypatch):
+    """A whole-batch OpenAI failure (rate limit/timeout/auth) is caught
+    and logged, not raised -- api/routes/roadmaps.py's
+    _run_roadmap_generation_task must still be able to persist a roadmap
+    from whatever descriptions it did get, rather than the entire
+    generation failing because one posting's skill extraction hit a
+    transient LLM error.
     """
-    import pytest
-
     job_posting = _job_posting_needing_extraction()
-    new_hash = runner._hash_description(job_posting.description)
+    new_hash = runner.hash_description(job_posting.description)
 
     def failing_extract(descriptions):
         raise RuntimeError("simulated OpenAI outage")
@@ -280,7 +281,66 @@ def test_openai_failure_propagates(monkeypatch):
     monkeypatch.setattr(runner, "extract_job_skills_batch", failing_extract)
 
     db = MagicMock()
-    with pytest.raises(RuntimeError):
-        runner._sync_job_posting_skills_batch(db, [(job_posting, new_hash)], log_prefix="[test]")
+    # Must not raise.
+    runner.sync_job_posting_skills_batch(db, [(job_posting, new_hash)], log_prefix="[test]")
 
     assert job_posting.description_hash is None  # never stamped -- retried next time
+
+
+def test_per_posting_skill_write_failure_does_not_block_other_postings(monkeypatch):
+    """One posting's get_or_create_skill/db.execute failing (e.g. the
+    documented Skill-name-uniqueness race) must not prevent a sibling
+    posting in the same batch from getting its skills written and hash
+    stamped.
+    """
+    from app.services.job_skill_extraction import ExtractedJobSkill, JobSkillExtractionResult
+
+    failing_posting = _job_posting_needing_extraction()
+    ok_posting = JobPosting(
+        id=uuid.uuid4(),
+        company_id=uuid.uuid4(),
+        external_id="ext-2",
+        title="Backend Engineer",
+        description="Requirements: SQL",
+        description_hash=None,
+    )
+
+    result = JobSkillExtractionResult(
+        required_skills=[ExtractedJobSkill(skill="Python", category="technical", evidence="...")],
+        preferred_skills=[],
+    )
+    monkeypatch.setattr(
+        runner, "extract_job_skills_batch", lambda descriptions: [result, result]
+    )
+
+    # The first posting's job_posting_skill write fails (simulating e.g.
+    # the documented Skill-name-uniqueness race); get_or_create_skill
+    # itself succeeds for both so both postings reach the write step.
+    monkeypatch.setattr(
+        runner, "get_or_create_skill", lambda db, name, category: MagicMock(id=uuid.uuid4())
+    )
+
+    db = MagicMock()
+    db.scalars.return_value = iter([])
+    execute_calls = 0
+
+    def flaky_execute(stmt):
+        nonlocal execute_calls
+        execute_calls += 1
+        if execute_calls == 1:
+            raise RuntimeError("simulated write failure for the first posting")
+        return MagicMock()
+
+    db.execute.side_effect = flaky_execute
+
+    new_hash_failing = runner.hash_description(failing_posting.description)
+    new_hash_ok = runner.hash_description(ok_posting.description)
+
+    runner.sync_job_posting_skills_batch(
+        db,
+        [(failing_posting, new_hash_failing), (ok_posting, new_hash_ok)],
+        log_prefix="[test]",
+    )
+
+    assert failing_posting.description_hash is None  # its write failed -- not stamped
+    assert ok_posting.description_hash == new_hash_ok  # sibling posting unaffected

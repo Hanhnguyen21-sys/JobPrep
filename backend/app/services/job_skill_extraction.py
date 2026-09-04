@@ -1,21 +1,7 @@
-"""Job posting skill extraction.
 
-Takes a job description and asks the model for required vs. preferred
-skills, each with a category and supporting evidence quoted/paraphrased
-from the posting. Deliberately doesn't touch the database -- turning this
-into `Skill` / `job_posting_skill` rows is ingestion/runner.py's job, same
-split as services/skill_extraction.py + api/routes/resumes.py.
-
-Batched by default. OpenAI is billed per call, and one call per posting
-adds up fast once ingestion is pulling dozens of postings needing
-extraction -- `extract_job_skills_batch` groups up to BATCH_SIZE
-descriptions into a single prompt/response instead, so N postings needing
-extraction cost ceil(N / BATCH_SIZE) calls rather than N.
-`extract_job_skills` (single posting) is kept as a thin convenience
-wrapper around it for callers that only ever have one description on
-hand.
-"""
-
+# extract skills from job description - also call OpenAI API
+# required_skills and preferred_skills 
+# compare with user' skills 
 from typing import Literal
 
 from pydantic import BaseModel
@@ -101,18 +87,7 @@ def extract_job_skills(description: str) -> JobSkillExtractionResult:
 
 
 def extract_job_skills_batch(descriptions: list[str]) -> list[JobSkillExtractionResult]:
-    """Extract required/preferred skills for each description in
-    `descriptions`, in as few OpenAI calls as possible.
-
-    Descriptions are chunked into groups of at most BATCH_SIZE; each
-    chunk becomes one prompt covering multiple postings (clearly
-    delimited and indexed) instead of one request per description.
-    Returns a list the same length and order as `descriptions` -- every
-    input index gets exactly one result, even if the model dropped it
-    from its response or a whole chunk's call came back unparseable
-    (treated as "found nothing" for the affected posting(s) rather than
-    raising, same failure-open behavior as the old single-posting path).
-    """
+    
     if not descriptions:
         return []
 

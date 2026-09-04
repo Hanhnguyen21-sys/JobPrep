@@ -1,20 +1,41 @@
 import { apiFetch } from "@/lib/api/client";
-import type { RoadmapResponse } from "@/types/roadmap";
+import type {
+  RoadmapGenerationAcceptedResponse,
+  RoadmapGenerationStatusResponse,
+  RoadmapResponse,
+} from "@/types/roadmap";
 
-// Calls POST /roadmaps -- the backend combines the descriptions of the
-// (up to MAX_SELECTED_POSTINGS) selected postings into a single AI call
-// server-side (see backend/app/services/roadmap.py) and persists the
-// result, so this returns the full generated roadmap, not just an id.
-// This is the slow, explicitly-triggered call from SelectionBar's
-// "Create roadmap" button -- see hooks/useRoadmapGeneration.ts for why
-// it's a separate hook from useJobMatch/useJobSelection.
+// Calls POST /roadmaps -- always 202 Accepted now: the backend enqueues a
+// background generation (fetch descriptions for up to
+// MAX_SELECTED_POSTINGS selected postings, extract skills, then two AI
+// calls -- see backend/app/api/routes/roadmaps.py's
+// _run_roadmap_generation_task) and returns a task_id immediately rather
+// than the roadmap itself. See hooks/useRoadmapGeneration.ts for the
+// polling that follows, mirroring hooks/useJobMatch.ts's shape for
+// /jobs/match.
 export async function createRoadmap(
   jobPostingIds: string[],
-): Promise<RoadmapResponse> {
-  return apiFetch<RoadmapResponse>("/roadmaps", {
+): Promise<RoadmapGenerationAcceptedResponse> {
+  return apiFetch<RoadmapGenerationAcceptedResponse>("/roadmaps", {
     method: "POST",
     body: JSON.stringify({ job_posting_ids: jobPostingIds }),
   });
+}
+
+// Calls GET /roadmaps/status/{taskId} -- polled by useRoadmapGeneration
+// after a POST /roadmaps 202 response until `status` reaches a terminal
+// state (completed/failed).
+export async function getRoadmapGenerationStatus(
+  taskId: string,
+): Promise<RoadmapGenerationStatusResponse> {
+  return apiFetch<RoadmapGenerationStatusResponse>(`/roadmaps/status/${taskId}`);
+}
+
+// Calls GET /roadmaps/{id} -- fetches the full roadmap once its
+// generation task reports "completed". Also used by app/roadmaps/page.tsx
+// for revisiting an existing roadmap from history.
+export async function getRoadmap(roadmapId: string): Promise<RoadmapResponse> {
+  return apiFetch<RoadmapResponse>(`/roadmaps/${roadmapId}`);
 }
 
 // Calls GET /roadmaps -- every roadmap the current user has generated,

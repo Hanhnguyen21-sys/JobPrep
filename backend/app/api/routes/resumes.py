@@ -19,7 +19,7 @@ can't do.
 """
 
 from fastapi import APIRouter, Depends, File, Form, UploadFile
-from sqlalchemy import delete, select
+from sqlalchemy import delete, select,text
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.orm import Session
 
@@ -58,65 +58,58 @@ ALLOWED_CONTENT_TYPES = {"image/png", "image/jpeg", "image/jpg", "application/pd
 
 
 def _set_target_position(db: Session, current_user: User, target_position: str) -> None:
-    """Committed on its own, before extraction runs -- so it's saved even
-    if skill extraction/sync fails partway through afterward. Without this
-    own commit, setting the attribute here wouldn't help: everything
-    shares one transaction that only reaches db.commit() at the very end,
-    so an exception from extract_skills() would roll this back along with
-    everything else, silently losing a position the user actually typed.
-    """
+    # get target position from user's input
     current_user.target_position = target_position.strip()
     db.commit()
     db.refresh(current_user)
 
-
+# insert if skill is new, otherwise, update existing skill
+# such as refresh its proficiency estimate, etc
 def _upsert_user_skill(db: Session, user_id, skill_id, item: ExtractedSkill) -> None:
-    """Link `user_id` to `skill_id`, refreshing confidence/evidence/source
-    (and origin) if the link already exists.
+    """Link `user_id` to `skill_id`, refreshing proficiency_level/
+    proficiency_confidence (and origin) if the link already exists.
     """
     stmt = pg_insert(user_skill).values(
         user_id=user_id,
         skill_id=skill_id,
-        confidence=item.confidence,
-        evidence=item.evidence,
-        source=item.source,
+        proficiency_level=item.proficiency_level,
+        proficiency_confidence=item.proficiency_confidence,
         origin=RESUME_ORIGIN,
     )
     stmt = stmt.on_conflict_do_update(
         index_elements=[user_skill.c.user_id, user_skill.c.skill_id],
         set_={
-            "confidence": stmt.excluded.confidence,
-            "evidence": stmt.excluded.evidence,
-            "source": stmt.excluded.source,
+            "proficiency_level": stmt.excluded.proficiency_level,
+            "proficiency_confidence": stmt.excluded.proficiency_confidence,
             "origin": stmt.excluded.origin,
         },
     )
+    # not commit, just execute
     db.execute(stmt)
 
-
+# receive skills from LLN and sync into database
+# find differences btw old skills from old resume and new skills
+# delete if not existed or update new skills
 def _sync_resume_skills(
     db: Session, current_user: User, result: SkillExtractionResult
 ) -> ResumeSkillsResponse:
-    """Turns one SkillExtractionResult into Skill/user_skill rows for
-    `current_user` and returns the response shape both the manual-text and
-    image-upload routes return. Shared so there's one implementation of
-    "how a resume's extracted skills get persisted," not one per input
-    method -- see module docstring.
-    """
-    # Merge technical + soft into one (category, item) stream, deduping by
-    # name in case the model returns the same skill in both lists —
-    # technical wins on a collision since it's processed first.
+    db.execute(
+        text(
+            "SELECT pg_advisory_xact_lock(hashtext('resume_skill_sync'), hashtext(:user_id))"
+        ),
+        {"user_id": str(current_user.id)},
+    )
     by_name: dict[str, tuple[str, ExtractedSkill]] = {}
     for item in result.technical_skills:
-        by_name.setdefault(item.skill.strip().lower(), ("technical", item))
+        by_name.setdefault(item.name.strip().lower(), ("technical", item))
     for item in result.soft_skills:
-        by_name.setdefault(item.skill.strip().lower(), ("soft", item))
+        by_name.setdefault(item.name.strip().lower(), ("soft", item))
 
     # Resolve every extracted skill to a `Skill` row *before* touching
     # user_skill, so we know the full set of skill_ids this resume
     # produced up front — needed to compute what should be removed below.
     resolved: list[tuple[Skill, ExtractedSkill]] = [
-        (get_or_create_skill(db, item.skill, category), item)
+        (get_or_create_skill(db, item.name, category), item)
         for category, item in by_name.values()
     ]
 
@@ -151,9 +144,8 @@ def _sync_resume_skills(
                 id=skill.id,
                 name=skill.name,
                 category=skill.category,
-                confidence=item.confidence,
-                evidence=item.evidence,
-                source=item.source,
+                proficiency_level=item.proficiency_level,
+                proficiency_confidence=item.proficiency_confidence,
             )
         )
 
@@ -181,13 +173,7 @@ def submit_resume_file(
     db: Session = Depends(get_db),
 ) -> ResumeSkillsResponse:
     """Same pipeline as submit_resume(), just with OCR (services/
-    resume_ocr.py) standing in for "paste text" as the way resume_text
-    gets produced. Everything after that -- extract_skills(),
-    persistence -- is the exact same code, not a second implementation.
-
-    Dispatches to extract_text_from_pdf or extract_text_from_image by
-    extension -- both return the same "plain text" shape, so nothing past
-    this point needs to know which one ran.
+    resume_ocr.py) to get text string from image.
     """
     filename = file.filename or ""
     lower_filename = filename.lower()

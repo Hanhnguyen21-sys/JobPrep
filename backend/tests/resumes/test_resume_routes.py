@@ -55,7 +55,7 @@ def _fake_db() -> MagicMock:
 def _extraction_result() -> SkillExtractionResult:
     return SkillExtractionResult(
         technical_skills=[
-            ExtractedSkill(skill="Python", confidence="high", evidence="...", source="skills")
+            ExtractedSkill(name="Python", proficiency_level=65, proficiency_confidence="high")
         ],
         soft_skills=[],
     )

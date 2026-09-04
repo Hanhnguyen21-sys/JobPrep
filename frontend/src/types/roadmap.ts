@@ -89,3 +89,24 @@ export interface RoadmapResponse {
   // earliest incomplete step.
   last_interacted_step_order: number | null;
 }
+
+// See backend/app/schemas/roadmap.py's RoadmapTaskStatus/
+// RoadmapGenerationAcceptedResponse/RoadmapGenerationStatusResponse --
+// POST /roadmaps always runs generation in the background now (fetching
+// up to MAX_SELECTED_POSTINGS postings' descriptions plus two LLM calls
+// is too slow to block the request on), mirroring types/job.ts's
+// TaskStatus/JobMatchStatusResponse pattern for /jobs/match.
+export type RoadmapTaskStatus = "queued" | "running" | "completed" | "failed";
+
+export interface RoadmapGenerationAcceptedResponse {
+  task_id: string;
+}
+
+export interface RoadmapGenerationStatusResponse {
+  task_id: string;
+  status: RoadmapTaskStatus;
+  // Set once status === "completed" -- fetch the full roadmap via
+  // GET /roadmaps/{roadmap_id} (lib/api/roadmaps.ts's getRoadmap).
+  roadmap_id: string | null;
+  error_summary: string | null;
+}

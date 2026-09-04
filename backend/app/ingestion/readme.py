@@ -13,13 +13,20 @@ RAW_URL = (
     "SimplifyJobs/Summer2027-Internships/refs/heads/dev/README.md"
 )
 
-# Section headings are emoji-prefixed ("## \U0001f4bb Software Engineering
-# Internship Roles") -- matched by suffix rather than exact string so an
-# emoji change upstream doesn't silently break discovery. Add more entries
-# here to widen discovery to other categories (Product, Data Science, ...),
-# same pattern ingestion/runner.py's old DEFAULT_COMPANIES list used for
-# "add another source by adding a list entry."
-DEFAULT_SECTION_NAMES: tuple[str, ...] = ("Software Engineering Internship Roles",)
+
+DEFAULT_SECTION_NAMES: tuple[str, ...] = ("Software Engineering Internship Roles",
+                                          "Product Management Internship Roles",
+                                          "Data Science, AI & Machine Learning Internship Roles",
+                                          "Quantitative Finance Internship Roles",
+                                          "Hardware Engineering Internship Roles")
+
+# Only postings strictly older than this (in whole days, per the source's
+# own coarse age label) are kept -- filters out just-listed rows. Compared
+# against the parsed day-count directly (see _parse_age_days), not by
+# re-deriving elapsed wall-clock time from source_updated_at with a second
+# datetime.now() call, which would make a borderline "7d" posting flicker
+# across the threshold depending on exactly when it's checked.
+MIN_POSTING_AGE_DAYS = 7
 
 
 @dataclass(frozen=True)
@@ -104,18 +111,22 @@ def _application_from_cell(cell: Tag) -> tuple[str | None, str | None]:
     return apply_url, external_id
 
 
-def _parse_age(text: str) -> datetime | None:
-    """Age is a coarse, day-or-month-granularity relative string ("0d",
-    "22d", "1mo") -- best-effort only, never trusted the way Lever's
-    createdAt/Greenhouse's updated_at are (see ingestion/lever.py's
-    docstring on the same caveat). Returns None on anything that doesn't
-    parse rather than guessing; "mo" is approximated as 30 days.
+def _parse_age_days(text: str) -> int | None:
+    """convert date in text format to integer
     """
     match = _AGE_RE.search(text.strip())
     if not match:
         return None
     amount, unit = int(match.group(1)), match.group(2)
-    days = amount * 30 if unit == "mo" else amount
+    return amount * 30 if unit == "mo" else amount
+
+
+def _parse_age(text: str) -> datetime | None:
+    """convert age in string format to datetime
+    """
+    days = _parse_age_days(text)
+    if days is None:
+        return None
     return datetime.now(timezone.utc) - timedelta(days=days)
 
 
@@ -131,12 +142,20 @@ def _parse_row(
         return None, carry
 
     title = cells[1].get_text(strip=True)
+    # cells[2] is location col -> skip it since the project does not use location
     apply_url, external_id = _application_from_cell(cells[3])
-    source_updated_at = _parse_age(cells[4].get_text())
+    age_text = cells[4].get_text()
+    # convert age_text ("4d") to datetime
+    source_updated_at = _parse_age(age_text)
 
     if not title or external_id is None:
         # No stable id to key off of -- skip rather than upsert something
         # we can't reliably de-dupe/update on a later run.
+        return None, company_name
+
+    age_days = _parse_age_days(age_text)
+    if age_days is None or age_days <= MIN_POSTING_AGE_DAYS:
+        # Unknown age, or not yet older than MIN_POSTING_AGE_DAYS -- skip.
         return None, company_name
 
     posting = DiscoveredPosting(
@@ -150,12 +169,7 @@ def _parse_row(
 
 
 def parse_section_table(section_html: str) -> list[DiscoveredPosting]:
-    """Parses the one HTML <table> embedded in a README section into
-    DiscoveredPosting objects. Company identity carries forward across
-    "↳" continuation rows within this table only -- each call starts
-    fresh, so a company split across two different sections never gets
-    merged.
-    """
+    
     soup = BeautifulSoup(section_html, "html.parser")
     table = soup.find("table")
     if table is None:
@@ -177,11 +191,7 @@ def discover_postings(
     section_names: tuple[str, ...] = DEFAULT_SECTION_NAMES,
     readme_text: str | None = None,
 ) -> list[DiscoveredPosting]:
-    """Entry point: fetch (unless `readme_text` is given -- tests pass a
-    fixture this way instead of hitting the network) + split + parse every
-    wanted section into one flat list. Section order follows
-    `section_names`; within a section, README order is preserved.
-    """
+   
     text = readme_text if readme_text is not None else fetch_readme()
     sections = split_sections(text)
 

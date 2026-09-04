@@ -1,36 +1,4 @@
-"""Ingestion: discover job postings from the SimplifyJobs README
-(ingestion/readme.py) and sync them into `Company`/`JobPosting`.
 
-Discovery only ever produces metadata (external_id/company/title/url/
-source_updated_at) -- never a description, never skills. A selected
-posting's description gets fetched and its skills extracted later, only
-for the postings a user actually picks (see api/routes/roadmaps.py) --
-see ingestion/readme.py's module docstring for why. That split keeps this
-module's two entry points free of any per-posting network/LLM work, which
-is what lets POST /jobs/match's background refresh (api/routes/jobs.py's
-_run_refresh_task) stay bounded to "one README fetch + some DB writes,"
-not "N ATS calls + N OpenAI calls" the way the old Greenhouse/Lever path
-was.
-
-Two entry points:
-- run_ingestion() -- standalone-script path (`python -m app.ingestion.runner`):
-  syncs every currently discoverable posting, marks ones that disappeared
-  from the README as inactive (not deleted, to preserve history/roadmap
-  links).
-- run_targeted_ingestion() -- on-demand path from api/routes/jobs.py:
-  filters to postings matching a desired position, cached via
-  job_search_cache (see _get_cached_matches/_mark_position_ingested) so a
-  repeat search within `freshness_minutes` skips the live fetch entirely.
-  Deliberately does NOT run the "mark stale postings inactive" step --
-  that assumes a full picture of every current posting, but this only
-  ever sees a position-filtered subset.
-
-_hash_description/_sync_job_posting_skills_batch/_apply_job_skill_extraction
-stay defined here even though neither entry point above calls them --
-api/routes/roadmaps.py's selected-postings flow is the next thing to wire
-them into (fetch a selected posting's description, then reuse this exact
-batch-extraction path), so they're needed again very shortly, not dead.
-"""
 
 import hashlib
 from datetime import datetime, timedelta, timezone
@@ -46,6 +14,7 @@ from app.models.company import Company
 from app.models.job_posting import JobPosting, job_posting_skill
 from app.models.search_cache import JobSearchCache
 from app.repositories.skills import get_or_create_skill
+from app.ingestion.query_normalization import cache_key, title_matches_query
 from app.services.job_skill_extraction import (
     ExtractedJobSkill,
     JobSkillExtractionResult,
@@ -96,25 +65,10 @@ def run_targeted_ingestion(
     stats: dict | None = None,
     discovered_postings: list[DiscoveredPosting] | None = None,
 ) -> list[JobPosting]:
-    """On-demand counterpart to run_ingestion(): syncs only postings whose
-    title matches `desired_position`, and returns those JobPosting rows
-    for the caller (see api/routes/jobs.py).
-
-    Takes an existing `db` Session rather than opening its own -- meant to
-    be called from inside a FastAPI request (via Depends(get_db)), not as
-    a standalone script.
-
-    `stats`, if given, gets `attempted`/`succeeded`/`failed` written into
-    it (0/1 each -- there's only ever one source now, unlike the old
-    per-company Greenhouse/Lever loop) -- used by api/routes/jobs.py's
-    background refresh task to decide the JobSearchTask's terminal status.
-    A cache hit (see `freshness_minutes`) reports attempted=0: nothing was
-    actually fetched.
-    """
-    normalized_position = desired_position.strip().lower()
+    key = cache_key(desired_position)
 
     if freshness_minutes > 0:
-        cached = _get_cached_matches(db, normalized_position, freshness_minutes)
+        cached = _get_cached_matches(db, key, desired_position, freshness_minutes)
         if cached is not None:
             print(f"[jobs] cache hit for {desired_position!r} ({len(cached)} posting(s))")
             if stats is not None:
@@ -147,7 +101,7 @@ def run_targeted_ingestion(
     if stats is not None:
         stats.update(attempted=1, succeeded=succeeded, failed=failed)
 
-    _mark_position_ingested(db, normalized_position)
+    _mark_position_ingested(db, key)
     db.commit()
     return matched
 
@@ -167,14 +121,16 @@ def _sync_discovered_postings(
 def _filter_discovered_by_position(
     postings: list[DiscoveredPosting], desired_position: str
 ) -> list[DiscoveredPosting]:
-    """Case-insensitive substring match against posting title. Simple on
-    purpose -- matching by extracted skills or semantic/embedding
-    similarity is a later concern, not this.
+    """Broad token-based match against posting title (see
+    query_normalization.title_matches_query) -- handles near-miss
+    phrasing a raw substring check can't (e.g. "Software Engineer Intern"
+    matching a posting titled "Software Engineering Internship" or "SWE
+    Intern"). Still simple/explainable on purpose -- a small,
+    hand-maintained synonym table, not embeddings/semantic similarity.
     """
-    needle = desired_position.strip().lower()
-    if not needle:
+    if not desired_position.strip():
         return postings
-    return [p for p in postings if needle in p.title.lower()]
+    return [p for p in postings if title_matches_query(desired_position, p.title)]
 
 
 def _get_or_create_company_from_posting(db: Session, posting: DiscoveredPosting) -> Company:
@@ -256,14 +212,11 @@ def _mark_stale_postings_inactive(db: Session, seen_external_ids: set[str]) -> N
 
 
 def _get_cached_matches(
-    db: Session, normalized_position: str, freshness_minutes: int
+    db: Session, key: str, desired_position: str, freshness_minutes: int
 ) -> list[JobPosting] | None:
-    """Returns already-ingested matches if `normalized_position` was fully
-    ingested within `freshness_minutes`, else None (meaning: no fresh
-    cache entry, caller should run the live pipeline).
-    """
+
     cache_row = db.scalar(
-        select(JobSearchCache).where(JobSearchCache.target_position == normalized_position)
+        select(JobSearchCache).where(JobSearchCache.target_position == key)
     )
     if cache_row is None:
         return None
@@ -272,22 +225,23 @@ def _get_cached_matches(
     if cache_row.last_ingested_at < cutoff:
         return None  # stale -- caller falls through to a live pull
 
-    return list(
-        db.scalars(
-            select(JobPosting).where(
-                JobPosting.title.ilike(f"%{normalized_position}%"),
-                JobPosting.is_active.is_(True),
-            )
-        )
+    # Broad token-based match, not a raw ILIKE -- see
+    # query_normalization.title_matches_query and _filter_discovered_by_
+    # position above for why (near-miss phrasing like "SWE Intern" /
+    # "Software Engineering Internship" needs more than substring
+    # containment).
+    candidates = db.scalars(
+        select(JobPosting).where(JobPosting.is_active.is_(True))
     )
+    return [jp for jp in candidates if title_matches_query(desired_position, jp.title)]
 
 
-def _mark_position_ingested(db: Session, normalized_position: str) -> None:
+def _mark_position_ingested(db: Session, key: str) -> None:
     """Upsert job_search_cache so the next search for this exact
     normalized position within freshness_minutes hits the cache.
     """
     stmt = pg_insert(JobSearchCache.__table__).values(
-        target_position=normalized_position,
+        target_position=key,
         last_ingested_at=datetime.now(timezone.utc),
     )
     stmt = stmt.on_conflict_do_update(
@@ -297,13 +251,13 @@ def _mark_position_ingested(db: Session, normalized_position: str) -> None:
     db.execute(stmt)
 
 
-def _hash_description(description: str | None) -> str | None:
+def hash_description(description: str | None) -> str | None:
     if not description:
         return None
     return hashlib.sha256(description.encode("utf-8")).hexdigest()
 
 
-def _sync_job_posting_skills_batch(
+def sync_job_posting_skills_batch(
     db: Session,
     pending: list[tuple[JobPosting, str | None]],
     log_prefix: str,
@@ -311,7 +265,6 @@ def _sync_job_posting_skills_batch(
     if not pending:
         return
 
-    # No description at all -- nothing to send to the model.
     to_extract = [(jp, new_hash) for jp, new_hash in pending if jp.description]
     for job_posting, new_hash in pending:
         if not job_posting.description:
@@ -321,11 +274,23 @@ def _sync_job_posting_skills_batch(
         return
 
     print(f"{log_prefix}   extracting skills: batch of {len(to_extract)} posting(s)")
-    results = extract_job_skills_batch([jp.description for jp, _ in to_extract])
+
+    try:
+        results = extract_job_skills_batch([jp.description for jp, _ in to_extract])
+    except Exception as exc:
+        # LLM call failed entirely for this batch (rate limit/timeout/auth) --
+        # skip skill extraction for all of them rather than failing the
+        # whole roadmap request; descriptions themselves are still saved.
+        print(f"{log_prefix}   skill extraction failed for batch: {exc}")
+        return
 
     for (job_posting, new_hash), result in zip(to_extract, results):
-        _apply_job_skill_extraction(db, job_posting, new_hash, result)
-
+        try:
+            _apply_job_skill_extraction(db, job_posting, new_hash, result)
+        except Exception as exc:
+            # One posting's skill-write failed (e.g. get_or_create_skill's
+            # known TOCTOU race) -- skip just this posting, not the batch.
+            print(f"{log_prefix}   skill write failed for posting {job_posting.id}: {exc}")
 
 def _apply_job_skill_extraction(
     db: Session,

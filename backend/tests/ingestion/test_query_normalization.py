@@ -4,7 +4,12 @@ the live title-match needle (ingestion/runner.py)."""
 
 import pytest
 
-from app.ingestion.query_normalization import NORMALIZATION_VERSION, cache_key, normalize_query
+from app.ingestion.query_normalization import (
+    NORMALIZATION_VERSION,
+    cache_key,
+    normalize_query,
+    title_matches_query,
+)
 
 
 @pytest.mark.parametrize(
@@ -45,3 +50,45 @@ def test_cache_key_shares_one_bucket_across_variants():
 def test_cache_key_keeps_distinct_roles_in_separate_buckets():
     keys = {cache_key("Software Engineer"), cache_key("Software Engineer Intern")}
     assert len(keys) == 2
+
+
+# ---------------------------------------------------------------------------
+# title_matches_query -- broad (token/synonym-based) title relevance,
+# replacing raw whole-phrase substring containment. Regression coverage
+# for the near-miss phrasings a substring check missed entirely.
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "query,title",
+    [
+        ("Software Engineer Intern", "Software Engineering Internship"),
+        ("Software Engineer Intern", "SWE Intern"),
+        ("Machine Learning Engineer", "AI/ML Engineer Intern"),
+        ("Data Scientist", "Data Science Intern"),
+        ("Quantitative Analyst", "Quant Research Intern"),
+    ],
+)
+def test_near_miss_phrasings_now_match(query, title):
+    assert title_matches_query(query, title) is True
+
+
+@pytest.mark.parametrize(
+    "query,title",
+    [
+        ("Software Engineer Intern", "Product Designer Intern"),
+        ("Data Scientist", "Business Analyst Intern"),
+        ("Quantitative Analyst", "Frontend Engineer Intern"),
+    ],
+)
+def test_unrelated_titles_still_do_not_match(query, title):
+    assert title_matches_query(query, title) is False
+
+
+def test_empty_query_never_matches():
+    assert title_matches_query("", "Software Engineer Intern") is False
+    assert title_matches_query("   ", "Software Engineer Intern") is False
+
+
+def test_matching_is_case_insensitive():
+    assert title_matches_query("software engineer intern", "SOFTWARE ENGINEERING INTERNSHIP") is True
