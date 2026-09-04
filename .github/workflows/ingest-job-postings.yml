@@ -1,0 +1,70 @@
+name: Ingest job postings
+
+# Daily equivalent of the local crontab entry (backend/scripts/run_ingestion.sh):
+# runs `python -m app.ingestion.runner`, whose __main__ calls run_ingestion()
+# -- discover every current SimplifyJobs README posting, upsert
+# companies/job_postings, mark unseen postings inactive.
+
+on:
+  schedule:
+    # GitHub's cron is UTC-only and does not observe daylight saving.
+    # 09:00 America/Los_Angeles is 17:00 UTC under PST (winter) and
+    # 16:00 UTC under PDT (summer). We fire at BOTH; the "gate" step
+    # below lets the job proceed only on the trigger that is actually
+    # 09:00 in Los Angeles right now, so it stays at 9am Pacific
+    # year-round without editing this file twice a year.
+    - cron: "0 16 * * *"
+    - cron: "0 17 * * *"
+  workflow_dispatch: {}
+
+concurrency:
+  group: ingest-job-postings
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Gate on 09:00 America/Los_Angeles
+        id: gate
+        run: |
+          hour="$(TZ=America/Los_Angeles date +%H)"
+          echo "Current hour in Los Angeles: ${hour}"
+          if [ "${{ github.event_name }}" != "schedule" ] || [ "${hour}" = "09" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "Not 09:00 Pacific on this trigger -- skipping."
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
+
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install backend dependencies
+        if: steps.gate.outputs.run == 'true'
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run ingestion
+        if: steps.gate.outputs.run == 'true'
+        working-directory: backend
+        env:
+          # Add these under Settings > Secrets and variables > Actions.
+          # Same values as backend/.env.
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_JWT_SECRET: ${{ secrets.SUPABASE_JWT_SECRET }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python -m app.ingestion.runner
