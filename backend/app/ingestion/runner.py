@@ -293,8 +293,15 @@ def _apply_job_skill_extraction(
     for item in result.preferred_skills:
         by_name.setdefault(item.skill.strip().lower(), ("preferred", item))
 
+    # Every job-posting-derived skill is recorded as "technical" -- for a
+    # posting, the required/preferred split is what matters, not the
+    # technical/soft classification (the ESCO taxonomy that replaces the
+    # old classifier carries no category). get_or_create_skill only uses
+    # this value when *creating* a skill, so a skill already classified
+    # elsewhere (e.g. a soft skill from resume extraction) keeps its
+    # category.
     resolved = [
-        (get_or_create_skill(db, item.skill, item.category), requirement_level, item)
+        (get_or_create_skill(db, item.skill, "technical"), requirement_level, item)
         for requirement_level, item in by_name.values()
     ]
 

@@ -15,6 +15,7 @@ pytesseract==0.3.13
 Pillow==10.4.0
 pdf2image==1.17.0
 trafilatura==2.2.0
+spacy==3.8.16
 pytest==8.3.3
 asyncpg
 cryptography

@@ -1,0 +1,6710 @@
+[
+  {
+    "id": "http://data.europa.eu/esco/skill/eb0e5615-1575-4a86-a1a2-7d39595033c5",
+    "uri": "http://data.europa.eu/esco/skill/eb0e5615-1575-4a86-a1a2-7d39595033c5",
+    "name": "ABAP",
+    "labels": [
+      "abap"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/0189f448-179e-47cc-9716-c5c3ac4b1aec",
+    "uri": "http://data.europa.eu/esco/skill/0189f448-179e-47cc-9716-c5c3ac4b1aec",
+    "name": "Absorb",
+    "labels": [
+      "absorb"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/0939079f-e4dc-46c3-94fa-5155fc34c888",
+    "uri": "http://data.europa.eu/esco/skill/0939079f-e4dc-46c3-94fa-5155fc34c888",
+    "name": "acoustical engineering",
+    "labels": [
+      "acoustical engineering",
+      "acoustical engineering analyses",
+      "engineering for acoustics",
+      "acoustical engineering applications",
+      "acoustical engineering work",
+      "acoustical engineering analysis",
+      "acoustical engineering fieldwork",
+      "acoustical engineering studies",
+      "acoustical engineering research",
+      "acoustic engineering"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/591dd514-735b-46e4-a28d-3a4c42f49b72",
+    "uri": "http://data.europa.eu/esco/skill/591dd514-735b-46e4-a28d-3a4c42f49b72",
+    "name": "adapt to artists' creative demands",
+    "labels": [
+      "adapt to artists' creative demands",
+      "adapt to artists' creative vision",
+      "adapt to creative demands of artists",
+      "meet demands by creative artists",
+      "adapt to demands by creative artists"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/487fd260-be20-4980-a8e4-b819f0b549f1",
+    "uri": "http://data.europa.eu/esco/skill/487fd260-be20-4980-a8e4-b819f0b549f1",
+    "name": "add computer components",
+    "labels": [
+      "add computer components",
+      "add a computer component",
+      "adding computer components",
+      "affix computer components",
+      "boost computer components",
+      "append computer components",
+      "computer component addition",
+      "supplement computer components"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/fb89a5bd-8f5e-43fd-9d08-907bd6d6e344",
+    "uri": "http://data.europa.eu/esco/skill/fb89a5bd-8f5e-43fd-9d08-907bd6d6e344",
+    "name": "administer medication for vision problems",
+    "labels": [
+      "administer medication for vision problems",
+      "control medication for vision limitations",
+      "control medication for vision difficulties",
+      "medicate people with vision problem",
+      "control medication for vision restrictions",
+      "administer medical treatment for vision problems",
+      "direct medication for vision problems",
+      "administer medication for vision problem",
+      "control medication for vision problems",
+      "control medication for vision problem"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/79c36c91-28a5-44b7-ab9b-7093b2d4b21e",
+    "uri": "http://data.europa.eu/esco/skill/79c36c91-28a5-44b7-ab9b-7093b2d4b21e",
+    "name": "advise on financial matters",
+    "labels": [
+      "advise on financial matters",
+      "advise on matters of finance",
+      "counsel on financial matters",
+      "advise on financial matter",
+      "offer suggestions on financial matters",
+      "give recommendations on financial matters",
+      "advising on financial matters"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/f78877d1-99f3-4649-addc-2d09c9183a1e",
+    "uri": "http://data.europa.eu/esco/skill/f78877d1-99f3-4649-addc-2d09c9183a1e",
+    "name": "advise on learning methods",
+    "labels": [
+      "advise on learning methods",
+      "consult on learning methods",
+      "confer on learning methods",
+      "advising on learning methods",
+      "make recommendations on learning methods",
+      "advises on learning methods"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/acd54bcb-4c69-4ee9-a27f-732aec62804d",
+    "uri": "http://data.europa.eu/esco/skill/acd54bcb-4c69-4ee9-a27f-732aec62804d",
+    "name": "advise on pregnancies at risk",
+    "labels": [
+      "advise on pregnancies at risk",
+      "provide advice on pregnancies at risk",
+      "advise on risk pregnancies",
+      "offer support for risk pregnancies",
+      "advise on pregnancy at risk",
+      "identify risk pregnancies"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/aa1eb7ac-53a8-4c08-ba6f-3f3196b1cae1",
+    "uri": "http://data.europa.eu/esco/skill/aa1eb7ac-53a8-4c08-ba6f-3f3196b1cae1",
+    "name": "advise patients on vision improvement conditions",
+    "labels": [
+      "advise patients on vision improvement conditions",
+      "give advice on strategies to enhance patient vision",
+      "give patients advice on strategies and conditions that can enhance their vision",
+      "provide advice on strategies to improve patient vision",
+      "provide advice on conditions that can enhance patient vision",
+      "advise patients on approaches to vision improvement",
+      "advise patients on vision improvement strategies",
+      "advise patients on conditions to improve vision",
+      "advise patients on strategies to improve vision",
+      "provide advice on approaches that can enhance the vision of patients"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/5dd96c59-5955-474b-8cf5-e986a5b50f1a",
+    "uri": "http://data.europa.eu/esco/skill/5dd96c59-5955-474b-8cf5-e986a5b50f1a",
+    "name": "aerospace engineering",
+    "labels": [
+      "aerospace engineering",
+      "astronautical engineering",
+      "spacecraft engineering",
+      "aircraft engineering",
+      "aeronautical engineering"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/b4dc6e4f-dc7d-445f-8ce2-d7b9d225e282",
+    "uri": "http://data.europa.eu/esco/skill/b4dc6e4f-dc7d-445f-8ce2-d7b9d225e282",
+    "name": "AJAX",
+    "labels": [
+      "ajax",
+      "asynchronous javascript and xml"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/8c88d336-c249-4537-b26e-d679a85c4b9b",
+    "uri": "http://data.europa.eu/esco/skill/8c88d336-c249-4537-b26e-d679a85c4b9b",
+    "name": "Ajax Framework",
+    "labels": [
+      "ajax framework"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/54924a2c-daca-40d3-9716-4b38ceb04f38",
+    "uri": "http://data.europa.eu/esco/skill/54924a2c-daca-40d3-9716-4b38ceb04f38",
+    "name": "algorithms",
+    "labels": [
+      "algorithms",
+      "formulae",
+      "algorithmic",
+      "algorithm",
+      "formulas"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/47a49cd6-097d-457a-9f7b-c290c14930d5",
+    "uri": "http://data.europa.eu/esco/skill/47a49cd6-097d-457a-9f7b-c290c14930d5",
+    "name": "analyse big data",
+    "labels": [
+      "analyse big data",
+      "big data analysing",
+      "search big data",
+      "big data analysis",
+      "scrutinise big data",
+      "investigate big data",
+      "test big data",
+      "analysing big data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/71b300d6-8de6-4282-b3c0-9a0401d9095f",
+    "uri": "http://data.europa.eu/esco/skill/71b300d6-8de6-4282-b3c0-9a0401d9095f",
+    "name": "analyse drill engineering",
+    "labels": [
+      "analyse drill engineering",
+      "analysing drill engineering",
+      "monitor drill engineering",
+      "analysing of drill engineering",
+      "analyse well drilling",
+      "drill engineering analysis",
+      "drill engineering monitoring",
+      "analysis of drill engineering",
+      "report on well drilling"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/5354a726-ee64-4f34-90f8-8436f9f374b8",
+    "uri": "http://data.europa.eu/esco/skill/5354a726-ee64-4f34-90f8-8436f9f374b8",
+    "name": "analyse ecological data",
+    "labels": [
+      "analyse ecological data",
+      "examine ecological data",
+      "interpret ecological and biological data",
+      "analyse data on ecology",
+      "analysing ecological data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/77f109c4-3107-4d2a-a512-5160ac103933",
+    "uri": "http://data.europa.eu/esco/skill/77f109c4-3107-4d2a-a512-5160ac103933",
+    "name": "analyse environmental data",
+    "labels": [
+      "analyse environmental data",
+      "examine environmental data",
+      "analysing environmental data",
+      "inspect environmental data",
+      "review environmental data",
+      "survey environmental data",
+      "evaluate environmental data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/eb8babfb-ab91-4937-a032-6a79f82e9b7f",
+    "uri": "http://data.europa.eu/esco/skill/eb8babfb-ab91-4937-a032-6a79f82e9b7f",
+    "name": "analyse financial risk",
+    "labels": [
+      "analyse financial risk",
+      "analyse business risk",
+      "analyse monetary risk",
+      "analyse economic risk"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/e4a57b51-16d7-4dfc-bb47-6aa401e39b2e",
+    "uri": "http://data.europa.eu/esco/skill/e4a57b51-16d7-4dfc-bb47-6aa401e39b2e",
+    "name": "analyse insurance risk",
+    "labels": [
+      "analyse insurance risk",
+      "analyse insurance risks",
+      "analyze insurance risk",
+      "gauge insurance risk",
+      "perform analysis of insurance risk",
+      "evaluate insurance risk"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4af2461d-02b4-4fca-a070-c6399a6f1fb4",
+    "uri": "http://data.europa.eu/esco/skill/4af2461d-02b4-4fca-a070-c6399a6f1fb4",
+    "name": "analyse oil operations data",
+    "labels": [
+      "analyse oil operations data",
+      "oil operations data analysis",
+      "data recording for oil operations",
+      "data analysis for oil operations",
+      "oil operations data recording",
+      "analysing data for oil operations",
+      "record oil operations data",
+      "analysis of oil operations data",
+      "recording data about oil operations",
+      "recording of oil operations data",
+      "analysing oil operations data",
+      "recording oil operations data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/36ff57b0-637d-4a83-a0e8-d14f86f9f078",
+    "uri": "http://data.europa.eu/esco/skill/36ff57b0-637d-4a83-a0e8-d14f86f9f078",
+    "name": "analyse scientific data",
+    "labels": [
+      "analyse scientific data",
+      "review scientific data",
+      "analyse science data",
+      "examine scientific data",
+      "study scientific data",
+      "analysing scientific data",
+      "scrutinize",
+      "survey scientific data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/c2432314-940b-43a0-bb99-7abe069ddb37",
+    "uri": "http://data.europa.eu/esco/skill/c2432314-940b-43a0-bb99-7abe069ddb37",
+    "name": "analyse seismic risk",
+    "labels": [
+      "analyse seismic risk",
+      "assess seismic risk",
+      "monitor seismic risk",
+      "analyze seismic risk",
+      "analysing seismic risk",
+      "examine seismic risk",
+      "evaluate seismic risk",
+      "analyzing seismic risk"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/81a2db2c-7e55-44d0-9cd9-74c25147d7cd",
+    "uri": "http://data.europa.eu/esco/skill/81a2db2c-7e55-44d0-9cd9-74c25147d7cd",
+    "name": "analyse test data",
+    "labels": [
+      "analyse test data",
+      "assess test data",
+      "analyze test data",
+      "analysing test data",
+      "evaluate test data",
+      "examine test data",
+      "analyzing test data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/99095ca0-1218-462d-9e95-79e334ba8b63",
+    "uri": "http://data.europa.eu/esco/skill/99095ca0-1218-462d-9e95-79e334ba8b63",
+    "name": "analyse transport studies",
+    "labels": [
+      "analyse transport studies",
+      "analysing transport studies",
+      "analyze transport studies",
+      "evaluate transport studies",
+      "analysing transport study",
+      "examine transport studies",
+      "assess transport studies"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/1b61166d-0495-4f16-aff0-f564d3a8afb3",
+    "uri": "http://data.europa.eu/esco/skill/1b61166d-0495-4f16-aff0-f564d3a8afb3",
+    "name": "analytical chemistry",
+    "labels": [
+      "analytical chemistry",
+      "analytical chemistry studies",
+      "instruments of analytical chemistry",
+      "methods of analytical chemistry"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/0fb753a1-2ef2-4429-84d2-ecb2b24daf7a",
+    "uri": "http://data.europa.eu/esco/skill/0fb753a1-2ef2-4429-84d2-ecb2b24daf7a",
+    "name": "Apache Tomcat",
+    "labels": [
+      "apache tomcat"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/58d7a289-dafd-4363-833f-d1dc4140885e",
+    "uri": "http://data.europa.eu/esco/skill/58d7a289-dafd-4363-833f-d1dc4140885e",
+    "name": "APL",
+    "labels": [
+      "apl"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/009db49b-fcf5-4409-b4a5-232d059f3597",
+    "uri": "http://data.europa.eu/esco/skill/009db49b-fcf5-4409-b4a5-232d059f3597",
+    "name": "apply credit risk policy",
+    "labels": [
+      "apply credit risk policy",
+      "administer credit risk policy",
+      "employ credit risk policy",
+      "utilise credit risk policy",
+      "applying credit risk policy",
+      "implement credit risk policy",
+      "apply a credit risk policy",
+      "credit risk policy application"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/a7a14be2-78b5-4b4a-ba77-2658285e2756",
+    "uri": "http://data.europa.eu/esco/skill/a7a14be2-78b5-4b4a-ba77-2658285e2756",
+    "name": "apply reverse engineering",
+    "labels": [
+      "apply reverse engineering"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/96550830-539b-4746-96aa-92aa4959945d",
+    "uri": "http://data.europa.eu/esco/skill/96550830-539b-4746-96aa-92aa4959945d",
+    "name": "apply risk management processes",
+    "labels": [
+      "apply risk management processes",
+      "adopt risk management processes",
+      "adopting risk management processes",
+      "risk management processes adopting",
+      "applying risk management processes",
+      "risk management processes applying",
+      "adopting processes of risk management",
+      "adopt processes of risk management",
+      "apply processes of risk management",
+      "applying processes of risk management"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/382c11ed-20d5-4ae7-b60e-15fec527fa6c",
+    "uri": "http://data.europa.eu/esco/skill/382c11ed-20d5-4ae7-b60e-15fec527fa6c",
+    "name": "apply statistical analysis techniques",
+    "labels": [
+      "apply statistical analysis techniques",
+      "apply numerical analysis to data"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/f54c10e4-630d-4e50-95e9-4e9e268e8f12",
+    "uri": "http://data.europa.eu/esco/skill/f54c10e4-630d-4e50-95e9-4e9e268e8f12",
+    "name": "approve engineering design",
+    "labels": [
+      "approve engineering design",
+      "develop engineering design",
+      "arrange engineering design",
+      "approve an engineering design",
+      "produce engineering design",
+      "approve engineering designs",
+      "model engineering design",
+      "approving an engineering design"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/b30b6e13-6688-4035-b99b-fb3a1def0833",
+    "uri": "http://data.europa.eu/esco/skill/b30b6e13-6688-4035-b99b-fb3a1def0833",
+    "name": "archive scientific documentation",
+    "labels": [
+      "archive scientific documentation",
+      "file scientific documentation",
+      "save scientific documentation",
+      "archiving scientific documentation",
+      "scientific documentation archive",
+      "archive scientific documents",
+      "store scientific documentation",
+      "archiving of scientific documentation"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4ae00a8e-9f47-46da-b1c8-3641a29d9483",
+    "uri": "http://data.europa.eu/esco/skill/4ae00a8e-9f47-46da-b1c8-3641a29d9483",
+    "name": "artificially age furniture",
+    "labels": [
+      "artificially age furniture",
+      "synthetically age furniture",
+      "age furniture artificially",
+      "synthetic furniture aging",
+      "artificially aging of furniture",
+      "artificially aging furniture",
+      "distress furniture"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/47b9bbcf-356c-4782-83a4-7f5a1b2b51a3",
+    "uri": "http://data.europa.eu/esco/skill/47b9bbcf-356c-4782-83a4-7f5a1b2b51a3",
+    "name": "Assembly",
+    "labels": [
+      "assembly"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/d7b66759-c40c-44de-9f31-9418f84e10c5",
+    "uri": "http://data.europa.eu/esco/skill/d7b66759-c40c-44de-9f31-9418f84e10c5",
+    "name": "assess risk factors",
+    "labels": [
+      "assess risk factors",
+      "appraise risk factors",
+      "assessing risk factors",
+      "risk factor assessment",
+      "check risk factors",
+      "assess a risk factor",
+      "judge risk factors",
+      "test risk factors"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4e8a2547-c91e-41ff-ad92-170e02e95a8d",
+    "uri": "http://data.europa.eu/esco/skill/4e8a2547-c91e-41ff-ad92-170e02e95a8d",
+    "name": "assess risk in the outdoors",
+    "labels": [
+      "assess risk in the outdoors",
+      "monitor risks outdoors",
+      "assess risks outside",
+      "assess risks outdoors",
+      "assess outdoor risks"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/958559fd-7ab8-44f6-9d65-eb521dc308a5",
+    "uri": "http://data.europa.eu/esco/skill/958559fd-7ab8-44f6-9d65-eb521dc308a5",
+    "name": "assess risks and implications of a design",
+    "labels": [
+      "assess risks and implications of a design",
+      "evaluate design risks and implications",
+      "assessing risks and implications of a design",
+      "evaluating risks and implications of a design",
+      "evaluating design risks and implications",
+      "assess design risks and implications",
+      "assessing design risks and implications",
+      "evaluate risks and implications of a design"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/8b79c118-1687-4d8e-84d1-e96da860d432",
+    "uri": "http://data.europa.eu/esco/skill/8b79c118-1687-4d8e-84d1-e96da860d432",
+    "name": "assess students' preliminary learning experiences",
+    "labels": [
+      "assess students' preliminary learning experiences",
+      "measure students' preliminary learning experiences",
+      "evaluate students' preliminary learning experiences",
+      "assessing students' preliminary learning experiences",
+      "assesses students' preliminary learning experiences",
+      "assess students' preliminary learning experience",
+      "gauge students' preliminary learning experiences"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/96ec2d53-4f41-4172-8ef2-70742c4bb540",
+    "uri": "http://data.europa.eu/esco/skill/96ec2d53-4f41-4172-8ef2-70742c4bb540",
+    "name": "assess supplier risks",
+    "labels": [
+      "assess supplier risks",
+      "assess a supplier risk",
+      "assessing supplier risks",
+      "assess a suppliers risk",
+      "judge supplier risks",
+      "check supplier risks",
+      "test supplier risks",
+      "appraise supplier risks"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/20a9456e-eced-4ad3-88d7-ecc6b6d2bee5",
+    "uri": "http://data.europa.eu/esco/skill/20a9456e-eced-4ad3-88d7-ecc6b6d2bee5",
+    "name": "assess transport risks",
+    "labels": [
+      "assess transport risks",
+      "use measurement equipment and tools to assess transport risks",
+      "analyse transportation risks through use of measurement equipment and tools",
+      "evaluate transport risks",
+      "use measurement equipment and tools to assess transportation risks",
+      "assess risks in transport",
+      "analyse transport risks through use of measurement equipment and tools",
+      "evaluate transportation risks",
+      "evaluate risks in transportation",
+      "conduct transport risk assessments",
+      "assess transportation risks",
+      "assess risks in transportation",
+      "conduct transportation risk assessments",
+      "evaluate risks in transport"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/d6179c4b-ff5a-4bbb-a3c8-e0acf0de1f56",
+    "uri": "http://data.europa.eu/esco/skill/d6179c4b-ff5a-4bbb-a3c8-e0acf0de1f56",
+    "name": "assist scientific research",
+    "labels": [
+      "assist scientific research",
+      "support engineers and scientists",
+      "engineers and scientists supporting",
+      "assisting scientific research",
+      "scientific research assisting",
+      "supporting engineers and scientists"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/d5e1e30e-44ab-4aba-abab-b8263e801b7a",
+    "uri": "http://data.europa.eu/esco/skill/d5e1e30e-44ab-4aba-abab-b8263e801b7a",
+    "name": "assist students in their learning",
+    "labels": [
+      "assist students in their learning",
+      "help students in their learning",
+      "assisting students in their learning",
+      "assists students in their learning",
+      "coach students",
+      "aid students in their learning",
+      "coach pupils"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/6a536b36-c5c7-4d10-bf67-a4fb0f8549b2",
+    "uri": "http://data.europa.eu/esco/skill/6a536b36-c5c7-4d10-bf67-a4fb0f8549b2",
+    "name": "audit techniques",
+    "labels": [
+      "audit techniques"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/0e44ceb3-9dd4-4ec4-b1d7-a0e83ddba7d4",
+    "uri": "http://data.europa.eu/esco/skill/0e44ceb3-9dd4-4ec4-b1d7-a0e83ddba7d4",
+    "name": "automotive engineering",
+    "labels": [
+      "automotive engineering",
+      "vehicle engineering",
+      "motor vehicle engineering",
+      "engineering of automotives",
+      "designing automobiles",
+      "engineering of automobiles",
+      "constructing automobiles",
+      "automotive technology",
+      "engineering of vehicles"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/58783f72-5098-4807-b1d1-954ec2ae94c4",
+    "uri": "http://data.europa.eu/esco/skill/58783f72-5098-4807-b1d1-954ec2ae94c4",
+    "name": "Backbox",
+    "labels": [
+      "backbox"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/3c209873-c757-47bb-91b5-9b6dc05df116",
+    "uri": "http://data.europa.eu/esco/skill/3c209873-c757-47bb-91b5-9b6dc05df116",
+    "name": "banking activities",
+    "labels": [
+      "banking activities",
+      "banking activity"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/6f34bd05-1297-4913-92ff-85a604242b2f",
+    "uri": "http://data.europa.eu/esco/skill/6f34bd05-1297-4913-92ff-85a604242b2f",
+    "name": "Berber",
+    "labels": [
+      "berber",
+      "tamazight"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4309691a-e389-42f6-a539-6965a440fec9",
+    "uri": "http://data.europa.eu/esco/skill/4309691a-e389-42f6-a539-6965a440fec9",
+    "name": "biomedical scientists' role in health care system",
+    "labels": [
+      "biomedical scientists' role in health care system",
+      "biomedical scientists' role in health care systems",
+      "role and responsibility of a biomedical scientist",
+      "roles and responsibilities of biomedical scientists",
+      "biomedical scientists' role in the health care system"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/dccbdbb8-7266-4fb4-a4cf-29056f102f12",
+    "uri": "http://data.europa.eu/esco/skill/dccbdbb8-7266-4fb4-a4cf-29056f102f12",
+    "name": "budget for financial needs",
+    "labels": [
+      "budget for financial needs",
+      "estimate financial needs",
+      "budgeting financial needs",
+      "calculate financial needs"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/d5fd4958-4ca6-4d06-845f-713e2c459612",
+    "uri": "http://data.europa.eu/esco/skill/d5fd4958-4ca6-4d06-845f-713e2c459612",
+    "name": "Bulgarian",
+    "labels": [
+      "bulgarian"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/143769cb-b61e-47d8-a61e-eedfbec1016c",
+    "uri": "http://data.europa.eu/esco/skill/143769cb-b61e-47d8-a61e-eedfbec1016c",
+    "name": "business intelligence",
+    "labels": [
+      "business intelligence"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4c016b68-4116-468c-9dc6-42710c239e4a",
+    "uri": "http://data.europa.eu/esco/skill/4c016b68-4116-468c-9dc6-42710c239e4a",
+    "name": "C#",
+    "labels": [
+      "c#",
+      "c sharp"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/b633eb55-8f1f-4ae6-ab4c-2022ffe2cb7f",
+    "uri": "http://data.europa.eu/esco/skill/b633eb55-8f1f-4ae6-ab4c-2022ffe2cb7f",
+    "name": "C++",
+    "labels": [
+      "c++"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/82313e12-9d39-47d1-b7c9-78bbd6bb50e2",
+    "uri": "http://data.europa.eu/esco/skill/82313e12-9d39-47d1-b7c9-78bbd6bb50e2",
+    "name": "CAE software",
+    "labels": [
+      "cae software",
+      "cae software tools",
+      "computer-aided engineering softwares",
+      "computer-aided engineering software"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/99550622-4c7f-4bba-884b-d4b03dbaf91d",
+    "uri": "http://data.europa.eu/esco/skill/99550622-4c7f-4bba-884b-d4b03dbaf91d",
+    "name": "cancer risks",
+    "labels": [
+      "cancer risks",
+      "cancer risk",
+      "carcinogenic risk factors",
+      "cancer risk factors",
+      "risk factors for cancer",
+      "cancer cause factors",
+      "carcinogenic risks",
+      "cancer causes"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/cfb8d64c-f8d7-4894-a02e-2551ab33f1d0",
+    "uri": "http://data.europa.eu/esco/skill/cfb8d64c-f8d7-4894-a02e-2551ab33f1d0",
+    "name": "Canvas",
+    "labels": [
+      "canvas"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/6b6c6b8f-3a1d-43af-a40a-73fb50518d00",
+    "uri": "http://data.europa.eu/esco/skill/6b6c6b8f-3a1d-43af-a40a-73fb50518d00",
+    "name": "carry out artificial insemination of livestock",
+    "labels": [
+      "carry out artificial insemination of livestock",
+      "undertake artificial insemination processes for livestock",
+      "conduct livestock artificial insemination",
+      "execute livestock artificial insemination",
+      "perform livestock artificial insemination",
+      "undertake livestock artificial insemination procedures",
+      "artificially inseminate livestock",
+      "perform artificial insemination of livestock",
+      "conduct artificial insemination of livestock",
+      "carry out livestock artificial insemination",
+      "execute artificial insemination of livestock"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/7edb0956-5aa3-48fc-84fb-9095619612f5",
+    "uri": "http://data.europa.eu/esco/skill/7edb0956-5aa3-48fc-84fb-9095619612f5",
+    "name": "carry out storage risk management",
+    "labels": [
+      "carry out storage risk management",
+      "carrying out storage risk management",
+      "oversee storage risk management",
+      "carry out storage risks management",
+      "undertake storage risk management",
+      "carry out a storage risk management survey",
+      "complete storage risk management",
+      "make storage risk management"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/82887396-e5bf-4306-af51-3fe8d82790b2",
+    "uri": "http://data.europa.eu/esco/skill/82887396-e5bf-4306-af51-3fe8d82790b2",
+    "name": "civil engineering",
+    "labels": [
+      "civil engineering",
+      "civil engineering analysis",
+      "civil engineering research",
+      "civil engineering studies",
+      "civil engineering fieldwork",
+      "city planning",
+      "civil engineering analyses",
+      "civil engineering applications",
+      "civil engineering work",
+      "urban planning"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/81b63a80-099d-47e3-8582-14703a6c5816",
+    "uri": "http://data.europa.eu/esco/skill/81b63a80-099d-47e3-8582-14703a6c5816",
+    "name": "clinical perfusion",
+    "labels": [
+      "clinical perfusion",
+      "cardiovascular perfusion",
+      "science of extra-corporeal circulation"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/def007fa-5fed-4a5f-91a2-b0d7e3db1be1",
+    "uri": "http://data.europa.eu/esco/skill/def007fa-5fed-4a5f-91a2-b0d7e3db1be1",
+    "name": "COBOL",
+    "labels": [
+      "cobol"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/55c16653-343c-4d02-a9de-7d8e864a4592",
+    "uri": "http://data.europa.eu/esco/skill/55c16653-343c-4d02-a9de-7d8e864a4592",
+    "name": "Codenvy",
+    "labels": [
+      "codenvy"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/993b1e23-f2de-4bd8-b33f-f86dde1c8e9d",
+    "uri": "http://data.europa.eu/esco/skill/993b1e23-f2de-4bd8-b33f-f86dde1c8e9d",
+    "name": "CoffeeScript",
+    "labels": [
+      "coffeescript"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/d89b9a3f-19bf-4b9b-9664-ed35924eb399",
+    "uri": "http://data.europa.eu/esco/skill/d89b9a3f-19bf-4b9b-9664-ed35924eb399",
+    "name": "collect data using GPS",
+    "labels": [
+      "collect data using gps",
+      "gather data using gps devices",
+      "data collection using gps",
+      "collecting of data using gps",
+      "gather gps field data",
+      "use gps to collect data",
+      "gather data using gps device",
+      "collecting data using gps",
+      "using gps to collect data",
+      "collection of data using gps",
+      "gathering gps field data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/cea46a1b-d29a-4373-8c39-e465a90756ac",
+    "uri": "http://data.europa.eu/esco/skill/cea46a1b-d29a-4373-8c39-e465a90756ac",
+    "name": "collect healthcare user data under supervision",
+    "labels": [
+      "collect healthcare user data under supervision",
+      "to gather together healthcare user data under supervision",
+      "accumulate healthcare user data under supervision",
+      "gather healthcare user data under supervision",
+      "collect healthcare user data with observation of medical experts",
+      "collect healthcare user data with observation of experts",
+      "aggregate healthcare user data under supervision",
+      "collect qualitative and quantitative healthcare user data under supervision"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/7d08e3cd-3a68-4568-8273-5b53ac0cbc71",
+    "uri": "http://data.europa.eu/esco/skill/7d08e3cd-3a68-4568-8273-5b53ac0cbc71",
+    "name": "collect healthcare user's general data",
+    "labels": [
+      "collect healthcare user's general data",
+      "collect health care user's general data",
+      "collect healthcare users' general data",
+      "gather health care users' general data, obtain healthcare users' general data",
+      "gather healthcare user's general data"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/2b834a98-14ff-47e1-8aef-cf8ffae912fa",
+    "uri": "http://data.europa.eu/esco/skill/2b834a98-14ff-47e1-8aef-cf8ffae912fa",
+    "name": "collect mapping data",
+    "labels": [
+      "collect mapping data",
+      "conserve mapping data",
+      "preserve mapping data",
+      "collecting of mapping data",
+      "mapping data preservation",
+      "collection of mapping data",
+      "preserving mapping data",
+      "preservation of mapping data",
+      "collecting mapping data",
+      "mapping data collection",
+      "conservation of mapping data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/0cd6dcf1-5778-42a5-b685-4d01ae4a4871",
+    "uri": "http://data.europa.eu/esco/skill/0cd6dcf1-5778-42a5-b685-4d01ae4a4871",
+    "name": "Common Lisp",
+    "labels": [
+      "common lisp"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/5ae07007-1348-4068-ab55-e6f420fa3874",
+    "uri": "http://data.europa.eu/esco/skill/5ae07007-1348-4068-ab55-e6f420fa3874",
+    "name": "communication sciences",
+    "labels": [
+      "communication sciences",
+      "communications sciences",
+      "communication science",
+      "communication studies"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/c216b67a-7462-4f6a-ba14-db02f6e91b68",
+    "uri": "http://data.europa.eu/esco/skill/c216b67a-7462-4f6a-ba14-db02f6e91b68",
+    "name": "compile data for navigation publications",
+    "labels": [
+      "compile data for navigation publications",
+      "gather data for navigational publications",
+      "compile data for navigational publications",
+      "assemble and process data for navigation publications",
+      "compile navigational publication data",
+      "process data for navigation publications",
+      "assemble and process data for navigational publications",
+      "gather and process data for navigation publications",
+      "gather and process data for navigational publications",
+      "compile navigation publication data",
+      "gather data for navigation publications"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/e8d9ce55-7bc3-4f09-8412-0a393d4b5b96",
+    "uri": "http://data.europa.eu/esco/skill/e8d9ce55-7bc3-4f09-8412-0a393d4b5b96",
+    "name": "compose description for web elements",
+    "labels": [
+      "compose description for web elements",
+      "create content for web elements",
+      "write description for web elements"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/a056851d-4a8b-4007-b0f6-8224ca1ec1c2",
+    "uri": "http://data.europa.eu/esco/skill/a056851d-4a8b-4007-b0f6-8224ca1ec1c2",
+    "name": "computational linguistics",
+    "labels": [
+      "computational linguistics",
+      "the study of computational linguistics",
+      "computational linguistic studies",
+      "linguistics of computation",
+      "computing linguistics"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/89f6560b-2194-45c9-9ece-d33049a73eef",
+    "uri": "http://data.europa.eu/esco/skill/89f6560b-2194-45c9-9ece-d33049a73eef",
+    "name": "computer engineering",
+    "labels": [
+      "computer engineering",
+      "science of computer engineering",
+      "integration of hardware and software",
+      "computer hardware development",
+      "software design",
+      "engineering of computers",
+      "field of computer engineering",
+      "discipline of computer engineering",
+      "computer software development"
+    ],
+    "domains": [
+      "ai_ml_engineering",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/9983816d-cc78-4d3f-9e3c-c7baa9ebc77a",
+    "uri": "http://data.europa.eu/esco/skill/9983816d-cc78-4d3f-9e3c-c7baa9ebc77a",
+    "name": "computer equipment",
+    "labels": [
+      "computer equipment",
+      "a computer",
+      "computer machinery",
+      "computer machines",
+      "computer",
+      "computing equipment",
+      "computer devices",
+      "computer apparatus"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/2ef6bebc-2133-47df-b26a-f38f51b0f867",
+    "uri": "http://data.europa.eu/esco/skill/2ef6bebc-2133-47df-b26a-f38f51b0f867",
+    "name": "computer history",
+    "labels": [
+      "computer history",
+      "informatics history",
+      "computers history",
+      "history of computers"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/c7282ec3-9153-4b4b-b7de-777e3207b04e",
+    "uri": "http://data.europa.eu/esco/skill/c7282ec3-9153-4b4b-b7de-777e3207b04e",
+    "name": "computerised feeding systems",
+    "labels": [
+      "computerised feeding systems",
+      "typology of computerised feeding systems",
+      "range of computerised feeding systems",
+      "computer controlled systems of feeding",
+      "typology of computer controlled feeding systems",
+      "feeding systems that are computerised",
+      "types of computer controlled feeding systems",
+      "computer controlled feeding systems",
+      "types of computerised feeding systems"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/89ff28d6-342c-435d-83aa-83e71dbbbc96",
+    "uri": "http://data.europa.eu/esco/skill/89ff28d6-342c-435d-83aa-83e71dbbbc96",
+    "name": "conduct financial audits",
+    "labels": [
+      "conduct financial audits",
+      "organise financial audits",
+      "conducting a financial audit",
+      "carry out financial audits",
+      "conduct a financial audit",
+      "conducting financial audits",
+      "manage financial audits",
+      "undertake financial audits"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/8316979b-df5a-4dc7-98ef-61ec6a10df84",
+    "uri": "http://data.europa.eu/esco/skill/8316979b-df5a-4dc7-98ef-61ec6a10df84",
+    "name": "conduct quantitative research",
+    "labels": [
+      "conduct quantitative research"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/b25c3eb8-fd63-4d77-8308-7061dbd271c1",
+    "uri": "http://data.europa.eu/esco/skill/b25c3eb8-fd63-4d77-8308-7061dbd271c1",
+    "name": "conserve natural resources",
+    "labels": [
+      "conserve natural resources",
+      "natural resource conserving",
+      "natural resources conserving",
+      "natural resources and water conserving",
+      "protecting natural resources",
+      "conserving natural resources",
+      "natural resources and water protecting",
+      "conserving waters and natural resources",
+      "conserve waters and natural resources",
+      "protect natural resources",
+      "protect waters and natural resources",
+      "protecting waters and natural resources",
+      "natural resources protecting",
+      "natural resource protecting"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/29ca8fd4-40c1-494c-85ea-525f1ab4aa8c",
+    "uri": "http://data.europa.eu/esco/skill/29ca8fd4-40c1-494c-85ea-525f1ab4aa8c",
+    "name": "construct individual learning plans",
+    "labels": [
+      "construct individual learning plans",
+      "develop individual learning plans",
+      "draw up individual learning plans",
+      "construct ilp",
+      "constructing individual learning plans",
+      "construct individual learning plan",
+      "create individual learning plans",
+      "constructs individual learning plans"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/1be68ecc-7263-4118-8ca5-254e444f3bc0",
+    "uri": "http://data.europa.eu/esco/skill/1be68ecc-7263-4118-8ca5-254e444f3bc0",
+    "name": "consult students on learning content",
+    "labels": [
+      "consult students on learning content",
+      "consulting students on learning content",
+      "confer with students on learning content",
+      "consult student on learning content",
+      "discuss learning content with students",
+      "consulting student on learning content"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/3c6cd54b-e206-47a4-90c8-d19ff4523f34",
+    "uri": "http://data.europa.eu/esco/skill/3c6cd54b-e206-47a4-90c8-d19ff4523f34",
+    "name": "contact scientists",
+    "labels": [
+      "contact scientists",
+      "contact scientist",
+      "communicate with scientists",
+      "contacting scientists",
+      "correspond with scientists"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/7af6e9e8-1e11-4c0b-b7c6-ac96bbbbc674",
+    "uri": "http://data.europa.eu/esco/skill/7af6e9e8-1e11-4c0b-b7c6-ac96bbbbc674",
+    "name": "coordinate engineering teams",
+    "labels": [
+      "coordinate engineering teams",
+      "engineering teams co-ordinating",
+      "coordinating engineering teams",
+      "supervising engineering activities",
+      "co-ordinate engineering teams",
+      "supervise engineering activities",
+      "engineering activities supervising",
+      "engineering teams coordinating",
+      "engineering team coordinating",
+      "co-ordinating engineering teams",
+      "engineering team co-ordinating"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/eaa7af7e-0a6f-4383-9d19-05dec9abed36",
+    "uri": "http://data.europa.eu/esco/skill/eaa7af7e-0a6f-4383-9d19-05dec9abed36",
+    "name": "counsel on end-of-life care",
+    "labels": [
+      "counsel on end-of-life care",
+      "advise on end-of-life-care",
+      "counsel on eolc",
+      "counsel on end of life care",
+      "counsel on end-of-life options"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/cc885179-7a29-483b-995c-515fcda547cd",
+    "uri": "http://data.europa.eu/esco/skill/cc885179-7a29-483b-995c-515fcda547cd",
+    "name": "create artificial light",
+    "labels": [
+      "create artificial light",
+      "set up artificial lighting",
+      "create light that is artificial",
+      "create artificial lighting",
+      "create artificial illumination"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/3140d979-2d6a-4c10-add9-f7091103829f",
+    "uri": "http://data.europa.eu/esco/skill/3140d979-2d6a-4c10-add9-f7091103829f",
+    "name": "create concept of digital game",
+    "labels": [
+      "create concept of digital game"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/47101792-be87-41a4-b64f-713fbcea8277",
+    "uri": "http://data.europa.eu/esco/skill/47101792-be87-41a4-b64f-713fbcea8277",
+    "name": "create cultural venue learning strategies",
+    "labels": [
+      "create cultural venue learning strategies",
+      "create learning strategies at cultural venues",
+      "develop cultural learning strategies",
+      "create strategies to learn at cultural venues",
+      "formulate strategies for cultural learning"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/906323f4-00c4-4c3b-ab5a-8af77be3456e",
+    "uri": "http://data.europa.eu/esco/skill/906323f4-00c4-4c3b-ab5a-8af77be3456e",
+    "name": "create data sets",
+    "labels": [
+      "create data sets",
+      "creating data sets",
+      "produce data sets",
+      "establish data sets",
+      "design data sets",
+      "data set creation",
+      "create a data set",
+      "develop data sets"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/75a7de68-e7f7-4963-a4ed-d839ac7e74af",
+    "uri": "http://data.europa.eu/esco/skill/75a7de68-e7f7-4963-a4ed-d839ac7e74af",
+    "name": "create engineering design packages",
+    "labels": [
+      "create engineering design packages",
+      "develop mechanical engineering design systems",
+      "create engineering design packs",
+      "create design engineering packages",
+      "create design engineering software"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/edf081e4-d2dc-4a60-8c49-7b7e45b5ebe3",
+    "uri": "http://data.europa.eu/esco/skill/edf081e4-d2dc-4a60-8c49-7b7e45b5ebe3",
+    "name": "create risk maps",
+    "labels": [
+      "create risk maps",
+      "generate risk maps",
+      "design risk maps",
+      "develop risk maps"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/bd832a82-b079-4001-80d1-f59efed33688",
+    "uri": "http://data.europa.eu/esco/skill/bd832a82-b079-4001-80d1-f59efed33688",
+    "name": "create risk reports",
+    "labels": [
+      "create risk reports",
+      "creating risk reports",
+      "create risk report",
+      "write risk reports",
+      "make risk reports"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4a2a63e6-5c62-43a0-a375-fdf4c2805270",
+    "uri": "http://data.europa.eu/esco/skill/4a2a63e6-5c62-43a0-a375-fdf4c2805270",
+    "name": "customise software for drive system",
+    "labels": [
+      "customise software for drive system",
+      "drive system software customising",
+      "customising software for drive system",
+      "adapting software for drive system",
+      "customising drive system software",
+      "adapt software for drive system",
+      "software customising for drive system",
+      "customise drive system software",
+      "drive system software adapting",
+      "software adapting for drive system",
+      "adapting drive system software",
+      "adapt drive system software"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/da0795a7-6866-4afc-81ed-5e3aa398f058",
+    "uri": "http://data.europa.eu/esco/skill/da0795a7-6866-4afc-81ed-5e3aa398f058",
+    "name": "Czech",
+    "labels": [
+      "czech"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/273a28d6-1bd3-4d13-a906-3d75c1cfdfc1",
+    "uri": "http://data.europa.eu/esco/skill/273a28d6-1bd3-4d13-a906-3d75c1cfdfc1",
+    "name": "Danish",
+    "labels": [
+      "danish"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/25f0ea33-b4a2-4f31-b7b4-7d20e827b180",
+    "uri": "http://data.europa.eu/esco/skill/25f0ea33-b4a2-4f31-b7b4-7d20e827b180",
+    "name": "data mining",
+    "labels": [
+      "data mining"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/9effa3d7-c0c4-4583-ad94-b496ba5e5f2c",
+    "uri": "http://data.europa.eu/esco/skill/9effa3d7-c0c4-4583-ad94-b496ba5e5f2c",
+    "name": "data mining methods",
+    "labels": [
+      "data mining methods",
+      "data mining mechanisms",
+      "data mining arrangements",
+      "data mining processes",
+      "data mining approaches",
+      "data mining methodology",
+      "methods of data mining",
+      "a data mining method"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/a4346013-a967-4a58-a533-6b32ad1364c5",
+    "uri": "http://data.europa.eu/esco/skill/a4346013-a967-4a58-a533-6b32ad1364c5",
+    "name": "data protection",
+    "labels": [
+      "data protection",
+      "paradigms of data protection",
+      "protection of private data",
+      "principles of data privacy",
+      "data privacy",
+      "protection of private information",
+      "principles of information privacy",
+      "information privacy",
+      "paradigms of data privacy",
+      "protection of data",
+      "principles of data protection"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/3ec2e4d6-7000-4905-bf1a-c5b1679416de",
+    "uri": "http://data.europa.eu/esco/skill/3ec2e4d6-7000-4905-bf1a-c5b1679416de",
+    "name": "data warehouse",
+    "labels": [
+      "data warehouse"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/284ed642-3735-4453-8a43-41ce3d7cb1fc",
+    "uri": "http://data.europa.eu/esco/skill/284ed642-3735-4453-8a43-41ce3d7cb1fc",
+    "name": "define artistic vision",
+    "labels": [
+      "define artistic vision",
+      "set forth artistic vision",
+      "outline artistic vision",
+      "state artistic vision clearly",
+      "define vision",
+      "defining artistic vision"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/87434439-c07d-48be-af34-b0cdd03121c4",
+    "uri": "http://data.europa.eu/esco/skill/87434439-c07d-48be-af34-b0cdd03121c4",
+    "name": "design engineering components",
+    "labels": [
+      "design engineering components",
+      "designing engineering components",
+      "engineering component developing",
+      "engineering components designing",
+      "developing engineering components",
+      "develop engineering components",
+      "engineering component designing",
+      "engineering components developing"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/c31db791-e28e-4331-81a4-ddceb51d43f6",
+    "uri": "http://data.europa.eu/esco/skill/c31db791-e28e-4331-81a4-ddceb51d43f6",
+    "name": "design medical supportive devices",
+    "labels": [
+      "design medical supportive devices",
+      "design prostheses",
+      "design medical-supportive devices",
+      "design artificial limbs",
+      "design medical supportive device"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/ec065d9b-748f-450d-b628-925a33cf688b",
+    "uri": "http://data.europa.eu/esco/skill/ec065d9b-748f-450d-b628-925a33cf688b",
+    "name": "design natural gas processing systems",
+    "labels": [
+      "design natural gas processing systems",
+      "specify natural gas processing system",
+      "natural gas processing systems specifying",
+      "designing natural gas processing systems",
+      "design ng processing systems",
+      "ng processing systems specifying",
+      "specifying natural gas processing systems",
+      "natural gas processing systems designing",
+      "designing ng processing systems",
+      "specifying ng processing systems",
+      "specify ng processing systems",
+      "ng processing systems designing"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/f256f3fb-bb26-4d2c-99f2-7f99b68076fd",
+    "uri": "http://data.europa.eu/esco/skill/f256f3fb-bb26-4d2c-99f2-7f99b68076fd",
+    "name": "design scientific equipment",
+    "labels": [
+      "design scientific equipment",
+      "develop scientific equipment",
+      "plan scientific equipment",
+      "scientific equipment design",
+      "prepare scientific equipment"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/3d957fb2-b8f4-4b4c-b955-23299c761ad5",
+    "uri": "http://data.europa.eu/esco/skill/3d957fb2-b8f4-4b4c-b955-23299c761ad5",
+    "name": "design web-based courses",
+    "labels": [
+      "design web-based courses"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/2e04c512-6867-49c5-ad58-0797b8fbddf2",
+    "uri": "http://data.europa.eu/esco/skill/2e04c512-6867-49c5-ad58-0797b8fbddf2",
+    "name": "determine fire risks",
+    "labels": [
+      "determine fire risks",
+      "assess fire risks",
+      "determining fire risks",
+      "monitor fire risks",
+      "determining fire risk",
+      "evaluate fire risks",
+      "determine fire risk",
+      "measure fire risks",
+      "identify fire risks"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/f9670490-8aa4-4540-b121-d440a8294aab",
+    "uri": "http://data.europa.eu/esco/skill/f9670490-8aa4-4540-b121-d440a8294aab",
+    "name": "develop data processing applications",
+    "labels": [
+      "develop data processing applications"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/8a6394d1-f44f-4b0d-81d5-7201fc025ba8",
+    "uri": "http://data.europa.eu/esco/skill/8a6394d1-f44f-4b0d-81d5-7201fc025ba8",
+    "name": "develop e-learning plan",
+    "labels": [
+      "develop e-learning plan",
+      "develop e-learning strategy"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/1e6933f3-489e-4d82-97b4-1ffd62931e74",
+    "uri": "http://data.europa.eu/esco/skill/1e6933f3-489e-4d82-97b4-1ffd62931e74",
+    "name": "develop investigation strategy",
+    "labels": [
+      "develop investigation strategy",
+      "commence intelligence strategy",
+      "establish intelligence strategy",
+      "expand intelligence strategy",
+      "commence investigation strategy",
+      "expand investigation strategy",
+      "establish investigation strategy"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/1e887ec5-cc41-4517-b3b2-0805ab4293c0",
+    "uri": "http://data.europa.eu/esco/skill/1e887ec5-cc41-4517-b3b2-0805ab4293c0",
+    "name": "develop measuring equipment",
+    "labels": [
+      "develop measuring equipment",
+      "developing measuring equipment",
+      "prepare measuring equipment",
+      "create measuring equipment define measuring equipment"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/3635b5e3-bdaa-449e-ade4-2973e0a3aba6",
+    "uri": "http://data.europa.eu/esco/skill/3635b5e3-bdaa-449e-ade4-2973e0a3aba6",
+    "name": "develop military intelligence records",
+    "labels": [
+      "develop military intelligence records",
+      "developing defence intelligence records",
+      "developing records of military intelligence",
+      "collate military intelligence records",
+      "develop defence intelligence records",
+      "collating military intelligence records",
+      "develop records of military intelligence",
+      "developing military intelligence records",
+      "military intelligence record developing",
+      "military intelligence records developing"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/810134a4-3c40-4140-b8ca-6d6e8d0dc0f1",
+    "uri": "http://data.europa.eu/esco/skill/810134a4-3c40-4140-b8ca-6d6e8d0dc0f1",
+    "name": "develop scientific theories",
+    "labels": [
+      "develop scientific theories",
+      "developing scientific theory",
+      "define scientific theories",
+      "prepare scientific theories",
+      "write scientific theories",
+      "draw up scientific theories",
+      "create scientific theories",
+      "develop scientific theory",
+      "developing scientific theories"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/bb165899-d95f-4433-95f2-173fefd716d2",
+    "uri": "http://data.europa.eu/esco/skill/bb165899-d95f-4433-95f2-173fefd716d2",
+    "name": "develop statistical software",
+    "labels": [
+      "develop statistical software",
+      "create statistical software",
+      "define statistical software",
+      "prepare statistical software",
+      "developing statistical software",
+      "write statistical software"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/50be6d0d-2eee-403f-ac4a-a550681684ae",
+    "uri": "http://data.europa.eu/esco/skill/50be6d0d-2eee-403f-ac4a-a550681684ae",
+    "name": "develop store design",
+    "labels": [
+      "develop store design",
+      "developing store designs",
+      "develop store designs",
+      "launch store design",
+      "develop a store design",
+      "establish store design",
+      "produce store design",
+      "evaluate store design"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/5f08fb30-a657-44d4-988e-13f84801936b",
+    "uri": "http://data.europa.eu/esco/skill/5f08fb30-a657-44d4-988e-13f84801936b",
+    "name": "develop trade policies",
+    "labels": [
+      "develop trade policies",
+      "establish trade policies",
+      "design trade agreements",
+      "produce trade agreements",
+      "expand trade agreements",
+      "design trade policies",
+      "establish trade agreements",
+      "produce trade policies",
+      "expand trade policies"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/7d5ff73e-7bea-436d-974f-3a51ce24a138",
+    "uri": "http://data.europa.eu/esco/skill/7d5ff73e-7bea-436d-974f-3a51ce24a138",
+    "name": "develop virtual game engine",
+    "labels": [
+      "develop virtual game engine"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/f0de4973-0a70-4644-8fd4-3a97080476f4",
+    "uri": "http://data.europa.eu/esco/skill/f0de4973-0a70-4644-8fd4-3a97080476f4",
+    "name": "DevOps",
+    "labels": [
+      "devops"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/43dfbe7f-9e10-4871-b171-e5076737b4cf",
+    "uri": "http://data.europa.eu/esco/skill/43dfbe7f-9e10-4871-b171-e5076737b4cf",
+    "name": "digital marketing techniques",
+    "labels": [
+      "digital marketing techniques",
+      "web marketing techniques",
+      "online marketing techniques",
+      "on-line marketing techniques"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/594bd121-9614-4e87-9ecf-6ccb95507efe",
+    "uri": "http://data.europa.eu/esco/skill/594bd121-9614-4e87-9ecf-6ccb95507efe",
+    "name": "draw up risk assessment",
+    "labels": [
+      "draw up risk assessment",
+      "write risk assessment",
+      "draw up risk assessments",
+      "drawing up risk assessment",
+      "make risk assessment",
+      "draw up assessment of risks",
+      "compose risk assessment"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/1de3942b-99d8-41e8-9ef0-fbc9e9f6307b",
+    "uri": "http://data.europa.eu/esco/skill/1de3942b-99d8-41e8-9ef0-fbc9e9f6307b",
+    "name": "Drupal",
+    "labels": [
+      "drupal"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/b1272de4-1f5f-408b-8b26-061f2550fc72",
+    "uri": "http://data.europa.eu/esco/skill/b1272de4-1f5f-408b-8b26-061f2550fc72",
+    "name": "e-commerce systems",
+    "labels": [
+      "e-commerce systems",
+      "e commerce structure",
+      "e commerce organisation",
+      "e-commerce arrangement",
+      "e-commerce system",
+      "e-commercial system",
+      "e-commerce scheme",
+      "e-commercial systems"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/5f5e9350-1d13-4391-b9e1-07f6b2047fc5",
+    "uri": "http://data.europa.eu/esco/skill/5f5e9350-1d13-4391-b9e1-07f6b2047fc5",
+    "name": "e-learning",
+    "labels": [
+      "e-learning"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/8bc3c77c-30c3-45e6-bd61-069ba433ecfe",
+    "uri": "http://data.europa.eu/esco/skill/8bc3c77c-30c3-45e6-bd61-069ba433ecfe",
+    "name": "e-learning software infrastructure",
+    "labels": [
+      "e-learning software infrastructure",
+      "e-learning software infrastracture and applications"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/6aef2baa-5fa7-4c16-bd28-3e070ec4e4df",
+    "uri": "http://data.europa.eu/esco/skill/6aef2baa-5fa7-4c16-bd28-3e070ec4e4df",
+    "name": "educate on data confidentiality",
+    "labels": [
+      "educate on data confidentiality",
+      "educating on data confidentiality",
+      "educating about data confidentiality",
+      "instruct on data confidentiality",
+      "teach data confidentiality principles",
+      "educate about data confidentiality"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/722be5b6-9492-46da-aeef-ddd880fdceb1",
+    "uri": "http://data.europa.eu/esco/skill/722be5b6-9492-46da-aeef-ddd880fdceb1",
+    "name": "electrical instrumentation engineering",
+    "labels": [
+      "electrical instrumentation engineering",
+      "typology of electrical instrumentation engineering",
+      "e and i engineering",
+      "e & i engineering",
+      "electrical and instrumentation engineering",
+      "e+i engineering",
+      "electrical instrumentation engineering types",
+      "types of electrical instrumentation engineering"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4334037f-c1d8-4241-b82e-8db7e469327b",
+    "uri": "http://data.europa.eu/esco/skill/4334037f-c1d8-4241-b82e-8db7e469327b",
+    "name": "electricity market",
+    "labels": [
+      "electricity market",
+      "market for electricity",
+      "trade in electricity",
+      "electricity trading market",
+      "electricity trading",
+      "electrical power market",
+      "electricity dealing",
+      "electric power market",
+      "electricity market sector"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/20b1d521-3d18-4b59-aee5-aaf296170c1b",
+    "uri": "http://data.europa.eu/esco/skill/20b1d521-3d18-4b59-aee5-aaf296170c1b",
+    "name": "electronic signals intelligence",
+    "labels": [
+      "electronic signals intelligence",
+      "signals intelligence",
+      "sigint",
+      "electronic signal interception",
+      "electronic monitoring",
+      "electronic intelligence gathering"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/42cb7669-c371-4903-9c0b-13db67b2e4bb",
+    "uri": "http://data.europa.eu/esco/skill/42cb7669-c371-4903-9c0b-13db67b2e4bb",
+    "name": "emergent technologies",
+    "labels": [
+      "emergent technologies"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/071c7f1d-f659-4b96-a222-b21012297f3b",
+    "uri": "http://data.europa.eu/esco/skill/071c7f1d-f659-4b96-a222-b21012297f3b",
+    "name": "energy market",
+    "labels": [
+      "energy market",
+      "energy market trends",
+      "energy trading market",
+      "trading of energy",
+      "market for energy",
+      "energy trading",
+      "trading energy"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/209a5498-3449-4689-8ed9-bd08cab4fd78",
+    "uri": "http://data.europa.eu/esco/skill/209a5498-3449-4689-8ed9-bd08cab4fd78",
+    "name": "engineering principles",
+    "labels": [
+      "engineering principles",
+      "engineering research principles",
+      "engineering studies principles",
+      "engineering application principles",
+      "engineering principle",
+      "engineering analysis principles",
+      "engineering fieldwork principles",
+      "engineering work principles"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/6d3edede-8951-4621-a835-e04323300fa0",
+    "uri": "http://data.europa.eu/esco/skill/6d3edede-8951-4621-a835-e04323300fa0",
+    "name": "English",
+    "labels": [
+      "english"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/219dd03d-4168-416a-be40-f4becca55130",
+    "uri": "http://data.europa.eu/esco/skill/219dd03d-4168-416a-be40-f4becca55130",
+    "name": "Engrade",
+    "labels": [
+      "engrade"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/034c29fa-c3ba-45ea-b8f3-bf8e3705e386",
+    "uri": "http://data.europa.eu/esco/skill/034c29fa-c3ba-45ea-b8f3-bf8e3705e386",
+    "name": "Erlang",
+    "labels": [
+      "erlang"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/2daec0e6-f0c1-43e8-8178-aedba99130ec",
+    "uri": "http://data.europa.eu/esco/skill/2daec0e6-f0c1-43e8-8178-aedba99130ec",
+    "name": "establish data processes",
+    "labels": [
+      "establish data processes",
+      "develop data processes",
+      "implement data processes"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/1b7e6f56-bc73-4bcc-81ae-09252175d418",
+    "uri": "http://data.europa.eu/esco/skill/1b7e6f56-bc73-4bcc-81ae-09252175d418",
+    "name": "Estonian",
+    "labels": [
+      "estonian"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/8bc1c7da-c832-4896-a441-30d087c46aad",
+    "uri": "http://data.europa.eu/esco/skill/8bc1c7da-c832-4896-a441-30d087c46aad",
+    "name": "examine engineering principles",
+    "labels": [
+      "examine engineering principles",
+      "research engineering principles",
+      "examine principles of engineering",
+      "explore engineering principles",
+      "analyse enineering principles",
+      "investigate engineering principles",
+      "look into engineering principles",
+      "study engineering principles",
+      "examine engineering fundamentals"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "manual:fastapi",
+    "uri": null,
+    "name": "FastAPI",
+    "labels": [
+      "fastapi"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "manual"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/811bdb9d-5bf7-4b5a-a3f5-4fc2002f6d57",
+    "uri": "http://data.europa.eu/esco/skill/811bdb9d-5bf7-4b5a-a3f5-4fc2002f6d57",
+    "name": "financial capability",
+    "labels": [
+      "financial capability",
+      "financial skills",
+      "financial capabilities",
+      "financial abilities",
+      "financial acumen",
+      "financial knowledge"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/450054eb-ccdb-42a7-baf0-371aba515fe7",
+    "uri": "http://data.europa.eu/esco/skill/450054eb-ccdb-42a7-baf0-371aba515fe7",
+    "name": "financial engineering",
+    "labels": [
+      "financial engineering",
+      "fiscal engineering",
+      "finance engineering"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4b2db903-cd8e-48ce-97fb-a92db4def54e",
+    "uri": "http://data.europa.eu/esco/skill/4b2db903-cd8e-48ce-97fb-a92db4def54e",
+    "name": "financial forecasting",
+    "labels": [
+      "financial forecasting",
+      "financial estimating",
+      "monetary calculating",
+      "financial planning",
+      "monetary planning",
+      "financial calculating",
+      "monetary estimating"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/e4c205f6-55ba-4bed-9c5d-2032058300c0",
+    "uri": "http://data.europa.eu/esco/skill/e4c205f6-55ba-4bed-9c5d-2032058300c0",
+    "name": "financial jurisdiction",
+    "labels": [
+      "financial jurisdiction",
+      "financial jurisdictions",
+      "financial control",
+      "financial purview",
+      "financial oversight",
+      "financial authority",
+      "finance jurisdiction"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/905b6acd-377b-46b9-9d80-e47e9ca789ca",
+    "uri": "http://data.europa.eu/esco/skill/905b6acd-377b-46b9-9d80-e47e9ca789ca",
+    "name": "financial markets",
+    "labels": [
+      "financial markets",
+      "fiscal markets",
+      "money markets",
+      "financial market",
+      "finance markets"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/46990b9b-746e-481d-a66a-0cac3f07dfac",
+    "uri": "http://data.europa.eu/esco/skill/46990b9b-746e-481d-a66a-0cac3f07dfac",
+    "name": "find trends in geographic data",
+    "labels": [
+      "find trends in geographic data",
+      "geographic data trends",
+      "discover trends in geographic data",
+      "uncover trends in geographic data",
+      "trends in geographic data",
+      "determine trends in geographic data",
+      "identify trends in geographic data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/492214f5-5bfd-4f2a-9a48-c36240ce100d",
+    "uri": "http://data.europa.eu/esco/skill/492214f5-5bfd-4f2a-9a48-c36240ce100d",
+    "name": "follow an environmental friendly policy while processing food",
+    "labels": [
+      "follow an environmental friendly policy while processing food",
+      "utilise an environmental friendly policy while processing food",
+      "follow an environmental friendly policy while processing foods",
+      "operate an environmental friendly policy while processing food",
+      "consider an environmental friendly policy while processing food",
+      "use an environmental friendly policy while processing food",
+      "follow environmental friendly policies while processing food"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/dc57f705-75b6-4232-b531-1f020afa0364",
+    "uri": "http://data.europa.eu/esco/skill/dc57f705-75b6-4232-b531-1f020afa0364",
+    "name": "food and beverage industry",
+    "labels": [
+      "food and beverage industry",
+      "food and beverage trading",
+      "food and beverage business",
+      "food and beverage industries",
+      "food and beverage commerce",
+      "the food and beverage industry"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/93f1caa3-df33-4de7-98da-40f5fc30fd52",
+    "uri": "http://data.europa.eu/esco/skill/93f1caa3-df33-4de7-98da-40f5fc30fd52",
+    "name": "forensic intelligence",
+    "labels": [
+      "forensic intelligence",
+      "forensic investigation",
+      "juristic investigation",
+      "juristic understanding",
+      "juristic judgement",
+      "forensic judgement",
+      "forensic understanding"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/1557a239-5ed4-48e6-9536-d1ac6eaefcf3",
+    "uri": "http://data.europa.eu/esco/skill/1557a239-5ed4-48e6-9536-d1ac6eaefcf3",
+    "name": "gas market",
+    "labels": [
+      "gas market",
+      "gas trade",
+      "market for gas",
+      "economics of gas sector",
+      "gas sector market",
+      "gas economics",
+      "trade in gas",
+      "gas trading market"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/0d6714c6-720e-4985-9791-5ab85d28da79",
+    "uri": "http://data.europa.eu/esco/skill/0d6714c6-720e-4985-9791-5ab85d28da79",
+    "name": "gather data",
+    "labels": [
+      "gather data",
+      "gavering data",
+      "convene data",
+      "assemble data",
+      "collect data",
+      "aggregate data",
+      "data gavering"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/6b4649e5-25a6-4fb9-a0c4-5bb6c248feda",
+    "uri": "http://data.europa.eu/esco/skill/6b4649e5-25a6-4fb9-a0c4-5bb6c248feda",
+    "name": "gemology",
+    "labels": [
+      "gemology",
+      "the study of gems",
+      "the study of precious stones",
+      "gem studies"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/e3423f86-0e6b-4bec-a354-1d21fe8597b6",
+    "uri": "http://data.europa.eu/esco/skill/e3423f86-0e6b-4bec-a354-1d21fe8597b6",
+    "name": "genetic engineering",
+    "labels": [
+      "genetic engineering",
+      "genetic engineering work",
+      "engineering genetics",
+      "genetic engineering analyses",
+      "genetic engineering studies",
+      "genetic engineering fieldwork",
+      "genetic engineering research",
+      "genetic engineering analysis",
+      "genetic engineering applications"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/82fc3feb-752b-4d49-803d-c08a717917aa",
+    "uri": "http://data.europa.eu/esco/skill/82fc3feb-752b-4d49-803d-c08a717917aa",
+    "name": "geophysics",
+    "labels": [
+      "geophysics",
+      "geophysics studies",
+      "geo-physics",
+      "geo physics",
+      "the study of geophysics"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4767ddd3-7eae-4071-894a-888896bd0992",
+    "uri": "http://data.europa.eu/esco/skill/4767ddd3-7eae-4071-894a-888896bd0992",
+    "name": "grade engineered wood",
+    "labels": [
+      "grade engineered wood",
+      "assess engineered wood",
+      "gauge engineered wood",
+      "grading engineered wood",
+      "evaluate engineered wood"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/d4ae9564-0b61-4aa0-9df0-d4fdc969fd6f",
+    "uri": "http://data.europa.eu/esco/skill/d4ae9564-0b61-4aa0-9df0-d4fdc969fd6f",
+    "name": "grammar",
+    "labels": [
+      "grammar",
+      "parsing",
+      "syntax"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/ea4ebfa1-e17a-4416-ac54-955f33e6ade7",
+    "uri": "http://data.europa.eu/esco/skill/ea4ebfa1-e17a-4416-ac54-955f33e6ade7",
+    "name": "Greek",
+    "labels": [
+      "greek"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/52cf3037-ab53-4806-85ed-7fd21ea7f6a1",
+    "uri": "http://data.europa.eu/esco/skill/52cf3037-ab53-4806-85ed-7fd21ea7f6a1",
+    "name": "Groovy",
+    "labels": [
+      "groovy"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/933efc5f-a797-4581-8a8b-c08956ff7d58",
+    "uri": "http://data.europa.eu/esco/skill/933efc5f-a797-4581-8a8b-c08956ff7d58",
+    "name": "Grovo",
+    "labels": [
+      "grovo"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/1c44e94d-c009-49d5-ab38-fa55a3aecca5",
+    "uri": "http://data.europa.eu/esco/skill/1c44e94d-c009-49d5-ab38-fa55a3aecca5",
+    "name": "handle animals for semen collection",
+    "labels": [
+      "handle animals for semen collection",
+      "handle male breeding animal",
+      "collect semen for artificial insemination",
+      "handle male animals for semen collection",
+      "handle an animal for collection of semen",
+      "handle animals for collection of semen",
+      "handle an animal for semen collection"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/a5bfd7c2-44cd-4ff5-aeb5-248de606ee17",
+    "uri": "http://data.europa.eu/esco/skill/a5bfd7c2-44cd-4ff5-aeb5-248de606ee17",
+    "name": "handle financial overviews of the store",
+    "labels": [
+      "handle financial overviews of the store",
+      "operate financial overviews of the store",
+      "conduct financial overviews of the store",
+      "handle financial overview of the store",
+      "administer financial overviews of the store",
+      "handling financial overviews of the store",
+      "deal with financial overviews of the store",
+      "handle financial overviews of stores"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/ceb175c2-fcf3-400e-833a-0a7b25131be7",
+    "uri": "http://data.europa.eu/esco/skill/ceb175c2-fcf3-400e-833a-0a7b25131be7",
+    "name": "handle touristic quantitative data",
+    "labels": [
+      "handle touristic quantitative data",
+      "handle tourist quantitative data",
+      "handle quantitative touristic data",
+      "gather numerical data regarding the tourist sector",
+      "collect quantitative data from the tourist sector"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/000f1d3d-220f-4789-9c0a-cc742521fb02",
+    "uri": "http://data.europa.eu/esco/skill/000f1d3d-220f-4789-9c0a-cc742521fb02",
+    "name": "Haskell",
+    "labels": [
+      "haskell"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/d15ce60f-ddab-41ce-ba56-398451b77b60",
+    "uri": "http://data.europa.eu/esco/skill/d15ce60f-ddab-41ce-ba56-398451b77b60",
+    "name": "have computer literacy",
+    "labels": [
+      "have computer literacy",
+      "have good computer literacy",
+      "be computer-literate",
+      "computer literacy",
+      "demonstrate computer literacy"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/f0a84d52-91fd-45ec-9fe9-e363d9318b9e",
+    "uri": "http://data.europa.eu/esco/skill/f0a84d52-91fd-45ec-9fe9-e363d9318b9e",
+    "name": "have emotional intelligence",
+    "labels": [
+      "have emotional intelligence",
+      "possess emotional intelligence",
+      "own emotional intelligence",
+      "recognize other people's emotions",
+      "obtain emotional intelligence",
+      "recognize other people's emotion"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/a7723f06-53c3-4228-9fd0-1952ea1d7391",
+    "uri": "http://data.europa.eu/esco/skill/a7723f06-53c3-4228-9fd0-1952ea1d7391",
+    "name": "Havok Vision",
+    "labels": [
+      "havok vision"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/bcbf5957-afc6-4f35-930f-15e7e0bda744",
+    "uri": "http://data.europa.eu/esco/skill/bcbf5957-afc6-4f35-930f-15e7e0bda744",
+    "name": "help the programmer define an artistic vision",
+    "labels": [
+      "help the programmer define an artistic vision",
+      "help the programmer define the vision of an artist",
+      "help define an artistic vision for the programmer",
+      "help achieve an artistic vision",
+      "help the director define an artistic vision"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/038a6d0f-787f-4f71-aac6-bd54e16c57cf",
+    "uri": "http://data.europa.eu/esco/skill/038a6d0f-787f-4f71-aac6-bd54e16c57cf",
+    "name": "history of tobacco",
+    "labels": [
+      "history of tobacco",
+      "tobacco history",
+      "traditions of tobacco",
+      "yesteryear of tobacco",
+      "the history of tobacco",
+      "history regarding tobacco",
+      "past of tobacco",
+      "norms of tobacco"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/fe1c2b32-7fe9-4668-affa-07ff658a68cf",
+    "uri": "http://data.europa.eu/esco/skill/fe1c2b32-7fe9-4668-affa-07ff658a68cf",
+    "name": "identify ICT security risks",
+    "labels": [
+      "identify ict security risks",
+      "identify ict security risks and threats",
+      "model ict threats"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/0f2cd213-1f80-4c02-96c9-bf183834f7d6",
+    "uri": "http://data.europa.eu/esco/skill/0f2cd213-1f80-4c02-96c9-bf183834f7d6",
+    "name": "identify learning disorders",
+    "labels": [
+      "identify learning disorders",
+      "recognize learning disorders",
+      "ascertain learning disorders",
+      "identify learning disorder",
+      "identifying learning disorders",
+      "determine learning disorders",
+      "identify learning delays"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/553ad092-b799-44c9-a94c-65a84fdc7526",
+    "uri": "http://data.europa.eu/esco/skill/553ad092-b799-44c9-a94c-65a84fdc7526",
+    "name": "identify processes for re-engineering",
+    "labels": [
+      "identify processes for re-engineering",
+      "determine processes for re-engineering",
+      "identifying processes for re-engineering",
+      "identification of processes for re-engineering",
+      "analyse processes for re-engineering",
+      "diagnose processes for re-engineering",
+      "identify a process for re-engineering",
+      "classify processes for re-engineering"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/b7729524-6d0e-45b6-87c8-79af1e955a5b",
+    "uri": "http://data.europa.eu/esco/skill/b7729524-6d0e-45b6-87c8-79af1e955a5b",
+    "name": "identify risk of flooding",
+    "labels": [
+      "identify risk of flooding",
+      "identify flood risks",
+      "identify risks of flooding",
+      "analyse flood risks",
+      "establish flood risks",
+      "determine flood risks",
+      "diagnose flood risks"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/de53afe1-ee31-4328-9744-584ee3824bad",
+    "uri": "http://data.europa.eu/esco/skill/de53afe1-ee31-4328-9744-584ee3824bad",
+    "name": "identify risks of ship activities",
+    "labels": [
+      "identify risks of ship activities",
+      "conduct risk assessment of ship activities",
+      "assess the risks that accompany vessel operations",
+      "recognise risks of ship activities",
+      "conduct risk assessment of vessel activities",
+      "identify risks of vessel operations",
+      "identify risks of vessel activities",
+      "identify risks of ship operations",
+      "make an assessment of the risks of ship operations",
+      "make an assessment of the risks of vessel activities",
+      "recognise risks of vessel activities",
+      "assess the risks that accompany ship operations"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/fc54bd7f-0c03-4fdd-af8c-5eb4021e716d",
+    "uri": "http://data.europa.eu/esco/skill/fc54bd7f-0c03-4fdd-af8c-5eb4021e716d",
+    "name": "identify with the company's goals",
+    "labels": [
+      "identify with the company's goals",
+      "make the company's goals one's own",
+      "identify with the company's vision and goals",
+      "identify with the company's mission",
+      "understand and pursue the company's goals"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/713fb616-118e-40bc-9366-4a69879a49d5",
+    "uri": "http://data.europa.eu/esco/skill/713fb616-118e-40bc-9366-4a69879a49d5",
+    "name": "implement data quality processes",
+    "labels": [
+      "implement data quality processes",
+      "verify data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/a1816dfd-dbdc-4499-bef3-ff81dd895b33",
+    "uri": "http://data.europa.eu/esco/skill/a1816dfd-dbdc-4499-bef3-ff81dd895b33",
+    "name": "industrial engineering",
+    "labels": [
+      "industrial engineering",
+      "industrial engineering analyses",
+      "industrial engineering studies",
+      "industrial engineering work",
+      "industrial engineering fieldwork",
+      "engineering for industry",
+      "industrial engineering applications",
+      "industrial engineering research",
+      "industrial engineering analysis"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/41ec47dd-08b3-464a-9c45-c706f3e74467",
+    "uri": "http://data.europa.eu/esco/skill/41ec47dd-08b3-464a-9c45-c706f3e74467",
+    "name": "industrial software",
+    "labels": [
+      "industrial software",
+      "design software",
+      "software used in industrial",
+      "production software",
+      "industrial application of software",
+      "continuing professional development in industrial tools and software",
+      "estimating software",
+      "software for industry"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/07846f2f-e182-4f94-a7c7-9fd2865c0dde",
+    "uri": "http://data.europa.eu/esco/skill/07846f2f-e182-4f94-a7c7-9fd2865c0dde",
+    "name": "insert semen",
+    "labels": [
+      "insert semen",
+      "semen inserting",
+      "inseminating animals",
+      "insert animal semen",
+      "inserting animal semen",
+      "animal inseminating artificially",
+      "animal inseminating",
+      "artificially inseminating animals",
+      "inseminate animals",
+      "animal semen inserting",
+      "artificially inseminate animals"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/a571ae14-3e16-4fd3-a615-5646e0b0b696",
+    "uri": "http://data.europa.eu/esco/skill/a571ae14-3e16-4fd3-a615-5646e0b0b696",
+    "name": "inspect data",
+    "labels": [
+      "inspect data",
+      "appraise data",
+      "check data",
+      "inspecting data",
+      "inspection of data",
+      "assess data",
+      "data inspection",
+      "look at data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/c8de8023-ab8a-402b-a828-b2b57cd3b2f7",
+    "uri": "http://data.europa.eu/esco/skill/c8de8023-ab8a-402b-a828-b2b57cd3b2f7",
+    "name": "install software",
+    "labels": [
+      "install software",
+      "load computer software",
+      "loading computer software",
+      "software loading",
+      "loading software",
+      "install computer software",
+      "load software",
+      "installing computer software",
+      "software installing",
+      "loading of computer software",
+      "loading of software",
+      "computer software installing",
+      "computer software loading",
+      "installing software",
+      "installing of computer software",
+      "installing of software"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/925463a7-d51f-4d5b-9f79-4d28cf30acde",
+    "uri": "http://data.europa.eu/esco/skill/925463a7-d51f-4d5b-9f79-4d28cf30acde",
+    "name": "integrated development environment software",
+    "labels": [
+      "integrated development environment software",
+      "ide"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/11cbcf7f-8dc3-4c9a-9ec1-37f51b5cbc19",
+    "uri": "http://data.europa.eu/esco/skill/11cbcf7f-8dc3-4c9a-9ec1-37f51b5cbc19",
+    "name": "international trade",
+    "labels": [
+      "international trade",
+      "global trade",
+      "world wide trade",
+      "international commerce",
+      "international trading"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/3606bf22-1987-4356-b8c4-13e89d8f6c69",
+    "uri": "http://data.europa.eu/esco/skill/3606bf22-1987-4356-b8c4-13e89d8f6c69",
+    "name": "interpret extraction data",
+    "labels": [
+      "interpret extraction data",
+      "interpreting of extraction data",
+      "processing of extraction data",
+      "interpretation of extraction data",
+      "process extraction data",
+      "interpreting extraction data",
+      "extraction data processing",
+      "extraction data interpretation",
+      "processing extraction data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/e9b99d6e-c7ec-4f87-b7b4-b5322733c998",
+    "uri": "http://data.europa.eu/esco/skill/e9b99d6e-c7ec-4f87-b7b4-b5322733c998",
+    "name": "interpret seismic data",
+    "labels": [
+      "interpret seismic data",
+      "analysing of seismic data",
+      "analysing seismic data",
+      "interpreting of seismic data",
+      "analysis of seismic data",
+      "seismic data analysis",
+      "interpretation of seismic data",
+      "seismic data interpretation",
+      "interpreting seismic data",
+      "analyse seismic data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/e585d690-ebfc-4b27-9dbc-7d655ce1176c",
+    "uri": "http://data.europa.eu/esco/skill/e585d690-ebfc-4b27-9dbc-7d655ce1176c",
+    "name": "intubation",
+    "labels": [
+      "intubation",
+      "artificial respiration through intubation",
+      "tracheal intubation"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/87219dfe-a21c-4160-8cc8-1eabf9b16b44",
+    "uri": "http://data.europa.eu/esco/skill/87219dfe-a21c-4160-8cc8-1eabf9b16b44",
+    "name": "Italian",
+    "labels": [
+      "italian"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/9b9de2a4-d8af-4a7b-933a-a8334ae60067",
+    "uri": "http://data.europa.eu/esco/skill/9b9de2a4-d8af-4a7b-933a-a8334ae60067",
+    "name": "JavaScript Framework",
+    "labels": [
+      "javascript framework"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/7dfbe0f3-076f-4a19-9eaa-db4d6db704b6",
+    "uri": "http://data.europa.eu/esco/skill/7dfbe0f3-076f-4a19-9eaa-db4d6db704b6",
+    "name": "keep up-to-date to computer trends",
+    "labels": [
+      "keep up-to-date to computer trends",
+      "retain up-to-date to computer trends",
+      "keep an up-to-date to computer trend",
+      "save up-to-date to computer trends",
+      "store up-to-date to computer trends",
+      "keeping up-to-date to computer trends",
+      "hold up-to-date to computer trends"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/35f1dcdc-577f-46c6-96d9-6c7a64501de9",
+    "uri": "http://data.europa.eu/esco/skill/35f1dcdc-577f-46c6-96d9-6c7a64501de9",
+    "name": "laboratory equipment",
+    "labels": [
+      "laboratory equipment",
+      "laboratory gear",
+      "laboratory devices",
+      "lab equipment"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/54971fec-1c2f-49c0-9396-2f0c9fa5c8c0",
+    "uri": "http://data.europa.eu/esco/skill/54971fec-1c2f-49c0-9396-2f0c9fa5c8c0",
+    "name": "LAMS",
+    "labels": [
+      "lams",
+      "learning activity management system"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/89a1fa04-5a83-4c56-9b25-48ef48cdbc69",
+    "uri": "http://data.europa.eu/esco/skill/89a1fa04-5a83-4c56-9b25-48ef48cdbc69",
+    "name": "language teaching methods",
+    "labels": [
+      "language teaching methods",
+      "language teaching method",
+      "language teaching techniques",
+      "language teaching strategies",
+      "language teaching approaches"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/5de39924-769c-4301-82a5-525358dffe50",
+    "uri": "http://data.europa.eu/esco/skill/5de39924-769c-4301-82a5-525358dffe50",
+    "name": "Latvian",
+    "labels": [
+      "latvian"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/731101d9-94bc-4805-bff4-9578d1bf03b5",
+    "uri": "http://data.europa.eu/esco/skill/731101d9-94bc-4805-bff4-9578d1bf03b5",
+    "name": "learning difficulties",
+    "labels": [
+      "learning difficulties",
+      "learning problems",
+      "learning complications",
+      "learning difficulty",
+      "learning delays"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/135192cb-84e4-4b70-8946-fbe5041b26cd",
+    "uri": "http://data.europa.eu/esco/skill/135192cb-84e4-4b70-8946-fbe5041b26cd",
+    "name": "learning needs analysis",
+    "labels": [
+      "learning needs analysis",
+      "learning needs evaluation",
+      "learning needs assessment",
+      "learning needs analyses"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/7fc4c18a-68f3-425a-aadf-f83633be47a1",
+    "uri": "http://data.europa.eu/esco/skill/7fc4c18a-68f3-425a-aadf-f83633be47a1",
+    "name": "learning technologies",
+    "labels": [
+      "learning technologies"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/1289bd81-8daf-4e7c-bb46-6bbfe9141c49",
+    "uri": "http://data.europa.eu/esco/skill/1289bd81-8daf-4e7c-bb46-6bbfe9141c49",
+    "name": "legislation about animal origin products",
+    "labels": [
+      "legislation about animal origin products",
+      "regulations about animal origin products",
+      "legislation of animal origin products",
+      "precedents about animal origin products",
+      "legislation regarding animal origin products",
+      "animal origin products legislation",
+      "laws about animal origin products",
+      "rules about animal origin products"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/85f46538-ae70-498a-bfbc-b8ddafe96c7d",
+    "uri": "http://data.europa.eu/esco/skill/85f46538-ae70-498a-bfbc-b8ddafe96c7d",
+    "name": "levels of software testing",
+    "labels": [
+      "levels of software testing"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/c5c51528-ccfc-4c53-b409-c200aaa44222",
+    "uri": "http://data.europa.eu/esco/skill/c5c51528-ccfc-4c53-b409-c200aaa44222",
+    "name": "liaise with engineers",
+    "labels": [
+      "liaise with engineers",
+      "work together with engineers",
+      "cooperate with engineers",
+      "collaborate with engineers",
+      "communicate with engineers",
+      "liasing with engineers",
+      "consult with engineers",
+      "seek advice from engineers",
+      "maintain contact with engineers",
+      "exchange with engineers"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/f14ff4b7-be1e-4b55-b39b-520005f8a97e",
+    "uri": "http://data.europa.eu/esco/skill/f14ff4b7-be1e-4b55-b39b-520005f8a97e",
+    "name": "liaise with managers",
+    "labels": [
+      "liaise with managers",
+      "collaborate with managers",
+      "work together with managers",
+      "liaise with a manager",
+      "cooperate with managers",
+      "work with managers",
+      "liaising with managers"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4515f6b6-76e7-4005-9fd8-6db8b84396b3",
+    "uri": "http://data.europa.eu/esco/skill/4515f6b6-76e7-4005-9fd8-6db8b84396b3",
+    "name": "liaise with well test engineers",
+    "labels": [
+      "liaise with well test engineers",
+      "liaising with well testing engineers",
+      "coordination with well test engineers",
+      "liaison with well testing engineers",
+      "building of relationships with well test engineers",
+      "build relationships with well test engineers",
+      "liaise with well testing engineers",
+      "coordinate with well test engineers",
+      "liaising with well test engineers",
+      "liaison with well test engineers",
+      "well testing engineers liaison",
+      "building relationships with well test engineers",
+      "well test engineers liaison"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/810df100-e85a-4c13-b619-34030a75ecc2",
+    "uri": "http://data.europa.eu/esco/skill/810df100-e85a-4c13-b619-34030a75ecc2",
+    "name": "linguistics",
+    "labels": [
+      "linguistics",
+      "scientific aspects of language",
+      "study of language",
+      "study of languages",
+      "scientific study of language"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/0de61385-de6d-4146-ba32-1cc1bc102220",
+    "uri": "http://data.europa.eu/esco/skill/0de61385-de6d-4146-ba32-1cc1bc102220",
+    "name": "Lisp",
+    "labels": [
+      "lisp"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/b3950b87-a980-4cd4-a795-be8a9b63661d",
+    "uri": "http://data.europa.eu/esco/skill/b3950b87-a980-4cd4-a795-be8a9b63661d",
+    "name": "Lithuanian",
+    "labels": [
+      "lithuanian"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "manual:machine-learning",
+    "uri": null,
+    "name": "Machine Learning",
+    "labels": [
+      "machine learning",
+      "machine-learning"
+    ],
+    "domains": [
+      "ai_ml_engineering",
+      "data_science",
+      "quant"
+    ],
+    "sources": [
+      "manual"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/c77db25e-bb51-4a10-b2ad-99b48b1b4a37",
+    "uri": "http://data.europa.eu/esco/skill/c77db25e-bb51-4a10-b2ad-99b48b1b4a37",
+    "name": "maintain computer hardware",
+    "labels": [
+      "maintain computer hardware",
+      "computer hardware repairing",
+      "repair computer hardware",
+      "maintaining computer hardware",
+      "repairing computer hardware",
+      "computer hardware maintaining"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/faf8943c-72ff-4736-a587-25508695d6f0",
+    "uri": "http://data.europa.eu/esco/skill/faf8943c-72ff-4736-a587-25508695d6f0",
+    "name": "maintain financial records",
+    "labels": [
+      "maintain financial records",
+      "keep financial records",
+      "oversee financial records",
+      "maintaining financial records",
+      "update financial records",
+      "maintain financial record"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4c598bd8-247e-4d77-9750-91e40e380436",
+    "uri": "http://data.europa.eu/esco/skill/4c598bd8-247e-4d77-9750-91e40e380436",
+    "name": "manage artificial plant displays",
+    "labels": [
+      "manage artificial plant displays",
+      "artificial plant display preparing",
+      "prepare artificial plant displays",
+      "prepare displays of artificial plants",
+      "preparing artificial plant displays",
+      "manage displays of artificial plants",
+      "artificial plant display managing",
+      "preparing displays of artificial plants",
+      "managing displays of artificial plants",
+      "managing artificial plant displays"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/80ae18bf-f3a4-4f83-b372-7c5c9d686865",
+    "uri": "http://data.europa.eu/esco/skill/80ae18bf-f3a4-4f83-b372-7c5c9d686865",
+    "name": "manage commercial risks",
+    "labels": [
+      "manage commercial risks",
+      "commercial risks management",
+      "management of commercial risks",
+      "commercial risk evaluation",
+      "managing commercial risks",
+      "managing business risk",
+      "risk management in commerce",
+      "evaluation of commercial risks",
+      "commercial risk management",
+      "commercial risks evaluation",
+      "evaluate commercial risks",
+      "managing of commercial risks",
+      "evaluating commercial risks",
+      "manage business risks"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/6a899482-8bcf-40ca-ae67-579a1cc467ab",
+    "uri": "http://data.europa.eu/esco/skill/6a899482-8bcf-40ca-ae67-579a1cc467ab",
+    "name": "manage engineering project",
+    "labels": [
+      "manage engineering project",
+      "oversee engineering project",
+      "monitor engineering project",
+      "supervise engineering project",
+      "managing engineering project",
+      "manage engineering projects",
+      "managing engineering projects",
+      "coordinate engineering project"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/7f7756fc-d89d-41d5-93ef-85991603f4ad",
+    "uri": "http://data.europa.eu/esco/skill/7f7756fc-d89d-41d5-93ef-85991603f4ad",
+    "name": "manage financial risk",
+    "labels": [
+      "manage financial risk",
+      "practice financial risk management",
+      "manage financial risks",
+      "carry out financial risk management",
+      "manage financial risk exposure",
+      "control financial risk",
+      "mitigate financial risk",
+      "regulate financial risk",
+      "minimise financial risks",
+      "employ financial risk management",
+      "minimise the impact of financial risks"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/54ae8c54-2aad-46fc-bff2-9d44d0ec7a6e",
+    "uri": "http://data.europa.eu/esco/skill/54ae8c54-2aad-46fc-bff2-9d44d0ec7a6e",
+    "name": "manage information access aids",
+    "labels": [
+      "manage information access aids",
+      "oversee information access aids",
+      "manage aids for information access",
+      "supervise information access aids",
+      "manage info access aids",
+      "maintain information access aids",
+      "managing information access aids"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4ff17e60-5dfc-457b-b5bc-1750248095d5",
+    "uri": "http://data.europa.eu/esco/skill/4ff17e60-5dfc-457b-b5bc-1750248095d5",
+    "name": "manage legal personal issues",
+    "labels": [
+      "manage legal personal issues",
+      "handle legal personal issues",
+      "oversee legal personal issues",
+      "managing legal personal issues",
+      "manage legal personal issue",
+      "manage personal legal issues"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/3bf7e0ee-2580-41e8-924d-9d504dc98546",
+    "uri": "http://data.europa.eu/esco/skill/3bf7e0ee-2580-41e8-924d-9d504dc98546",
+    "name": "manage mine site data",
+    "labels": [
+      "manage mine site data",
+      "management of mine site data",
+      "managing of mine site data",
+      "collect mine spatial data",
+      "managing mine site data",
+      "manage site data",
+      "collecting spatial data",
+      "mine site data management",
+      "collect spatial data",
+      "managing site data",
+      "collecting mine spatial data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/57231a22-4da7-49c8-97b8-75672feadf1e",
+    "uri": "http://data.europa.eu/esco/skill/57231a22-4da7-49c8-97b8-75672feadf1e",
+    "name": "manage quantitative data",
+    "labels": [
+      "manage quantitative data",
+      "process data",
+      "organise data",
+      "managing quantitative data",
+      "handle numerical data",
+      "gather data",
+      "present data",
+      "interpret data",
+      "manage data quantitatively"
+    ],
+    "domains": [
+      "data_science",
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/909eef58-7961-4422-8116-a3af670e38b6",
+    "uri": "http://data.europa.eu/esco/skill/909eef58-7961-4422-8116-a3af670e38b6",
+    "name": "manage risk of lighting failure",
+    "labels": [
+      "manage risk of lighting failure",
+      "perform lighting failure risk management",
+      "manage lighting systems to reduce the risk of lighting failure",
+      "mitigate the risks of lighting failure",
+      "control lighting failure risk",
+      "manage the risks of lighting failures",
+      "control risk of lighting failure",
+      "identify and resolve lighting issues",
+      "conduct lighting failure risk management",
+      "manage lighting failure risk",
+      "control risks of lighting failure"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/ab6b2887-0ecf-462d-8c9d-70da02e5d475",
+    "uri": "http://data.europa.eu/esco/skill/ab6b2887-0ecf-462d-8c9d-70da02e5d475",
+    "name": "manage securities trading",
+    "labels": [
+      "manage securities trading",
+      "oversee securities trading",
+      "administer securities trading",
+      "trade securities",
+      "perform management of securities trading",
+      "conduct securities trading",
+      "manage securities sale and purchase",
+      "handle securities trading"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/978db6a1-7297-4c89-819a-47605f2c3ba8",
+    "uri": "http://data.europa.eu/esco/skill/978db6a1-7297-4c89-819a-47605f2c3ba8",
+    "name": "manage software releases",
+    "labels": [
+      "manage software releases"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4339176e-3acd-4f7f-a5d9-445bee3d23f2",
+    "uri": "http://data.europa.eu/esco/skill/4339176e-3acd-4f7f-a5d9-445bee3d23f2",
+    "name": "mathematics",
+    "labels": [
+      "mathematics",
+      "field of mathematics",
+      "mathematical subjects",
+      "quantitative data",
+      "calculation",
+      "study of mathematics",
+      "numeracy",
+      "maths"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/c3a03c5a-c260-4c26-9b9a-873abb396f4d",
+    "uri": "http://data.europa.eu/esco/skill/c3a03c5a-c260-4c26-9b9a-873abb396f4d",
+    "name": "MATLAB",
+    "labels": [
+      "matlab"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/c280da28-760f-4134-b1e7-e76c45cd7a8d",
+    "uri": "http://data.europa.eu/esco/skill/c280da28-760f-4134-b1e7-e76c45cd7a8d",
+    "name": "meat industry",
+    "labels": [
+      "meat industry",
+      "the meat industry",
+      "meat company",
+      "meat trader",
+      "meat manufacture",
+      "meat business"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/3a6b6485-8775-44b9-aba8-0ae06a53ce2f",
+    "uri": "http://data.europa.eu/esco/skill/3a6b6485-8775-44b9-aba8-0ae06a53ce2f",
+    "name": "military code",
+    "labels": [
+      "military code",
+      "armed forces cipher",
+      "military cipher",
+      "armed forces encryption",
+      "armed forces code",
+      "military cryptograph"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/a4d336a6-9ffd-402a-91cc-f359716ba4e0",
+    "uri": "http://data.europa.eu/esco/skill/a4d336a6-9ffd-402a-91cc-f359716ba4e0",
+    "name": "ML",
+    "labels": [
+      "ml"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/d1ee1caa-1956-48f6-a009-318204bf908e",
+    "uri": "http://data.europa.eu/esco/skill/d1ee1caa-1956-48f6-a009-318204bf908e",
+    "name": "model groundwater",
+    "labels": [
+      "model groundwater",
+      "groundwater characteristics analysis",
+      "groundwater modelling",
+      "groundwater flow modelling",
+      "modelling groundwater flow",
+      "modelling of groundwater",
+      "modelling groundwater",
+      "analysing groundwater characteristics",
+      "modelling of groundwater flow",
+      "analyse groundwater characteristics",
+      "analysing of groundwater characteristics",
+      "analysis of groundwater characteristics"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/f760d2c9-e7ef-4439-8644-d4ecc4a3884e",
+    "uri": "http://data.europa.eu/esco/skill/f760d2c9-e7ef-4439-8644-d4ecc4a3884e",
+    "name": "model mineral deposits",
+    "labels": [
+      "model mineral deposits",
+      "develop geological model",
+      "development of geological model",
+      "mineral deposits modelling",
+      "geological model development",
+      "mineral deposit modelling",
+      "developing geological model",
+      "developing of geological model",
+      "modelling mineral deposits",
+      "modelling of mineral deposits"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/310da5da-517c-4496-a673-92001098a2b7",
+    "uri": "http://data.europa.eu/esco/skill/310da5da-517c-4496-a673-92001098a2b7",
+    "name": "modern languages",
+    "labels": [
+      "modern languages",
+      "living languages",
+      "living language",
+      "modern language"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "manual:monte-carlo-simulation",
+    "uri": null,
+    "name": "Monte Carlo Simulation",
+    "labels": [
+      "monte carlo simulation",
+      "monte carlo methods",
+      "monte carlo modelling"
+    ],
+    "domains": [
+      "ai_ml_engineering",
+      "data_science",
+      "quant"
+    ],
+    "sources": [
+      "manual"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/bedd8fa7-5a64-4134-9095-58f5709e25e4",
+    "uri": "http://data.europa.eu/esco/skill/bedd8fa7-5a64-4134-9095-58f5709e25e4",
+    "name": "Moodle",
+    "labels": [
+      "moodle"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/ec0b765d-e5d5-4ef5-8c05-61fb3cfb0781",
+    "uri": "http://data.europa.eu/esco/skill/ec0b765d-e5d5-4ef5-8c05-61fb3cfb0781",
+    "name": "narrow web flexographic printing press",
+    "labels": [
+      "narrow web flexographic printing press",
+      "narrow web flexo printing press"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/608eb32b-276c-42a6-9be9-2d7bc33e9b3b",
+    "uri": "http://data.europa.eu/esco/skill/608eb32b-276c-42a6-9be9-2d7bc33e9b3b",
+    "name": "natural gas",
+    "labels": [
+      "natural gas",
+      "ng",
+      "extraction of natural gas",
+      "characteristics of natural gas",
+      "production of natural gas",
+      "extraction of natural gases",
+      "natural gases",
+      "characteristics of natural gases",
+      "production of natural gases",
+      "facets of natural gas",
+      "natural gas facets"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/65f2b899-d1c6-40e3-9f8e-40c4d3e59079",
+    "uri": "http://data.europa.eu/esco/skill/65f2b899-d1c6-40e3-9f8e-40c4d3e59079",
+    "name": "natural gas liquids fractionation processes",
+    "labels": [
+      "natural gas liquids fractionation processes",
+      "processes of natural gas liquids fractionation",
+      "process of natural gas liquid fractionation",
+      "natural gas liquids fractionation process",
+      "working of debutaniser",
+      "working of butane splitter",
+      "working of deethaniser",
+      "working of depropaniser",
+      "fractionation process of natural gas liquid",
+      "fractionation processes of natural gas liquids",
+      "separation processes for ngls"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/44832432-3bcc-4e62-8696-0411dd28e4b7",
+    "uri": "http://data.europa.eu/esco/skill/44832432-3bcc-4e62-8696-0411dd28e4b7",
+    "name": "natural gas liquids recovery processes",
+    "labels": [
+      "natural gas liquids recovery processes",
+      "cryogenic expansion processes",
+      "natural gas liquids recovery process",
+      "oil absorption techniques",
+      "types of natural gas liquids recovery process",
+      "recover liquids from natural gas",
+      "recovery processes for natural gas liquids",
+      "range of natural gas liquids recovery processes",
+      "separation of heavier hydrocarbons",
+      "processes for natural gas liquids recovery"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/fff0e2cd-d0bd-4b02-9daf-158b79d9688a",
+    "uri": "http://data.europa.eu/esco/skill/fff0e2cd-d0bd-4b02-9daf-158b79d9688a",
+    "name": "natural language processing",
+    "labels": [
+      "natural language processing",
+      "nlp"
+    ],
+    "domains": [
+      "ai_ml_engineering",
+      "data_science"
+    ],
+    "sources": [
+      "esco",
+      "manual"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/73c7d0d9-092f-4f6e-800a-5759f45a6fc6",
+    "uri": "http://data.europa.eu/esco/skill/73c7d0d9-092f-4f6e-800a-5759f45a6fc6",
+    "name": "operate 2D CAD for footwear pattern engineering",
+    "labels": [
+      "operate 2d cad for footwear pattern engineering",
+      "use 2d computer-aided design for footwear pattern engineering",
+      "use 2d cad for footwear engineering",
+      "design footwear in 2d with cad software",
+      "operate 2d cad for footwear",
+      "design footwear in 2d with computer-aided design software",
+      "operate 2d cad software for footwear pattern engineering",
+      "operate 2d computer-aided design for footwear pattern engineering"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/a05ead02-1728-4d60-929c-7e7c3a87672c",
+    "uri": "http://data.europa.eu/esco/skill/a05ead02-1728-4d60-929c-7e7c3a87672c",
+    "name": "operate financial instruments",
+    "labels": [
+      "operate financial instruments",
+      "financial instrument operation",
+      "undertake financial instruments",
+      "perform financial instruments",
+      "operating financial instruments",
+      "operate a financial instrument",
+      "conduct financial instruments",
+      "run financial instruments"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/f4cd5ece-c0e2-42d7-83ef-2008fe0d7cb6",
+    "uri": "http://data.europa.eu/esco/skill/f4cd5ece-c0e2-42d7-83ef-2008fe0d7cb6",
+    "name": "operate flexographic printing machine",
+    "labels": [
+      "operate flexographic printing machine",
+      "operating flexographic printing machine",
+      "control flexographic printing machine",
+      "run flexographic printing machine",
+      "use flexographic printing machine",
+      "activate flexographic printing machine",
+      "operate flexographic printing machines",
+      "handle flexographic printing machine"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/7dde2d1d-48fa-43c9-8b48-1372b6e7cb4c",
+    "uri": "http://data.europa.eu/esco/skill/7dde2d1d-48fa-43c9-8b48-1372b6e7cb4c",
+    "name": "operate on-board computer systems",
+    "labels": [
+      "operate on-board computer systems",
+      "utilise on-board vehicle computer systems",
+      "perform operations using on-board computer systems",
+      "operate on-board vehicle computer systems",
+      "perform on-board vehicle computer operations",
+      "utilise on-board computer systems",
+      "conduct operations using on-board computer systems",
+      "execute on-board vehicle computer operations",
+      "carry out on-board vehicle computer operations",
+      "use on-board vehicle computer systems",
+      "use on-board computer systems"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/3369d4f5-bfa7-47dc-b61f-e74d0d91bf74",
+    "uri": "http://data.europa.eu/esco/skill/3369d4f5-bfa7-47dc-b61f-e74d0d91bf74",
+    "name": "optimise financial performance",
+    "labels": [
+      "optimise financial performance",
+      "financial performance optimisation",
+      "optimisation of financial performance",
+      "optimising of financial performance",
+      "direction of financial operations",
+      "controlling business budget",
+      "optimising financial performance",
+      "direct financial operations",
+      "directing financial operations",
+      "control business budget"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/e8b89eb6-51e8-4c3a-babb-88b2e110376b",
+    "uri": "http://data.europa.eu/esco/skill/e8b89eb6-51e8-4c3a-babb-88b2e110376b",
+    "name": "Pascal",
+    "labels": [
+      "pascal"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/05338a70-1ea1-4c33-a886-1c4f0c7d7241",
+    "uri": "http://data.europa.eu/esco/skill/05338a70-1ea1-4c33-a886-1c4f0c7d7241",
+    "name": "pass on trade techniques",
+    "labels": [
+      "pass on trade techniques",
+      "pass on trade routines",
+      "pass on trade skills",
+      "pass on trade procedures",
+      "pass on techniques of a trade",
+      "pass on a trade technique",
+      "pass on trading techniques",
+      "pass on trade approaches"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/97b23993-8836-4e66-9092-19c7b3324e5f",
+    "uri": "http://data.europa.eu/esco/skill/97b23993-8836-4e66-9092-19c7b3324e5f",
+    "name": "perform brand analysis",
+    "labels": [
+      "perform brand analysis",
+      "implement brand analysis",
+      "undertake brand analysis",
+      "complete brand analysis",
+      "perform a brand analysis",
+      "performing a brand analysis",
+      "performing brand analysis"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/2b92a5b2-6758-4ee3-9fb4-b6387a55cc8f",
+    "uri": "http://data.europa.eu/esco/skill/2b92a5b2-6758-4ee3-9fb4-b6387a55cc8f",
+    "name": "perform data analysis",
+    "labels": [
+      "perform data analysis",
+      "implement data analysis",
+      "complete data analysis",
+      "performing data analysis",
+      "perform analysis of data",
+      "analyse data performance",
+      "undertake data analysis"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/50b100ea-74fd-4706-99db-3e4ca55e51b8",
+    "uri": "http://data.europa.eu/esco/skill/50b100ea-74fd-4706-99db-3e4ca55e51b8",
+    "name": "perform data cleansing",
+    "labels": [
+      "perform data cleansing",
+      "performing data cleansing",
+      "data cleansing performance",
+      "undertake data cleansing",
+      "implement data cleansing",
+      "complete data cleansing",
+      "perform a data cleanse"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4216e465-7baa-4884-a241-54b197bb9278",
+    "uri": "http://data.europa.eu/esco/skill/4216e465-7baa-4884-a241-54b197bb9278",
+    "name": "perform data mining",
+    "labels": [
+      "perform data mining",
+      "mine data",
+      "use model data"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4bdbd6db-7d75-40e7-b40e-5718e2982dfb",
+    "uri": "http://data.europa.eu/esco/skill/4bdbd6db-7d75-40e7-b40e-5718e2982dfb",
+    "name": "perform financial risk management in international trade",
+    "labels": [
+      "perform financial risk management in international trade",
+      "perform financial risk management in international trading",
+      "complete financial risk management in international trade",
+      "performing financial risk management in international trading",
+      "undertake financial risk management in international trade",
+      "performing financial risk management in international trade",
+      "implement financial risk management in international trade"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/ef258352-7226-4eb8-a943-4be6eaa5ec00",
+    "uri": "http://data.europa.eu/esco/skill/ef258352-7226-4eb8-a943-4be6eaa5ec00",
+    "name": "perform food risk analysis",
+    "labels": [
+      "perform food risk analysis",
+      "execute food risk analysis",
+      "perform food risks analysis",
+      "implement food risk analysis",
+      "undertake food risk analysis",
+      "complete food risk analysis",
+      "performing food risk analysis"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/0ad58425-0691-4da4-b89b-eaa15c09c142",
+    "uri": "http://data.europa.eu/esco/skill/0ad58425-0691-4da4-b89b-eaa15c09c142",
+    "name": "perform liquid penetrant tests",
+    "labels": [
+      "perform liquid penetrant tests",
+      "performing liquid penetrant testing",
+      "conduct liquid penetrant tests",
+      "liquid penetrant tests",
+      "carry out liquid penetrant tests",
+      "engage in liquid penetrant tests",
+      "liquid penetrant testing"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/e77cbe19-1830-4c24-b43e-38767929e75a",
+    "uri": "http://data.europa.eu/esco/skill/e77cbe19-1830-4c24-b43e-38767929e75a",
+    "name": "perform property market research",
+    "labels": [
+      "perform property market research",
+      "perform estate market research",
+      "implement property market research",
+      "perform house market research",
+      "perform land market research"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/1dd23dba-dd00-45ab-abf4-642902538317",
+    "uri": "http://data.europa.eu/esco/skill/1dd23dba-dd00-45ab-abf4-642902538317",
+    "name": "perform risk analysis",
+    "labels": [
+      "perform risk analysis",
+      "implement risk analysis",
+      "perform a risk analysis",
+      "finish risk analysis",
+      "performing a risk analysis",
+      "risk analysis performance",
+      "complete risk analysis",
+      "undertake risk analysis"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/b8b5d6aa-6c28-4e06-a98b-8a8a4c245a8c",
+    "uri": "http://data.europa.eu/esco/skill/b8b5d6aa-6c28-4e06-a98b-8a8a4c245a8c",
+    "name": "perform vision rehabilitation",
+    "labels": [
+      "perform vision rehabilitation",
+      "apply vision rehabilitation techniques",
+      "carry out vision rehabilitation",
+      "perform rehabilitation of vision",
+      "perform vision rehabilitations"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/0ba7e293-4665-4c8b-86fa-c1a4b1daee12",
+    "uri": "http://data.europa.eu/esco/skill/0ba7e293-4665-4c8b-86fa-c1a4b1daee12",
+    "name": "place orders for computer products",
+    "labels": [
+      "place orders for computer products",
+      "place orders for computer merchandise",
+      "place orders for computer stock",
+      "place orders for computer brands",
+      "place orders for computer goods",
+      "place orders for computer commodities",
+      "place an order for computer products",
+      "place order for a computer product",
+      "placing orders for computer products"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/267b9417-9d05-4731-a877-bfb978fb50eb",
+    "uri": "http://data.europa.eu/esco/skill/267b9417-9d05-4731-a877-bfb978fb50eb",
+    "name": "plan engineering activities",
+    "labels": [
+      "plan engineering activities",
+      "arrange engineering activities",
+      "plan engineering activity",
+      "schedule engineering activities",
+      "planning engineering activities",
+      "organise engineering activities"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/870ac739-6eb1-42ed-8c3e-82af7c9e71d0",
+    "uri": "http://data.europa.eu/esco/skill/870ac739-6eb1-42ed-8c3e-82af7c9e71d0",
+    "name": "polymer chemistry",
+    "labels": [
+      "polymer chemistry",
+      "polymers",
+      "chemistry of polymers",
+      "macromolecule chemistry",
+      "chemistry of macromolecules"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "manual:postgresql",
+    "uri": null,
+    "name": "PostgreSQL",
+    "labels": [
+      "postgresql",
+      "postgres"
+    ],
+    "domains": [
+      "data_science",
+      "software_engineering"
+    ],
+    "sources": [
+      "manual"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/dd6e5939-d19b-4e2f-a025-2014f0a2ec88",
+    "uri": "http://data.europa.eu/esco/skill/dd6e5939-d19b-4e2f-a025-2014f0a2ec88",
+    "name": "power engineering",
+    "labels": [
+      "power engineering",
+      "electrical power engineering science",
+      "discipline of electrical power engineering",
+      "power engineering discipline",
+      "electrical power engineering discipline",
+      "science of power engineering",
+      "power engineering science",
+      "science of electrical power engineering",
+      "discipline of power engineering"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/25c4cb91-d64b-48d1-a350-3527334a360d",
+    "uri": "http://data.europa.eu/esco/skill/25c4cb91-d64b-48d1-a350-3527334a360d",
+    "name": "precision engineering",
+    "labels": [
+      "precision engineering",
+      "precision engineering science",
+      "precision engineering discipline",
+      "science of precision engineering",
+      "low tolerances in engineering",
+      "discipline of precision engineering",
+      "engineering to low tolerances"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/d37bc902-f640-48d7-9db4-544db9aa65fa",
+    "uri": "http://data.europa.eu/esco/skill/d37bc902-f640-48d7-9db4-544db9aa65fa",
+    "name": "prepare financial projections",
+    "labels": [
+      "prepare financial projections",
+      "prepare finance projections",
+      "make financial projections ready",
+      "prepare financial projection",
+      "preparing financial projections",
+      "formulate financial projections",
+      "create financial projections"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/0551beb0-2e59-4e43-8883-d4a06400940f",
+    "uri": "http://data.europa.eu/esco/skill/0551beb0-2e59-4e43-8883-d4a06400940f",
+    "name": "prepare livestock for artificial insemination",
+    "labels": [
+      "prepare livestock for artificial insemination",
+      "get livestock ready for artificial insemination",
+      "ensure livestock are appropriately prepared for artificial insemination",
+      "ensure animals and working environment are appropriately prepared for artificial insemination procedures",
+      "ready livestock for artificial insemination",
+      "carry out preparation activities for livestock artificial insemination",
+      "perform livestock artificial insemination preparation activities",
+      "prepare livestock for artificial insemination processes",
+      "prepare livestock for artificial insemination procedures",
+      "ready livestock for artificial insemination procedures",
+      "ensure livestock are appropriately prepared for artificial insemination procedures"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/c0326e27-5fa8-4dca-aecb-ed89ab491513",
+    "uri": "http://data.europa.eu/esco/skill/c0326e27-5fa8-4dca-aecb-ed89ab491513",
+    "name": "prepare visual data",
+    "labels": [
+      "prepare visual data",
+      "find visual data",
+      "get visual data ready",
+      "identify visual data",
+      "arrange visual data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/e465a154-93f7-4973-9ce1-31659fe16dd2",
+    "uri": "http://data.europa.eu/esco/skill/e465a154-93f7-4973-9ce1-31659fe16dd2",
+    "name": "principles of artificial intelligence",
+    "labels": [
+      "principles of artificial intelligence",
+      "principles of ai"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/54804209-6aac-4ca4-bf3c-aef4fbe18f8c",
+    "uri": "http://data.europa.eu/esco/skill/54804209-6aac-4ca4-bf3c-aef4fbe18f8c",
+    "name": "principles of mechanical engineering",
+    "labels": [
+      "principles of mechanical engineering",
+      "mechanical engineering foundations",
+      "foundations of mechanical engineering",
+      "mechanical engineering fundamentals",
+      "fundamentals of mechanical engineering",
+      "materials science, physics, and mechanical engineering",
+      "machinery engineering",
+      "engineering in machinery",
+      "engineering in mechanical systems",
+      "mechanical engineering principles",
+      "physics, materials science, and mechanical engineering"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/f2d57f41-43b4-4f5b-8100-3df5c21eda50",
+    "uri": "http://data.europa.eu/esco/skill/f2d57f41-43b4-4f5b-8100-3df5c21eda50",
+    "name": "process data",
+    "labels": [
+      "process data",
+      "measure data",
+      "refine data",
+      "processing of data",
+      "handle data",
+      "analyse data",
+      "data processing",
+      "processing data",
+      "convert data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/2bde42ae-e776-41c1-9ded-b07b30bfe985",
+    "uri": "http://data.europa.eu/esco/skill/2bde42ae-e776-41c1-9ded-b07b30bfe985",
+    "name": "Prolog",
+    "labels": [
+      "prolog"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/8d3deb53-3998-42eb-97f3-4e8ccb7591a5",
+    "uri": "http://data.europa.eu/esco/skill/8d3deb53-3998-42eb-97f3-4e8ccb7591a5",
+    "name": "promote financial products",
+    "labels": [
+      "promote financial products",
+      "advertise financial product",
+      "promote financial services",
+      "market financial products",
+      "advertise financial products"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/1ad71686-dadc-4ff5-8007-9af8fefd882e",
+    "uri": "http://data.europa.eu/esco/skill/1ad71686-dadc-4ff5-8007-9af8fefd882e",
+    "name": "promote free trade",
+    "labels": [
+      "promote free trade",
+      "advocate free trade",
+      "stimulate free trade",
+      "stimulate tariff less trading",
+      "encourage free trade",
+      "encourage tariff less trading",
+      "boost free trade",
+      "advocate tariff less trading",
+      "boost tariff less trading"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/80ffa169-a3ff-47a8-9be1-7731ba543739",
+    "uri": "http://data.europa.eu/esco/skill/80ffa169-a3ff-47a8-9be1-7731ba543739",
+    "name": "prosthetic devices",
+    "labels": [
+      "prosthetic devices",
+      "prosthesis",
+      "prosthetic limbs",
+      "prosthetic device",
+      "artificial limbs",
+      "prostheses",
+      "prosthetic limb",
+      "artificial limb"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/5a676421-d33a-490f-8043-4f81224d3f47",
+    "uri": "http://data.europa.eu/esco/skill/5a676421-d33a-490f-8043-4f81224d3f47",
+    "name": "provide learning support",
+    "labels": [
+      "provide learning support",
+      "offer learning support",
+      "provides learning support",
+      "make learning support available",
+      "supply learning support",
+      "providing learning support"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/758e8e0c-2406-460f-b33c-36b422e018bb",
+    "uri": "http://data.europa.eu/esco/skill/758e8e0c-2406-460f-b33c-36b422e018bb",
+    "name": "provide learning support in healthcare",
+    "labels": [
+      "provide learning support in healthcare",
+      "provide learning support to healthcare practitioners",
+      "supply learning support to clients and healthcare practitioners",
+      "provide learning support for client and healthcare practitioner",
+      "provide learning support to groups",
+      "implement learning support for clients and healthcare practitioners",
+      "support learning in healthcare",
+      "support learning of clients and healthcare practitioners",
+      "provide learning support to clients",
+      "provide learning support to other groups",
+      "implement learning support for client and healthcare practitioner"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4f449a5e-302a-4d02-808f-a7e687532400",
+    "uri": "http://data.europa.eu/esco/skill/4f449a5e-302a-4d02-808f-a7e687532400",
+    "name": "provide petroleum engineering support",
+    "labels": [
+      "provide petroleum engineering support",
+      "provision of petroleum engineering support",
+      "providing of petroleum engineering support",
+      "assist in petroleum engineering activities",
+      "providing petroleum engineering support",
+      "petroleum engineering support provision",
+      "support petroleum engineering activities",
+      "assisting in petroleum engineering activities",
+      "assist petroleum exploration",
+      "assisting petroleum exploration",
+      "supporting petroleum engineering activities"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/6bf6b5bd-6658-4338-b0ee-dc143e68e6d3",
+    "uri": "http://data.europa.eu/esco/skill/6bf6b5bd-6658-4338-b0ee-dc143e68e6d3",
+    "name": "provide support in financial calculation",
+    "labels": [
+      "provide support in financial calculation",
+      "assist in financial calculation",
+      "contribute to complex financial files"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/ff031994-dd71-4bb6-a351-1b9c83efa0d1",
+    "uri": "http://data.europa.eu/esco/skill/ff031994-dd71-4bb6-a351-1b9c83efa0d1",
+    "name": "provide therapy of the visual system",
+    "labels": [
+      "provide therapy of the visual system",
+      "provide vision therapy",
+      "provide therapies of the visual system",
+      "offer vision therapy",
+      "apply suitable treatment methods to visual system"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4ffc3a4c-b4f3-4082-b030-93799725d01b",
+    "uri": "http://data.europa.eu/esco/skill/4ffc3a4c-b4f3-4082-b030-93799725d01b",
+    "name": "put uncut recordings into computer",
+    "labels": [
+      "put uncut recordings into computer",
+      "input uncut recordings into computer",
+      "putting uncut recordings into computer",
+      "put uncut recording into computer",
+      "digitalise uncut recordings"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "manual:python",
+    "uri": null,
+    "name": "Python",
+    "labels": [
+      "python",
+      "python programming",
+      "programming in python"
+    ],
+    "domains": [
+      "ai_ml_engineering",
+      "data_science",
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "manual"
+    ]
+  },
+  {
+    "id": "manual:pytorch",
+    "uri": null,
+    "name": "PyTorch",
+    "labels": [
+      "pytorch"
+    ],
+    "domains": [
+      "ai_ml_engineering",
+      "data_science"
+    ],
+    "sources": [
+      "manual"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/ee4d0595-5b1e-490d-bd66-5fa3688ec323",
+    "uri": "http://data.europa.eu/esco/skill/ee4d0595-5b1e-490d-bd66-5fa3688ec323",
+    "name": "quantitative sensory testing",
+    "labels": [
+      "quantitative sensory testing",
+      "method of quantitative sensory testing",
+      "principles of methods of quantitative sensory testing",
+      "paradigm of quantitative sensory testing",
+      "quantitative sensory examination",
+      "quantitative sensory measurement"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/51586df8-1c46-4b47-8583-773cb63bf00b",
+    "uri": "http://data.europa.eu/esco/skill/51586df8-1c46-4b47-8583-773cb63bf00b",
+    "name": "R",
+    "labels": [
+      "r"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/0f040ee7-075c-4986-9a6c-d20f846d69d6",
+    "uri": "http://data.europa.eu/esco/skill/0f040ee7-075c-4986-9a6c-d20f846d69d6",
+    "name": "rail construction engineering",
+    "labels": [
+      "rail construction engineering",
+      "specialist railroad construction engineering",
+      "railroad construction engineering",
+      "railway construction engineering",
+      "construction engineering for railroads",
+      "specialist railway construction engineering",
+      "engineering for the construction of railroads",
+      "engineering for the construction of railways",
+      "specialist rail construction engineering",
+      "construction engineering for railways"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/1fdbb8ac-0f77-4261-b28c-6ff6a46ad096",
+    "uri": "http://data.europa.eu/esco/skill/1fdbb8ac-0f77-4261-b28c-6ff6a46ad096",
+    "name": "rail design engineering",
+    "labels": [
+      "rail design engineering",
+      "railway engineering",
+      "railroad design engineering",
+      "engineering for railway design and development",
+      "rail engineering",
+      "design engineering for railway construction",
+      "rail engineering design",
+      "railway engineering design",
+      "design engineering for railway development",
+      "engineering in railway construction design",
+      "railway design engineering"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/b07daddc-8625-4360-946e-ad2b0e56ebf6",
+    "uri": "http://data.europa.eu/esco/skill/b07daddc-8625-4360-946e-ad2b0e56ebf6",
+    "name": "read engineering drawings",
+    "labels": [
+      "read engineering drawings",
+      "read an engineering drawing",
+      "view engineering drawings",
+      "read of engineering drawings",
+      "peruse engineering drawings",
+      "study engineering drawings",
+      "reading engineering drawings",
+      "interpret engineering drawings"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/29431e90-435e-4a3b-9eb5-c89f6d7f4fea",
+    "uri": "http://data.europa.eu/esco/skill/29431e90-435e-4a3b-9eb5-c89f6d7f4fea",
+    "name": "record malting cycle data",
+    "labels": [
+      "record malting cycle data",
+      "record of malting cycle data",
+      "file malting cycle data",
+      "note malting cycle data",
+      "document malting cycle data",
+      "recording malting cycle data",
+      "report malting cycle data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/c5efe5ad-c5e3-4bd1-9c8b-4a514940f4d6",
+    "uri": "http://data.europa.eu/esco/skill/c5efe5ad-c5e3-4bd1-9c8b-4a514940f4d6",
+    "name": "record production data",
+    "labels": [
+      "record production data",
+      "file production data",
+      "recording production data",
+      "production data recording",
+      "document production data",
+      "evidence production data",
+      "chronicle production data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/8359bd04-d2cb-4757-af1f-39a921df9efe",
+    "uri": "http://data.europa.eu/esco/skill/8359bd04-d2cb-4757-af1f-39a921df9efe",
+    "name": "remove computer virus or malware from a computer",
+    "labels": [
+      "remove computer virus or malware from a computer",
+      "remove malware from a computer",
+      "removing malware from a computer",
+      "cleaning virus-infected computer",
+      "cleaning malware-infected computer",
+      "computer virus or malware removing from a computer",
+      "clean malware-infected computer",
+      "removing virus from a computer",
+      "clean virus-infected computer",
+      "remove virus from a computer",
+      "removing computer virus or malware from a computer"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/b048b4d3-80d6-4a6a-a02d-804faf0e2632",
+    "uri": "http://data.europa.eu/esco/skill/b048b4d3-80d6-4a6a-a02d-804faf0e2632",
+    "name": "review closing procedures",
+    "labels": [
+      "review closing procedures",
+      "review final asset trading procedures",
+      "review asset transaction",
+      "review ownership transfer procedures",
+      "review closing transaction"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/6eff134b-e34f-4d6e-a6e8-5e47cf2228d0",
+    "uri": "http://data.europa.eu/esco/skill/6eff134b-e34f-4d6e-a6e8-5e47cf2228d0",
+    "name": "risk management",
+    "labels": [
+      "risk management",
+      "hazard manamagent",
+      "risk assessment",
+      "risk administration",
+      "risk governance"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/8ef3eccc-a847-430e-b828-cf178803b8c1",
+    "uri": "http://data.europa.eu/esco/skill/8ef3eccc-a847-430e-b828-cf178803b8c1",
+    "name": "Romani",
+    "labels": [
+      "romani",
+      "romany"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/cab07957-4f35-4bdd-9d6d-dc5a0cf42e13",
+    "uri": "http://data.europa.eu/esco/skill/cab07957-4f35-4bdd-9d6d-dc5a0cf42e13",
+    "name": "safety engineering",
+    "labels": [
+      "safety engineering",
+      "safety engineering analysis",
+      "safety engineering applications",
+      "engineering for safety",
+      "safety engineering analyses",
+      "safety engineering research",
+      "safety engineering studies",
+      "safety engineering work",
+      "safety engineering fieldwork"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/baf1fadb-975a-42be-9744-d8ba02304d09",
+    "uri": "http://data.europa.eu/esco/skill/baf1fadb-975a-42be-9744-d8ba02304d09",
+    "name": "Samurai Web Testing Framework",
+    "labels": [
+      "samurai web testing framework"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/45289df8-d02d-4f08-9802-2c7deae944ad",
+    "uri": "http://data.europa.eu/esco/skill/45289df8-d02d-4f08-9802-2c7deae944ad",
+    "name": "Sanskrit",
+    "labels": [
+      "sanskrit",
+      "sanskrit alphabet, pronunciation and language",
+      "sanskrit language"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/04f1b938-d4d4-4cb1-a863-982af76b9d93",
+    "uri": "http://data.europa.eu/esco/skill/04f1b938-d4d4-4cb1-a863-982af76b9d93",
+    "name": "SAS language",
+    "labels": [
+      "sas language"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/ffddfc7c-a9dd-449f-9e96-882dc447c8b6",
+    "uri": "http://data.europa.eu/esco/skill/ffddfc7c-a9dd-449f-9e96-882dc447c8b6",
+    "name": "Scala",
+    "labels": [
+      "scala"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/489b2571-ce18-4944-b452-ed1f54e55b68",
+    "uri": "http://data.europa.eu/esco/skill/489b2571-ce18-4944-b452-ed1f54e55b68",
+    "name": "Schoology",
+    "labels": [
+      "schoology"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/d56fc2b5-4b0a-4e7e-9bde-a33736f6ff18",
+    "uri": "http://data.europa.eu/esco/skill/d56fc2b5-4b0a-4e7e-9bde-a33736f6ff18",
+    "name": "Scratch",
+    "labels": [
+      "scratch"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4bf59dde-8a03-483f-976a-45764f1e6d6f",
+    "uri": "http://data.europa.eu/esco/skill/4bf59dde-8a03-483f-976a-45764f1e6d6f",
+    "name": "search engines",
+    "labels": [
+      "search engines",
+      "search engine",
+      "google",
+      "web search engine",
+      "yahoo"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/3195533c-acdb-42dd-8c72-18bc36b3826f",
+    "uri": "http://data.europa.eu/esco/skill/3195533c-acdb-42dd-8c72-18bc36b3826f",
+    "name": "select semen for artificial insemination of animals",
+    "labels": [
+      "select semen for artificial insemination of animals",
+      "preparing semen for artificial insemination of animals",
+      "preparing animal semen for artificial insemination",
+      "select animal semen for artificial insemination",
+      "semen selecting for artificial insemination of animals",
+      "semen preparing for artificial insemination of animals",
+      "prepare semen for artificial insemination of animals",
+      "prepare animal semen for artificial insemination",
+      "selecting semen for artificial insemination of animals",
+      "selecting animal semen for artificial insemination"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/2427878e-33c9-4a70-9016-4630484a41ff",
+    "uri": "http://data.europa.eu/esco/skill/2427878e-33c9-4a70-9016-4630484a41ff",
+    "name": "sell cocoons of silk worms",
+    "labels": [
+      "sell cocoons of silk worms",
+      "selling cocoons of silk worms",
+      "trading cocoons of silk worms",
+      "cocoons of silk worms trading",
+      "trade cocoons of silk worms",
+      "cocoons of silk worms selling"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/4f992952-f3ea-473b-9562-183194966704",
+    "uri": "http://data.europa.eu/esco/skill/4f992952-f3ea-473b-9562-183194966704",
+    "name": "sell gaming software",
+    "labels": [
+      "sell gaming software",
+      "dispose of gaming software",
+      "market gaming software",
+      "gaming software sales",
+      "selling gaming software",
+      "gaming software selling",
+      "barter gaming software",
+      "trade gaming software"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/511eaf45-f585-4198-9c8d-9dbedb22b1b2",
+    "uri": "http://data.europa.eu/esco/skill/511eaf45-f585-4198-9c8d-9dbedb22b1b2",
+    "name": "sell software products",
+    "labels": [
+      "sell software products",
+      "software product sales",
+      "dispose software products",
+      "market software products",
+      "sell a software product",
+      "barter software products",
+      "selling software products",
+      "trade software products"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/d76086b6-d5f1-4d21-8c61-7dbee6af1e90",
+    "uri": "http://data.europa.eu/esco/skill/d76086b6-d5f1-4d21-8c61-7dbee6af1e90",
+    "name": "sell veterinary materials",
+    "labels": [
+      "sell veterinary materials",
+      "sale of veterinary medicines",
+      "vending of veterinary products",
+      "sale of veterinary products",
+      "trading of veterinary treatments",
+      "trading of veterinary materials",
+      "veterinary treatment sales",
+      "vending of veterinary treatments",
+      "veterinary product sales",
+      "vending of veterinary medicines",
+      "vending of veterinary materials",
+      "sale of veterinary treatments"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/246980fe-6222-4852-ade8-b372f7e0fd20",
+    "uri": "http://data.europa.eu/esco/skill/246980fe-6222-4852-ade8-b372f7e0fd20",
+    "name": "Slovak",
+    "labels": [
+      "slovak"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/42ed3bfb-1a01-4c8b-9758-fc6438865734",
+    "uri": "http://data.europa.eu/esco/skill/42ed3bfb-1a01-4c8b-9758-fc6438865734",
+    "name": "Smalltalk",
+    "labels": [
+      "smalltalk"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/484df271-bb52-49f1-8f50-f19624bf4df2",
+    "uri": "http://data.europa.eu/esco/skill/484df271-bb52-49f1-8f50-f19624bf4df2",
+    "name": "software components libraries",
+    "labels": [
+      "software components libraries"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/24c200e5-be20-4370-a137-ab53797f3a17",
+    "uri": "http://data.europa.eu/esco/skill/24c200e5-be20-4370-a137-ab53797f3a17",
+    "name": "software frameworks",
+    "labels": [
+      "software frameworks"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/af7ae54f-4649-4c16-87c7-59ba41d4d57f",
+    "uri": "http://data.europa.eu/esco/skill/af7ae54f-4649-4c16-87c7-59ba41d4d57f",
+    "name": "SPARK",
+    "labels": [
+      "spark"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/5da8018b-ae85-4cde-ad93-0394369018f3",
+    "uri": "http://data.europa.eu/esco/skill/5da8018b-ae85-4cde-ad93-0394369018f3",
+    "name": "SPARQL",
+    "labels": [
+      "sparql",
+      "sparql protocol and rdf query language"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "manual:sql",
+    "uri": null,
+    "name": "SQL",
+    "labels": [
+      "sql",
+      "structured query language"
+    ],
+    "domains": [
+      "data_science",
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "manual"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/c062bab3-3ea0-4291-9220-a2d8fef4bead",
+    "uri": "http://data.europa.eu/esco/skill/c062bab3-3ea0-4291-9220-a2d8fef4bead",
+    "name": "SQL Server",
+    "labels": [
+      "sql server",
+      "sql server 2012",
+      "azure sql database",
+      "sql server workgroup edition",
+      "sql server enterprise edition",
+      "sql server developer edition",
+      "ms sql server",
+      "sql server 2008",
+      "sql server express edition",
+      "sql server standard edition",
+      "microsoft sql server compact",
+      "microsoft sql server",
+      "sql server 2005",
+      "sql server 2014",
+      "sql server web edition"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/dc298fac-7ab4-4feb-9b43-33d947d7703e",
+    "uri": "http://data.europa.eu/esco/skill/dc298fac-7ab4-4feb-9b43-33d947d7703e",
+    "name": "standards for web-based e-learning",
+    "labels": [
+      "standards for web-based e-learning"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "manual:stochastic-calculus",
+    "uri": null,
+    "name": "Stochastic Calculus",
+    "labels": [
+      "stochastic calculus"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "manual"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/611ed16b-99bf-4840-9cab-f55d1d286e0a",
+    "uri": "http://data.europa.eu/esco/skill/611ed16b-99bf-4840-9cab-f55d1d286e0a",
+    "name": "store digital data and systems",
+    "labels": [
+      "store digital data and systems",
+      "storing digital data and systems",
+      "archive digital data and systems",
+      "store digital data and system",
+      "cache digital data and systems",
+      "use data and systems archiving procedures",
+      "backup digital data and systems",
+      "store systems and digital data",
+      "back up data",
+      "use data and systems archiving tools",
+      "restore data"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/949ced5f-7536-4614-ac60-563ffc91a2f2",
+    "uri": "http://data.europa.eu/esco/skill/949ced5f-7536-4614-ac60-563ffc91a2f2",
+    "name": "strategic planning",
+    "labels": [
+      "strategic planning",
+      "strategic plan",
+      "strategic plans",
+      "tactical planning"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/253f889e-a10d-442a-849d-614969793776",
+    "uri": "http://data.europa.eu/esco/skill/253f889e-a10d-442a-849d-614969793776",
+    "name": "study acquisition of language",
+    "labels": [
+      "study acquisition of language",
+      "linguistic acquisition studies",
+      "language learning studies",
+      "study of language learning",
+      "language acquisition studies",
+      "linguistic acquisition"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/e72ce847-f7a9-40b8-ac66-ce291a2121de",
+    "uri": "http://data.europa.eu/esco/skill/e72ce847-f7a9-40b8-ac66-ce291a2121de",
+    "name": "study the relationships between quantities",
+    "labels": [
+      "study the relationships between quantities",
+      "analyze the relationships between quantities",
+      "studying quantitative relationships",
+      "monitor the relationships between quantities",
+      "measure the relationships between quantities",
+      "quantitative relationship analysis"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/f399a9c1-be41-4117-bf86-a64b503c4cfd",
+    "uri": "http://data.europa.eu/esco/skill/f399a9c1-be41-4117-bf86-a64b503c4cfd",
+    "name": "supervise data entry",
+    "labels": [
+      "supervise data entry",
+      "oversee data entry",
+      "supervision of data entry",
+      "data entry supervision",
+      "monitor data entry",
+      "manage data entry",
+      "supervising data entry",
+      "watch over data entry"
+    ],
+    "domains": [
+      "data_science"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/599c3e57-1874-45e8-a83c-8ca2171b5e82",
+    "uri": "http://data.europa.eu/esco/skill/599c3e57-1874-45e8-a83c-8ca2171b5e82",
+    "name": "supervise spoken language learning",
+    "labels": [
+      "supervise spoken language learning",
+      "oversee spoken language learning",
+      "supervises spoken language learning",
+      "manage spoken language learning",
+      "supervising spoken language learning",
+      "direct spoken language learning"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/b589ce7c-588f-4045-be2d-9332c2d2278d",
+    "uri": "http://data.europa.eu/esco/skill/b589ce7c-588f-4045-be2d-9332c2d2278d",
+    "name": "surface engineering",
+    "labels": [
+      "surface engineering",
+      "engineering for surfaces",
+      "surface engineering applications",
+      "surface engineering analyses",
+      "surface engineering research",
+      "surface engineering fieldwork",
+      "surface engineering work",
+      "surface engineering analysis",
+      "surface engineering studies"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/ff8bd17c-77e9-4d4e-929a-a0cf86f3ed34",
+    "uri": "http://data.europa.eu/esco/skill/ff8bd17c-77e9-4d4e-929a-a0cf86f3ed34",
+    "name": "surveillance methods",
+    "labels": [
+      "surveillance methods",
+      "scrutiny processes",
+      "surveillance processes",
+      "scrutiny arrangements: scrutiny mechanisms",
+      "surveillance approaches",
+      "surveillance arrangements: surveillance mechanisms",
+      "scrutiny approaches"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/7ee51257-8947-4b69-9bdf-322baf0a6398",
+    "uri": "http://data.europa.eu/esco/skill/7ee51257-8947-4b69-9bdf-322baf0a6398",
+    "name": "Swedish",
+    "labels": [
+      "swedish"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/be80acfc-b6f2-4411-9b8d-b19d9cd2556a",
+    "uri": "http://data.europa.eu/esco/skill/be80acfc-b6f2-4411-9b8d-b19d9cd2556a",
+    "name": "Swift",
+    "labels": [
+      "swift"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/b669e7a7-9987-49a2-a918-ba16a19bd55e",
+    "uri": "http://data.europa.eu/esco/skill/b669e7a7-9987-49a2-a918-ba16a19bd55e",
+    "name": "take artistic vision into account",
+    "labels": [
+      "take artistic vision into account",
+      "respect artistic vision",
+      "consider artistic vision",
+      "understand artistic vision",
+      "bear artistic vision in mind",
+      "taking artistic vision into account"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/d87fe0be-9055-4a76-a444-e98b5bfad9d8",
+    "uri": "http://data.europa.eu/esco/skill/d87fe0be-9055-4a76-a444-e98b5bfad9d8",
+    "name": "Taleo",
+    "labels": [
+      "taleo"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/b820c9de-4d00-4e79-9af9-33f26044ff42",
+    "uri": "http://data.europa.eu/esco/skill/b820c9de-4d00-4e79-9af9-33f26044ff42",
+    "name": "teach computer science",
+    "labels": [
+      "teach computer science",
+      "explain computer science",
+      "teaches computer science",
+      "teaching computer science",
+      "educate on computer science",
+      "provide instruction on computer science"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/14764a75-3104-4875-ba1d-57c059b9b013",
+    "uri": "http://data.europa.eu/esco/skill/14764a75-3104-4875-ba1d-57c059b9b013",
+    "name": "telecommunications engineering",
+    "labels": [
+      "telecommunications engineering",
+      "telephone engineering",
+      "telecommunications technology",
+      "engineering of telecommunications",
+      "telecoms engineering",
+      "tele-communications engineering"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "manual:tensorflow",
+    "uri": null,
+    "name": "TensorFlow",
+    "labels": [
+      "tensorflow"
+    ],
+    "domains": [
+      "ai_ml_engineering",
+      "data_science"
+    ],
+    "sources": [
+      "manual"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/dda69c90-2355-4ab5-b0ef-6ada47f74cc1",
+    "uri": "http://data.europa.eu/esco/skill/dda69c90-2355-4ab5-b0ef-6ada47f74cc1",
+    "name": "test computer hardware",
+    "labels": [
+      "test computer hardware",
+      "computer components system testing",
+      "testing computer components system",
+      "testing of computer hardware",
+      "testing computer components",
+      "computer hardware system testing",
+      "testing computer hardware",
+      "computer hardware testing",
+      "testing of computer components",
+      "computer components testing",
+      "test computer components system",
+      "testing computer hardware system",
+      "test computer hardware system"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/24febd8d-bb08-4be7-a99a-3024f9655ba0",
+    "uri": "http://data.europa.eu/esco/skill/24febd8d-bb08-4be7-a99a-3024f9655ba0",
+    "name": "trade in jewellery",
+    "labels": [
+      "trade in jewellery",
+      "trading in jewellery",
+      "buy and sell jewellery"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/ed07ed44-969f-4942-84ae-77283f53f99b",
+    "uri": "http://data.europa.eu/esco/skill/ed07ed44-969f-4942-84ae-77283f53f99b",
+    "name": "trade in musical instruments",
+    "labels": [
+      "trade in musical instruments",
+      "trade in musical instrument",
+      "trade in gear",
+      "trade in musical apparatus",
+      "trade in musical devices",
+      "trading in musical instruments",
+      "trade in musical equipment"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/3120b759-2707-4d88-bfbd-71c95460d62c",
+    "uri": "http://data.europa.eu/esco/skill/3120b759-2707-4d88-bfbd-71c95460d62c",
+    "name": "trade sector policies",
+    "labels": [
+      "trade sector policies",
+      "trading guidelines",
+      "trade sector guidelines",
+      "trading protocols",
+      "trade sector protocols",
+      "trading strategies",
+      "trade sector strategies"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/9db1c890-581b-4ca0-bce4-7f3f7540ea99",
+    "uri": "http://data.europa.eu/esco/skill/9db1c890-581b-4ca0-bce4-7f3f7540ea99",
+    "name": "trading law",
+    "labels": [
+      "trading law",
+      "trade law",
+      "trading laws",
+      "commerce law",
+      "laws on trading"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/dda26251-7331-41fd-871f-1106ca468189",
+    "uri": "http://data.europa.eu/esco/skill/dda26251-7331-41fd-871f-1106ca468189",
+    "name": "traffic engineering",
+    "labels": [
+      "traffic engineering",
+      "traffic engineering applications",
+      "traffic engineering analyses",
+      "traffic engineering studies",
+      "engineering for traffic",
+      "traffic engineering work",
+      "traffic engineering analysis",
+      "traffic engineering research",
+      "traffic engineering fieldwork"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/cf2eca70-a30c-4bb7-aeda-61c434a0f05c",
+    "uri": "http://data.europa.eu/esco/skill/cf2eca70-a30c-4bb7-aeda-61c434a0f05c",
+    "name": "train mine engineers",
+    "labels": [
+      "train mine engineers",
+      "coaching of mine engineers",
+      "mine engineer coaching",
+      "training of mine engineers",
+      "mine engineer training",
+      "coaching for mine engineers",
+      "coaching mine engineers",
+      "training for mine engineers",
+      "training mine engineers"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/ec410a76-f890-4012-8863-b82f2c75527c",
+    "uri": "http://data.europa.eu/esco/skill/ec410a76-f890-4012-8863-b82f2c75527c",
+    "name": "transportation engineering",
+    "labels": [
+      "transportation engineering",
+      "transportation engineering fieldwork",
+      "transport engineering",
+      "transportation engineering research",
+      "engineering for transportation",
+      "transportation engineering work",
+      "transportation engineering analysis",
+      "transportation engineering analyses",
+      "transportation engineering studies",
+      "transportation engineering applications"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/867137fb-ff1b-4ca3-99f3-cb6969aa2c68",
+    "uri": "http://data.europa.eu/esco/skill/867137fb-ff1b-4ca3-99f3-cb6969aa2c68",
+    "name": "TypeScript",
+    "labels": [
+      "typescript"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/b9aa41a9-636f-49a8-ac9f-24fc18de07c2",
+    "uri": "http://data.europa.eu/esco/skill/b9aa41a9-636f-49a8-ac9f-24fc18de07c2",
+    "name": "undertake genetic risk assessment",
+    "labels": [
+      "undertake genetic risk assessment",
+      "genetic risks assessment",
+      "assessment of genetic risk for patients",
+      "undertake genetic risk assessments",
+      "investigate patients for genetic risks",
+      "undertake genetic risks assessment",
+      "assess patient's genetic risk",
+      "assess genetic risk"
+    ],
+    "domains": [
+      "quant"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/7193cb6d-8334-494f-86e5-21e6d03a47c3",
+    "uri": "http://data.europa.eu/esco/skill/7193cb6d-8334-494f-86e5-21e6d03a47c3",
+    "name": "unified modelling language",
+    "labels": [
+      "unified modelling language",
+      "uml"
+    ],
+    "domains": [
+      "quant",
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/ee21af25-7dff-47eb-9863-b5b944105a06",
+    "uri": "http://data.europa.eu/esco/skill/ee21af25-7dff-47eb-9863-b5b944105a06",
+    "name": "update language skills",
+    "labels": [
+      "update language skills",
+      "improve language skills",
+      "language skill updating",
+      "renew language skills",
+      "maintain language skills"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/1007aa13-9f18-4bcf-96f3-e108c40baf69",
+    "uri": "http://data.europa.eu/esco/skill/1007aa13-9f18-4bcf-96f3-e108c40baf69",
+    "name": "use a computer",
+    "labels": [
+      "use a computer",
+      "using computer equipment and software",
+      "digital devices using",
+      "digital device using",
+      "using digital devices",
+      "using a computer, computer using",
+      "use digital devices",
+      "use computer equipment",
+      "using computer equipment",
+      "use computer equipment and software"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/b34e2ba1-9080-48c9-9b42-ee9192a4d3f1",
+    "uri": "http://data.europa.eu/esco/skill/b34e2ba1-9080-48c9-9b42-ee9192a4d3f1",
+    "name": "use CAD software",
+    "labels": [
+      "use cad software",
+      "handle cad software",
+      "use of cad software",
+      "cad software use",
+      "adopt cad software",
+      "operate cad software",
+      "apply cad software",
+      "using cad software"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/54ddd422-5905-44db-93d4-03b17b913c5e",
+    "uri": "http://data.europa.eu/esco/skill/54ddd422-5905-44db-93d4-03b17b913c5e",
+    "name": "use CADD software",
+    "labels": [
+      "use cadd software",
+      "make use of cadd software",
+      "apply cadd software",
+      "utilise cadd software",
+      "employ cadd software",
+      "work with cad software",
+      "use computer-aided design and drafting software"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/9ab0a456-e4f6-4070-a360-46e1009b6c0d",
+    "uri": "http://data.europa.eu/esco/skill/9ab0a456-e4f6-4070-a360-46e1009b6c0d",
+    "name": "use CAE software",
+    "labels": [
+      "use cae software",
+      "utilise cae software",
+      "make use of cae software",
+      "apply computer-aided engineering software",
+      "be familiar with cae software",
+      "work with cae software",
+      "manage cae software",
+      "use cae softwares",
+      "employ cae software",
+      "use computer-aided engineering software"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/3c6fe585-7d12-4315-b579-e30c042088ce",
+    "uri": "http://data.europa.eu/esco/skill/3c6fe585-7d12-4315-b579-e30c042088ce",
+    "name": "use computer-aided engineering systems",
+    "labels": [
+      "use computer-aided engineering systems",
+      "use cae systems",
+      "employ cae systems",
+      "deal with cae systems",
+      "use a cae system",
+      "work with cae systems",
+      "utilise computer-aided engineering systems",
+      "apply computer-aided engineering systems",
+      "operate computer-aided engineering systems",
+      "use a computer-aided engineering system"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/95d84b77-ba94-492f-a1e6-18be13f16cf0",
+    "uri": "http://data.europa.eu/esco/skill/95d84b77-ba94-492f-a1e6-18be13f16cf0",
+    "name": "use computer-aided translation",
+    "labels": [
+      "use computer-aided translation",
+      "computer-aided translation use",
+      "operate computer-aided translation",
+      "apply computer-aided translation",
+      "employ computer-aided translation",
+      "using computer-aided translation"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/a44c0ed6-68b1-457a-9c6d-ea8487bdfeb2",
+    "uri": "http://data.europa.eu/esco/skill/a44c0ed6-68b1-457a-9c6d-ea8487bdfeb2",
+    "name": "use learning strategies",
+    "labels": [
+      "use learning strategies",
+      "prioritise learning tasks",
+      "use different learning styles",
+      "using learning strategies",
+      "apply new knowledge",
+      "reflect on learning process",
+      "make use of learning strategies",
+      "monitor learning process",
+      "utilise learning strategies",
+      "apply learning strategies",
+      "plan learning",
+      "able to use learning strategies"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/0af062de-eb43-41e9-9b96-249e2cd22d26",
+    "uri": "http://data.europa.eu/esco/skill/0af062de-eb43-41e9-9b96-249e2cd22d26",
+    "name": "use markup languages",
+    "labels": [
+      "use markup languages",
+      "use mark-up languages",
+      "use html",
+      "use xhtml"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/f4229545-9cd3-4abf-ac7b-744040a7a61b",
+    "uri": "http://data.europa.eu/esco/skill/f4229545-9cd3-4abf-ac7b-744040a7a61b",
+    "name": "use milk control software",
+    "labels": [
+      "use milk control software",
+      "milk control software using",
+      "using milk control software",
+      "operate software for milk control",
+      "using software for milk control",
+      "operate milk control software",
+      "operating software for milk control",
+      "use software for milk control",
+      "operating milk control software",
+      "milk control software operating"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/25ee43a8-f9b0-4990-96cf-eabe627ff0cc",
+    "uri": "http://data.europa.eu/esco/skill/25ee43a8-f9b0-4990-96cf-eabe627ff0cc",
+    "name": "use rental management software",
+    "labels": [
+      "use rental management software",
+      "adopt rental management software",
+      "rental management software use",
+      "apply rental management software",
+      "handle rental management software",
+      "using rental management software",
+      "use of rental management software",
+      "operate rental management software"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/8deb6cb7-15e3-4fd7-a9eb-644c23de95fa",
+    "uri": "http://data.europa.eu/esco/skill/8deb6cb7-15e3-4fd7-a9eb-644c23de95fa",
+    "name": "use shorthand computer program",
+    "labels": [
+      "use shorthand computer program",
+      "using shorthand computer program",
+      "use shorthand program",
+      "work with shorthand computer programs",
+      "use computer program for shorthand",
+      "use shorthand computer programs",
+      "utilize shorthand computer programs"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/e7844840-0fc2-4e79-a0f7-384b4dbc88f6",
+    "uri": "http://data.europa.eu/esco/skill/e7844840-0fc2-4e79-a0f7-384b4dbc88f6",
+    "name": "use Swoogle",
+    "labels": [
+      "use swoogle"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/541561bc-510c-4a99-881c-2d8bf5a85462",
+    "uri": "http://data.europa.eu/esco/skill/541561bc-510c-4a99-881c-2d8bf5a85462",
+    "name": "use technical drawing software",
+    "labels": [
+      "use technical drawing software",
+      "create designs with specialist software",
+      "design creation using specialist software",
+      "design using specialist software",
+      "usage of technical drawing software",
+      "designing using specialist software",
+      "technical drawing software usage",
+      "using technical drawing software",
+      "designing with specialist software",
+      "using of technical drawing software",
+      "design with specialist software",
+      "use of technical drawing software"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/172020d1-e151-445b-8173-e2a5fb16fe51",
+    "uri": "http://data.europa.eu/esco/skill/172020d1-e151-445b-8173-e2a5fb16fe51",
+    "name": "utilise computer-aided software engineering tools",
+    "labels": [
+      "utilise computer-aided software engineering tools"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/8369c2d6-c100-4cf6-bd83-9668d8678433",
+    "uri": "http://data.europa.eu/esco/skill/8369c2d6-c100-4cf6-bd83-9668d8678433",
+    "name": "utilise machine learning",
+    "labels": [
+      "utilise machine learning"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/dcdd5ddf-82a6-4ac3-8edc-d4b23cae9a88",
+    "uri": "http://data.europa.eu/esco/skill/dcdd5ddf-82a6-4ac3-8edc-d4b23cae9a88",
+    "name": "VBScript",
+    "labels": [
+      "vbscript"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/1605025e-a179-421f-8f35-5b07d182a6b2",
+    "uri": "http://data.europa.eu/esco/skill/1605025e-a179-421f-8f35-5b07d182a6b2",
+    "name": "web analytics",
+    "labels": [
+      "web analytics"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/902fb91c-3113-4004-9b4f-79aa86b638b7",
+    "uri": "http://data.europa.eu/esco/skill/902fb91c-3113-4004-9b4f-79aa86b638b7",
+    "name": "web application security threats",
+    "labels": [
+      "web application security threats",
+      "owasp",
+      "open web application security project"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/69bbd53f-fbb0-4476-b4b2-ef7844464e28",
+    "uri": "http://data.europa.eu/esco/skill/69bbd53f-fbb0-4476-b4b2-ef7844464e28",
+    "name": "web programming",
+    "labels": [
+      "web programming",
+      "markup programming"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/5c66ce3a-658d-43b1-9d8d-0f39be6c0f2e",
+    "uri": "http://data.europa.eu/esco/skill/5c66ce3a-658d-43b1-9d8d-0f39be6c0f2e",
+    "name": "WebCMS",
+    "labels": [
+      "webcms"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/c078fd94-f51a-4aea-8ab7-286a41309edb",
+    "uri": "http://data.europa.eu/esco/skill/c078fd94-f51a-4aea-8ab7-286a41309edb",
+    "name": "wide web flexographic printing press",
+    "labels": [
+      "wide web flexographic printing press",
+      "wide web flexo printing press"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/085bfce5-70fe-43da-9499-307725e89bbc",
+    "uri": "http://data.europa.eu/esco/skill/085bfce5-70fe-43da-9499-307725e89bbc",
+    "name": "WizIQ",
+    "labels": [
+      "wiziq"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/6d289e8b-2cc1-4eda-ab1f-ad1090ef98f0",
+    "uri": "http://data.europa.eu/esco/skill/6d289e8b-2cc1-4eda-ab1f-ad1090ef98f0",
+    "name": "WordPress",
+    "labels": [
+      "wordpress"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/b78f324d-e16c-43f8-97d2-50d3a7cd1fb3",
+    "uri": "http://data.europa.eu/esco/skill/b78f324d-e16c-43f8-97d2-50d3a7cd1fb3",
+    "name": "work with virtual learning environments",
+    "labels": [
+      "work with virtual learning environments",
+      "use virtual learning environments",
+      "work with virtual learning environment",
+      "working with virtual learning environments",
+      "engage with virtual learning environments",
+      "employ virtual learning environments",
+      "works with virtual learning environments"
+    ],
+    "domains": [
+      "ai_ml_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/8696aff0-18c0-4ba6-a4d0-9a21861b3e5e",
+    "uri": "http://data.europa.eu/esco/skill/8696aff0-18c0-4ba6-a4d0-9a21861b3e5e",
+    "name": "World Wide Web Consortium standards",
+    "labels": [
+      "world wide web consortium standards",
+      "w3c standards"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  },
+  {
+    "id": "http://data.europa.eu/esco/skill/3f4dab51-572b-4e2c-85ef-3b4c3f7094e1",
+    "uri": "http://data.europa.eu/esco/skill/3f4dab51-572b-4e2c-85ef-3b4c3f7094e1",
+    "name": "XQuery",
+    "labels": [
+      "xquery",
+      "xquery 1.0",
+      "xquery 3.0"
+    ],
+    "domains": [
+      "software_engineering"
+    ],
+    "sources": [
+      "esco"
+    ]
+  }
+]

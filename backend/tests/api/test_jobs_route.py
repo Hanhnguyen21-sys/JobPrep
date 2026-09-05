@@ -141,6 +141,124 @@ def test_concurrent_identical_requests_do_not_create_duplicate_tasks(monkeypatch
     assert len(task_ids) == 1
 
 
+# ---------------------------------------------------------------------------
+# Pagination over the match set (page / page_size / total_count / total_pages)
+# ---------------------------------------------------------------------------
+
+
+def _fake_match(title="Software Engineer", updated=None, seen=None):
+    jp = MagicMock(
+        id=uuid.uuid4(),
+        title=title,
+        location=None,
+        url=None,
+        source_updated_at=updated,
+        first_seen_at=seen or datetime(2024, 1, 1, tzinfo=timezone.utc),
+    )
+    jp.company.name = "Acme"
+    return jp
+
+
+def _fresh_db() -> MagicMock:
+    db = MagicMock()
+    db.scalar.return_value = MagicMock(last_ingested_at=datetime.now(timezone.utc))
+    return db
+
+
+def _call_match(db, monkeypatch, matches, **kwargs):
+    monkeypatch.setattr(jobs_route, "_existing_matches", lambda db, needle: matches)
+    _stub_aggregation(monkeypatch)
+    return jobs_route.find_matching_jobs(
+        background_tasks=BackgroundTasks(),
+        response=MagicMock(),
+        current_user=_fake_user(),
+        db=db,
+        **kwargs,
+    )
+
+
+def test_match_first_page_reports_totals(monkeypatch):
+    matches = [_fake_match() for _ in range(37)]
+    result = _call_match(_fresh_db(), monkeypatch, matches)
+
+    assert len(result.postings) == 15  # DEFAULT_PAGE_SIZE
+    assert result.page == 1
+    assert result.page_size == 15
+    assert result.total_count == 37
+    assert result.total_pages == 3
+
+
+def test_match_second_page_returns_the_offset_slice(monkeypatch):
+    # Number the postings by recency so we can assert exactly which slice
+    # comes back: newest (highest index) first.
+    base = datetime(2024, 1, 1, tzinfo=timezone.utc)
+    matches = [
+        _fake_match(title=f"SWE {i}", updated=base + timedelta(days=i)) for i in range(37)
+    ]
+    result = _call_match(_fresh_db(), monkeypatch, matches, page=2)
+
+    assert result.page == 2
+    assert [p.title for p in result.postings] == [f"SWE {i}" for i in range(21, 6, -1)]
+
+
+def test_match_page_past_end_is_empty_not_an_error(monkeypatch):
+    matches = [_fake_match() for _ in range(37)]
+    result = _call_match(_fresh_db(), monkeypatch, matches, page=99)
+
+    assert result.postings == []
+    assert result.total_count == 37
+    assert result.total_pages == 3
+    assert result.page == 99
+
+
+def test_match_orders_newest_first_falling_back_to_first_seen(monkeypatch):
+    old = datetime(2024, 1, 1, tzinfo=timezone.utc)
+    mid = datetime(2024, 6, 1, tzinfo=timezone.utc)
+    new = datetime(2024, 9, 1, tzinfo=timezone.utc)
+    a = _fake_match(title="oldest", updated=old)
+    b = _fake_match(title="newest", updated=new)
+    c = _fake_match(title="no-updated-uses-seen", updated=None, seen=mid)
+    result = _call_match(_fresh_db(), monkeypatch, [a, c, b])
+
+    assert [p.title for p in result.postings] == [
+        "newest",
+        "no-updated-uses-seen",
+        "oldest",
+    ]
+
+
+def test_match_custom_page_size_passes_through(monkeypatch):
+    matches = [_fake_match() for _ in range(37)]
+    result = _call_match(_fresh_db(), monkeypatch, matches, page=2, page_size=5)
+
+    assert result.page_size == 5
+    assert len(result.postings) == 5
+    assert result.total_pages == 8  # ceil(37 / 5)
+
+
+def test_skill_gap_aggregates_over_all_matches_not_just_the_page(monkeypatch):
+    seen_counts = []
+    monkeypatch.setattr(
+        jobs_route,
+        "aggregate_required_skills",
+        lambda db, postings: seen_counts.append(len(postings)) or [],
+    )
+    monkeypatch.setattr(jobs_route, "get_user_skill_ids", lambda db, uid: set())
+    monkeypatch.setattr(
+        jobs_route, "_existing_matches", lambda db, needle: [_fake_match() for _ in range(37)]
+    )
+
+    jobs_route.find_matching_jobs(
+        background_tasks=BackgroundTasks(),
+        response=MagicMock(),
+        current_user=_fake_user(),
+        db=_fresh_db(),
+        page=1,
+    )
+
+    assert seen_counts == [37]  # full match set, not the 15-item page
+
+
 def test_get_match_status_404_for_unknown_task():
     db = MagicMock()
     db.get.return_value = None

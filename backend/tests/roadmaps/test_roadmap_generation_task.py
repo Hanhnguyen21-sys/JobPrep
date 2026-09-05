@@ -31,6 +31,59 @@ def _fake_posting(posting_id: uuid.UUID) -> MagicMock:
     return posting
 
 
+def _stub_skill_gap(monkeypatch) -> None:
+    """_build_skill_gap composes these three repository calls -- stub them
+    directly (same approach as test_jobs_route.py's _stub_aggregation)
+    rather than trying to make a bare MagicMock db satisfy the real SQL.
+    """
+    monkeypatch.setattr(roadmaps_route, "aggregate_required_skills", lambda db, postings: [])
+    monkeypatch.setattr(roadmaps_route, "get_user_skill_ids", lambda db, uid: set())
+    monkeypatch.setattr(roadmaps_route, "get_user_skill_proficiency", lambda db, uid: {})
+
+
+# ---------------------------------------------------------------------------
+# _build_skill_gap -- the actual function (not stubbed), confirming it
+# passes aggregate_required_skills' postings_requiring_count through as
+# postings_requiring (Fix 1 of the roadmap skill-gap audit)
+# ---------------------------------------------------------------------------
+
+
+def test_build_skill_gap_passes_through_postings_requiring(monkeypatch):
+    user_id = uuid.uuid4()
+    skill_id = uuid.uuid4()
+
+    monkeypatch.setattr(
+        roadmaps_route,
+        "aggregate_required_skills",
+        lambda db, postings: [
+            {
+                "skill_id": skill_id,
+                "name": "Python",
+                "category": "technical",
+                "requirement_level": "required",
+                "postings_requiring_count": 3,
+            }
+        ],
+    )
+    monkeypatch.setattr(roadmaps_route, "get_user_skill_ids", lambda db, uid: {skill_id})
+    monkeypatch.setattr(
+        roadmaps_route, "get_user_skill_proficiency", lambda db, uid: {skill_id: 55}
+    )
+
+    gap = roadmaps_route._build_skill_gap(MagicMock(), [_fake_posting(uuid.uuid4())], user_id)
+
+    assert gap == [
+        {
+            "skill": "Python",
+            "category": "technical",
+            "requirement_level": "required",
+            "has_it": True,
+            "current_level": 55,
+            "postings_requiring": 3,
+        }
+    ]
+
+
 # ---------------------------------------------------------------------------
 # create_roadmap_from_selection -- enqueue path
 # ---------------------------------------------------------------------------
@@ -197,7 +250,7 @@ def test_run_generation_task_success_marks_completed(monkeypatch):
         roadmaps_route, "get_job_postings_by_ids", lambda db, ids: [_fake_posting(posting_id)]
     )
     monkeypatch.setattr(roadmaps_route, "_ensure_descriptions", lambda db, postings: None)
-    db.scalars.return_value = iter([])  # existing_skill_names query
+    _stub_skill_gap(monkeypatch)
 
     fake_roadmap = MagicMock(id=uuid.uuid4())
     monkeypatch.setattr(roadmaps_route, "create_roadmap", lambda db, **kwargs: fake_roadmap)
@@ -227,7 +280,7 @@ def test_run_generation_task_llm_returns_none_marks_failed(monkeypatch):
         roadmaps_route, "get_job_postings_by_ids", lambda db, ids: [_fake_posting(posting_id)]
     )
     monkeypatch.setattr(roadmaps_route, "_ensure_descriptions", lambda db, postings: None)
-    db.scalars.return_value = iter([])
+    _stub_skill_gap(monkeypatch)
     monkeypatch.setattr(roadmaps_route, "generate_roadmap", lambda **kwargs: None)
 
     roadmaps_route._run_roadmap_generation_task(task.id, user.id, [posting_id])

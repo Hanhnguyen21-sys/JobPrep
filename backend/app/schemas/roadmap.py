@@ -8,7 +8,8 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from app.schemas.job import MAX_SELECTED_POSTINGS
 
-# MAX_SELECTED_POSTINGS : can select up to 10 postings
+# A roadmap is built from at most MAX_SELECTED_POSTINGS selected postings
+# (defined in schemas/job.py) -- enforced on the request below.
 
 class RoadmapCreateRequest(BaseModel):
 

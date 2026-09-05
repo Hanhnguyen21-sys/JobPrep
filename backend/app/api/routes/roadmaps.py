@@ -3,7 +3,6 @@ import uuid
 from datetime import datetime, timezone
 
 from fastapi import APIRouter, BackgroundTasks, Depends, status
-from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.api.dependencies import get_current_user
@@ -11,9 +10,13 @@ from app.core.exceptions import BadRequestException, NotFoundException
 from app.db.session import SessionLocal, get_db
 from app.models.job_posting import JobPosting
 from app.models.roadmap import Roadmap
-from app.models.skill import Skill
-from app.models.user import User, user_skill
-from app.repositories.jobs import get_job_postings_by_ids
+from app.models.user import User
+from app.repositories.jobs import (
+    aggregate_required_skills,
+    get_job_postings_by_ids,
+    get_user_skill_ids,
+    get_user_skill_proficiency,
+)
 from app.repositories.roadmap_generation_tasks import (
     create_task,
     get_task,
@@ -45,28 +48,11 @@ from app.services.roadmap import generate_roadmap
 router = APIRouter(prefix="/roadmaps", tags=["roadmaps"])
 
 
-def _build_title(job_postings: list[JobPosting], now: datetime) -> str:
-    
-    companies = list(dict.fromkeys(jp.company.name for jp in job_postings))
-    if len(companies) == 1:
-        company_part = companies[0]
-    elif len(companies) == 2:
-        company_part = f"{companies[0]} & {companies[1]}"
-    else:
-        company_part = f"{companies[0]} & {len(companies) - 1} more"
-
-    count = len(job_postings)
-    posting_word = "posting" if count == 1 else "postings"
-    return f"{company_part} ({count} {posting_word}) — {now:%b %d}"
+def _build_title(target_position: str, now: datetime) -> str:
+    return f"Roadmap for {target_position} — {now:%b %d}"
 
 def _ensure_descriptions(db: Session, job_postings: list[JobPosting]) -> None:
-    """Fetches + extracts skills for any selected posting
-    that's missing a description, or whose fetched content has changed
-    since it was last extracted (see hash_description/
-    sync_job_posting_skills_batch in ingestion/runner.py -- this is the
-    selection-time wiring their module docstring says was still needed).
-
-    """
+    
     pending: list[tuple[JobPosting, str | None]] = []
 
     for jp in job_postings:
@@ -87,6 +73,37 @@ def _ensure_descriptions(db: Session, job_postings: list[JobPosting]) -> None:
     sync_job_posting_skills_batch(db, pending, log_prefix="[roadmaps]")
     if pending:
         db.commit()
+
+
+def _build_skill_gap(
+    db: Session, job_postings: list[JobPosting], user_id: uuid.UUID
+) -> list[dict]:
+    """
+    skill set A - from job postings
+    skill set B - from user's resume
+    """
+    aggregated = aggregate_required_skills(db, job_postings)
+    have_ids = get_user_skill_ids(db, user_id)
+    proficiency = get_user_skill_proficiency(db, user_id)
+
+    return [
+        {
+            "skill": item["name"],
+            "category": item["category"],
+            "requirement_level": item["requirement_level"],
+            "has_it": item["skill_id"] in have_ids,
+            # Real data when available (resume-estimated proficiency),
+            # 0 when the user doesn't have the skill at all -- never an
+            # LLM guess for this field.
+            "current_level": proficiency.get(item["skill_id"], 0),
+            # How many of the *selected* postings needed this skill -- the
+            # signal services/roadmap.py's prompt asks the model to weigh
+            # ("required by more of the given postings").
+            "postings_requiring": item["postings_requiring_count"],
+        }
+        for item in aggregated
+    ]
+
 
 def _legacy_priority_skill(skill: str | dict) -> dict:
    
@@ -150,20 +167,7 @@ def _to_response(roadmap: Roadmap) -> RoadmapResponse:
 def _run_roadmap_generation_task(
     task_id: uuid.UUID, user_id: uuid.UUID, job_posting_ids: list[uuid.UUID]
 ) -> None:
-    """Runs via FastAPI BackgroundTasks, after the response for the
-    POST /roadmaps request that enqueued it has already been sent. Opens
-    its own DB session -- same pattern as api/routes/jobs.py's
-    _run_refresh_task -- since it must outlive that request's
-    session/lifecycle. Durability caveat: same as
-    models/roadmap_generation_task.py's docstring (in-process
-    BackgroundTasks, not a durable queue).
-
-    Does the actual work POST /roadmaps used to do synchronously: fetch
-    descriptions for whichever selected postings need it (up to
-    MAX_SELECTED_POSTINGS sequential external fetches -- this is exactly
-    why it's off the request path now), extract their skills, then
-    generate + persist the roadmap.
-    """
+   
     db = SessionLocal()
     try:
         task = get_task(db, task_id, user_id)
@@ -179,24 +183,13 @@ def _run_roadmap_generation_task(
 
             _ensure_descriptions(db, job_postings)
 
-            existing_skill_names = list(
-                db.scalars(
-                    select(Skill.name)
-                    .select_from(user_skill)
-                    .join(Skill, Skill.id == user_skill.c.skill_id)
-                    .where(user_skill.c.user_id == user_id)
-                )
-            )
+            skill_gap = _build_skill_gap(db, job_postings, user_id)
 
             result = generate_roadmap(
                 target_position=current_user.target_position,
-                existing_skills=existing_skill_names,
+                skill_gap=skill_gap,
                 postings=[
-                    {
-                        "company_name": jp.company.name,
-                        "title": jp.title,
-                        "description": jp.description,
-                    }
+                    {"company_name": jp.company.name, "title": jp.title}
                     for jp in job_postings
                 ],
             )
@@ -214,7 +207,7 @@ def _run_roadmap_generation_task(
             roadmap = create_roadmap(
                 db,
                 user_id=user_id,
-                title=_build_title(job_postings, datetime.now(timezone.utc)),
+                title=_build_title(current_user.target_position, datetime.now(timezone.utc)),
                 target_position=current_user.target_position,
                 summary=result.overview.headline,
                 overview=result.overview.model_dump(),

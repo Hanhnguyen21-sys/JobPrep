@@ -16,8 +16,10 @@ POST /jobs/match
 
 import uuid
 from datetime import datetime, timedelta, timezone
+from math import ceil
+from typing import Annotated
 
-from fastapi import APIRouter, BackgroundTasks, Depends, Response, status
+from fastapi import APIRouter, BackgroundTasks, Depends, Query, Response, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -37,6 +39,8 @@ from app.repositories.job_search_tasks import (
 )
 from app.repositories.jobs import aggregate_required_skills, get_user_skill_ids
 from app.schemas.job import (
+    DEFAULT_PAGE_SIZE,
+    MAX_PAGE_SIZE,
     DataFreshness,
     JobMatchResponse,
     JobMatchStatusResponse,
@@ -92,10 +96,37 @@ def _existing_matches(db: Session, target_position: str) -> list[JobPosting]:
     # ingestion/query_normalization.title_matches_query for why (near-miss
     # phrasing like "SWE Intern" / "Software Engineering Internship"
     # needs more than substring containment of the whole query phrase).
+    # This match runs in Python (token sets + a hand-kept synonym table),
+    # so it can't be a SQL WHERE and the LIMIT/OFFSET can't live in the
+    # query either -- _page_of_matches slices the result instead.
     candidates = db.scalars(
         select(JobPosting).where(JobPosting.is_active.is_(True))
     )
     return [jp for jp in candidates if title_matches_query(target_position, jp.title)]
+
+
+def _posting_sort_key(jp: JobPosting) -> datetime:
+    """Newest-first ordering key: the ATS's own last-updated timestamp
+    when it gave us one, else when we first saw the posting. Explicit so
+    page order is stable and meaningful rather than natural DB order.
+    """
+    return jp.source_updated_at or jp.first_seen_at
+
+
+def _page_of_matches(
+    matches: list[JobPosting], page: int, page_size: int
+) -> tuple[list[JobPosting], int, int]:
+    """Sort `matches` newest-first and return
+    (this page's slice, total_count, total_pages). `page` is 1-indexed;
+    a page past the end yields an empty slice with the counts still
+    correct -- callers surface that as a valid empty page, not an error.
+    """
+    total_count = len(matches)
+    total_pages = ceil(total_count / page_size) if total_count else 0
+    ordered = sorted(matches, key=_posting_sort_key, reverse=True)
+    start = (page - 1) * page_size
+    return ordered[start : start + page_size], total_count, total_pages
+
 
 # prepare response to return
 
@@ -105,18 +136,28 @@ def _build_response(
     postings: list[JobPosting],
     freshness: DataFreshness,
     task_id: uuid.UUID | None = None,
+    *,
+    page: int = 1,
+    page_size: int = DEFAULT_PAGE_SIZE,
 ) -> JobMatchResponse:
-    # get skills from job requirements
+    # Slice to the requested page for `postings`, but aggregate the skill
+    # gap over the FULL match set -- it's a property of the whole search,
+    # not of whichever page is on screen.
+    page_postings, total_count, total_pages = _page_of_matches(postings, page, page_size)
     skill_gap_raw = aggregate_required_skills(db, postings)
     # get skills that a user has
     have_ids = get_user_skill_ids(db, current_user.id)
     # create response with target position, postings info, skill gap
     return JobMatchResponse(
         target_position=current_user.target_position,
-        postings=_to_matched_postings(postings),
+        postings=_to_matched_postings(page_postings),
         skill_gap=_to_skill_gap_items(skill_gap_raw, have_ids),
         freshness=freshness,
         task_id=task_id,
+        page=page,
+        page_size=page_size,
+        total_count=total_count,
+        total_pages=total_pages,
     )
 
 # run background job to refresh data of specific target position
@@ -168,6 +209,11 @@ def _run_refresh_task(task_id: uuid.UUID, desired_position: str) -> None:
 def find_matching_jobs(
     background_tasks: BackgroundTasks,
     response: Response,
+    # 1-indexed page + bounded page size over the full match set. Annotated
+    # so the plain int default survives a direct call (tests, other code)
+    # while FastAPI still parses/validates them from the query string.
+    page: Annotated[int, Query(ge=1)] = 1,
+    page_size: Annotated[int, Query(ge=1, le=MAX_PAGE_SIZE)] = DEFAULT_PAGE_SIZE,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ) -> JobMatchResponse:
@@ -185,9 +231,12 @@ def find_matching_jobs(
     existing = _existing_matches(db, current_user.target_position)
 
     if is_fresh:
-        return _build_response(db, current_user, existing, freshness="fresh")
+        return _build_response(
+            db, current_user, existing, freshness="fresh",
+            page=page, page_size=page_size,
+        )
 
-    
+
     task, _created = enqueue_or_get_active(db, key)
     db.commit()
     background_tasks.add_task(_run_refresh_task, task.id, current_user.target_position)
@@ -195,11 +244,17 @@ def find_matching_jobs(
     if existing:
         # Stale-while-revalidate: real data now, refresh in the background.
         response.status_code = status.HTTP_200_OK
-        return _build_response(db, current_user, existing, freshness="stale", task_id=task.id)
+        return _build_response(
+            db, current_user, existing, freshness="stale", task_id=task.id,
+            page=page, page_size=page_size,
+        )
 
-    
+
     response.status_code = status.HTTP_202_ACCEPTED
-    return _build_response(db, current_user, [], freshness="pending", task_id=task.id)
+    return _build_response(
+        db, current_user, [], freshness="pending", task_id=task.id,
+        page=page, page_size=page_size,
+    )
 
 
 @router.get("/match/status/{task_id}", response_model=JobMatchStatusResponse)

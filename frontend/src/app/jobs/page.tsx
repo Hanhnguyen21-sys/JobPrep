@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { JobList } from "@/components/jobs/JobList";
+import { MaxSelectionNotice } from "@/components/jobs/MaxSelectionNotice";
+import { Pagination } from "@/components/jobs/Pagination";
 import { SelectionBar } from "@/components/jobs/SelectionBar";
 import { RoadmapCreatedModal } from "@/components/roadmap/RoadmapCreatedModal";
 import { RoadmapViewer } from "@/components/roadmap/RoadmapViewer";
@@ -11,12 +13,22 @@ import { Card } from "@/components/ui/Card";
 import { useJobMatch } from "@/hooks/useJobMatch";
 import { useJobSelection } from "@/hooks/useJobSelection";
 import { useRoadmapGeneration } from "@/hooks/useRoadmapGeneration";
+import { MAX_SELECTED_POSTINGS } from "@/types/job";
 
 export default function JobsPage() {
-  const { result, loading, refreshing, error, needsTargetPosition, findMatches } =
-    useJobMatch();
+  const {
+    result,
+    page,
+    loading,
+    pageLoading,
+    refreshing,
+    error,
+    needsTargetPosition,
+    findMatches,
+    goToPage,
+  } = useJobMatch();
   const { isSelected, toggle, clear, selectedPostings, selectedCount, isMaxed } =
-    useJobSelection(result?.postings ?? []);
+    useJobSelection();
   const {
     roadmap,
     loading: generatingRoadmap,
@@ -83,27 +95,40 @@ export default function JobsPage() {
           <Card className="space-y-4">
             <div className="flex items-baseline justify-between gap-2">
               <h2 className="font-mono text-xs uppercase tracking-[0.15em] text-slate">
-                {result.postings.length} matching posting
-                {result.postings.length === 1 ? "" : "s"}
+                {result.total_count} matching posting
+                {result.total_count === 1 ? "" : "s"}
               </h2>
-              {result.postings.length > 0 && (
+              {result.total_count > 0 && (
                 <p className="text-xs text-slate">
-                  Check up to 10 to build a roadmap from
+                  Check up to {MAX_SELECTED_POSTINGS} to build a roadmap from
                 </p>
               )}
             </div>
             {refreshing && (
               <p className="text-xs text-slate">
-                {result.postings.length > 0
+                {result.total_count > 0
                   ? "Showing existing matches while we check for new postings..."
                   : "Looking for matches -- this can take a little while the first time..."}
               </p>
             )}
-            <JobList
-              postings={result.postings}
-              isSelected={isSelected}
-              onToggle={toggle}
-              isMaxed={isMaxed}
+            {isMaxed && <MaxSelectionNotice />}
+            <div className={pageLoading ? "opacity-50 transition-opacity" : ""}>
+              <JobList
+                postings={result.postings}
+                isSelected={isSelected}
+                onToggle={toggle}
+                isMaxed={isMaxed}
+                totalCount={result.total_count}
+              />
+            </div>
+            <Pagination
+              page={page}
+              totalPages={result.total_pages}
+              totalCount={result.total_count}
+              pageSize={result.page_size}
+              onPrev={() => goToPage(page - 1)}
+              onNext={() => goToPage(page + 1)}
+              disabled={loading || pageLoading}
             />
           </Card>
         )}

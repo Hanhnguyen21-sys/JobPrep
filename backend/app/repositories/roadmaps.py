@@ -2,8 +2,8 @@
 roadmap_job_posting, shared by api/routes/roadmaps.py.
 
 `get_job_postings_by_ids` used to live here; it moved to
-repositories/jobs.py once api/routes/jobs.py's /jobs/skill-gap needed the
-exact same lookup -- api/routes/roadmaps.py now imports it from there
+repositories/jobs.py when a since-removed /jobs/skill-gap endpoint needed
+the same lookup -- api/routes/roadmaps.py now imports it from there
 directly.
 """
 
