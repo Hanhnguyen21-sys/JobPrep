@@ -45,7 +45,11 @@ class RoadmapGenerationStatusResponse(BaseModel):
 class Resource(BaseModel):
 
     title: str
-    type: Literal["course", "article", "project", "certification", "tool"]
+    # "roadmap" -- a directory-catalog link (roadmap_resources, see
+    # services/roadmap_resources.py) attached deterministically from the
+    # DB, not by the LLM. Every other value remains LLM-generated, for
+    # roadmaps created before this resource pipeline changed.
+    type: Literal["course", "article", "project", "certification", "tool", "roadmap"]
     provider: str | None = None
     url: str | None = None
 
@@ -79,11 +83,16 @@ class RoadmapStep(BaseModel):
 
 
 class RoadmapSourcePosting(BaseModel):
-  
+
 
     id: uuid.UUID
     company_name: str
     title: str
+    # The posting's own apply URL (JobPosting.url) -- null if the source
+    # never had one. Read live from the JobPosting row at response time
+    # (_to_response), not frozen at generation time, so this is populated
+    # for roadmaps created before this field existed too.
+    url: str | None = None
 
 
 class RoadmapResponse(BaseModel):

@@ -1,7 +1,5 @@
 
 
-from typing import Literal
-
 from pydantic import BaseModel, Field
 
 from app.core.ai_client import get_ai_client
@@ -42,7 +40,6 @@ Return:
   - skills: all skills/tools this step targets, drawn from the given skill gap or reasonable prerequisites for them (include focus_skill).
   - why_it_matters: one sentence on why this step matters for these specific postings.
   - action_items: 2-5 short, concrete tasks the candidate should actually do for this step (a checklist, not a paragraph).
-  - resources: 1-3 specific courses, articles, projects, certifications, or tools that would help with this step. Each needs a title, a type (course/article/project/certification/tool), and a provider if there's a well-known one (e.g. "Coursera", "O'Reilly"); include a url only when you're reasonably confident it's a real, correct link for that specific resource, otherwise omit it rather than guessing.
   - project: an optional short description of a project the candidate could build to demonstrate this step's skills, or omit if a dedicated project doesn't make sense for this step.
   - duration: a short phrase for this step alone, e.g. "1-2 weeks".
   - success_criteria: 1-3 short, concrete signs the candidate has actually finished this step (how they'd know, not just "understand X").
@@ -50,13 +47,6 @@ Return:
 Order steps by dependency and priority, not just posting order -- foundational skills before advanced ones, and skills required by more of the given postings generally before posting-specific ones, unless a dependency requires otherwise.
 
 Return valid JSON only, matching the provided schema. Do not include explanations outside the JSON."""
-
-
-class ResourceResult(BaseModel):
-    title: str
-    type: Literal["course", "article", "project", "certification", "tool"]
-    provider: str | None = None
-    url: str | None = None
 
 
 class PrioritySkillResult(BaseModel):
@@ -72,13 +62,19 @@ class RoadmapOverviewResult(BaseModel):
 
 
 class RoadmapStepResult(BaseModel):
+    """No `resources` field -- the model is never asked to generate
+    those. api/routes/roadmaps.py's _build_step_dicts() attaches
+    resources separately, exclusively from the roadmap_resources DB
+    catalog (see services/roadmap_resources.py) after this result comes
+    back, matching each step's `skills` against it.
+    """
+
     order: int
     title: str
     focus_skill: str
     skills: list[str]
     why_it_matters: str
     action_items: list[str]
-    resources: list[ResourceResult] = []
     project: str | None = None
     duration: str
     success_criteria: list[str]

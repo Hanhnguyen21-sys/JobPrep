@@ -18,6 +18,8 @@ cd ../backend
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+python -m playwright install chromium  # browser fallback for job_description_fetch.py
+# on a minimal Linux deploy image, also: python -m playwright install-deps chromium
 
 ```
 

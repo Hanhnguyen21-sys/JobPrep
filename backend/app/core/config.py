@@ -42,6 +42,22 @@ class Settings(BaseSettings):
     openai_timeout_seconds: float = 20.0
     openai_max_retries: int = 2
 
+    # services/job_description_fetch.py's Playwright fallback (for ATS
+    # pages that need JavaScript to render a description -- httpx alone
+    # never sees that content). Applied independently to each of
+    # navigation / selector-wait / content-wait, so total worst case per
+    # posting is roughly 3x this value -- still bounded, not unbounded.
+    job_description_browser_timeout_seconds: float = 15.0
+
+    # Caps how many headless Chromium instances can run at once,
+    # process-wide. A single roadmap generation fetches its selected
+    # postings sequentially, but multiple concurrent generations
+    # (different users' background tasks) could each reach the browser
+    # fallback at the same time -- each Chromium instance is comparatively
+    # expensive (memory/CPU), so this bounds that instead of letting it
+    # scale unbounded with concurrent requests.
+    job_description_browser_max_concurrency: int = 2
+
     @property
     def cors_origin_list(self) -> list[str]:
         return [o.strip() for o in self.cors_origins.split(",") if o.strip()]

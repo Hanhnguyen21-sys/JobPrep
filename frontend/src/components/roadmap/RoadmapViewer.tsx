@@ -14,6 +14,7 @@ const RESOURCE_TYPE_LABEL: Record<Resource["type"], string> = {
   project: "Project",
   certification: "Certification",
   tool: "Tool",
+  roadmap: "Roadmap",
 };
 
 interface PickedResource {
@@ -110,7 +111,7 @@ function ResourceCard({ resource, stepOrder }: PickedResource) {
       <a
         href={href}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
         className="shrink-0 text-sm font-medium text-ink underline decoration-blaze underline-offset-4 hover:text-blaze"
         title={isDirectLink ? undefined : "No confirmed link -- search for this resource instead"}
       >
@@ -158,9 +159,25 @@ export function RoadmapViewer({ roadmap }: RoadmapViewerProps) {
         <p className="mt-3 text-xs text-slate">
           Built from {roadmap.source_postings.length} posting
           {roadmap.source_postings.length === 1 ? "" : "s"}:{" "}
-          {roadmap.source_postings
-            .map((p) => `${p.title} @ ${p.company_name}`)
-            .join(", ")}
+          {roadmap.source_postings.map((p, index) => (
+            <span key={p.id}>
+              {index > 0 && ", "}
+              {p.url ? (
+                <a
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline decoration-blaze underline-offset-2 hover:text-ink"
+                >
+                  {p.title} @ {p.company_name}
+                </a>
+              ) : (
+                <>
+                  {p.title} @ {p.company_name}
+                </>
+              )}
+            </span>
+          ))}
         </p>
       </div>
 

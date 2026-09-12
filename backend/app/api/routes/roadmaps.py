@@ -43,13 +43,34 @@ from app.schemas.roadmap import (
     RoadmapSourcePosting,
     RoadmapStep,
 )
-from app.services.roadmap import generate_roadmap
+from app.services.roadmap import RoadmapStepResult, generate_roadmap
+from app.services.roadmap_resources import resolve_step_resources
 
 router = APIRouter(prefix="/roadmaps", tags=["roadmaps"])
 
 
 def _build_title(target_position: str, now: datetime) -> str:
     return f"Roadmap for {target_position} — {now:%b %d}"
+
+
+def _build_step_dicts(db: Session, steps: list[RoadmapStepResult]) -> list[dict]:
+    """Dumps each LLM-generated step to a dict, keeping every LLM field
+    (title/why_it_matters/action_items/success_criteria/etc.) as-is
+    EXCEPT `resources` -- that's overwritten with catalog matches from
+    services/roadmap_resources.py (matched against the step's own
+    `skills`, which already includes `focus_skill`) instead of whatever
+    the LLM guessed. A step whose skills match no active catalog entry
+    gets an empty resources list, never an invented link.
+    """
+    step_dicts = []
+    for step in steps:
+        step_dict = step.model_dump()
+        step_dict["resources"] = [
+            resource.model_dump() for resource in resolve_step_resources(db, step.skills)
+        ]
+        step_dicts.append(step_dict)
+    return step_dicts
+
 
 def _ensure_descriptions(db: Session, job_postings: list[JobPosting]) -> None:
     
@@ -156,7 +177,7 @@ def _to_response(roadmap: Roadmap) -> RoadmapResponse:
         overview=RoadmapOverview(**_legacy_overview(roadmap)),
         steps=[RoadmapStep(**_legacy_step(step)) for step in roadmap.steps],
         source_postings=[
-            RoadmapSourcePosting(id=jp.id, company_name=jp.company.name, title=jp.title)
+            RoadmapSourcePosting(id=jp.id, company_name=jp.company.name, title=jp.title, url=jp.url)
             for jp in roadmap.source_postings
         ],
         created_at=roadmap.created_at,
@@ -211,7 +232,7 @@ def _run_roadmap_generation_task(
                 target_position=current_user.target_position,
                 summary=result.overview.headline,
                 overview=result.overview.model_dump(),
-                steps=[step.model_dump() for step in result.steps],
+                steps=_build_step_dicts(db, result.steps),
                 job_postings=job_postings,
             )
             mark_finished(db, task, status="completed", roadmap_id=roadmap.id)

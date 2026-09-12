@@ -5,6 +5,16 @@ interface ResumeSkillsResponse {
   skills: Skill[];
 }
 
+// Calls GET /resumes/skills -- the skills already linked to the current
+// user from their last resume submission, without requiring a fresh
+// submit. Used by the Dashboard's skills section (see
+// hooks/useResumeSkills.ts), unlike extractSkillsFromResume(File) below
+// which only ever returns this right after a POST.
+export async function getResumeSkills(): Promise<Skill[]> {
+  const response = await apiFetch<ResumeSkillsResponse>("/resumes/skills");
+  return response.skills;
+}
+
 // Submits resume text + target position to POST /resumes/extract-skills
 // and returns the skills now linked to the current user. Mirrors
 // ResumeSubmit / ResumeSkillsResponse in backend/app/schemas/resume.py --

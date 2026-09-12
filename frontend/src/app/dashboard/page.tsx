@@ -4,8 +4,10 @@ import { ActiveRoadmap } from "@/components/dashboard/ActiveRoadmap";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { PreparationWorkflow } from "@/components/dashboard/PreparationWorkflow";
 import { RecentActivity } from "@/components/dashboard/RecentActivity";
+import { SkillsSummary } from "@/components/dashboard/SkillsSummary";
 import { useAuth } from "@/hooks/useAuth";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useResumeSkills } from "@/hooks/useResumeSkills";
 import { useRoadmaps } from "@/hooks/useRoadmaps";
 
 // The user's home and continuation point for the JobPrep workflow (resume
@@ -18,6 +20,7 @@ export default function DashboardPage() {
   const { user: authUser, loading: authLoading } = useAuth();
   const { user: profile } = useCurrentUser();
   const { roadmaps, loading: roadmapsLoading } = useRoadmaps();
+  const { skills, loading: skillsLoading } = useResumeSkills();
 
   if (authLoading) {
     return (
@@ -43,6 +46,8 @@ export default function DashboardPage() {
         <PreparationWorkflow roadmapCount={roadmaps.length} />
 
         <ActiveRoadmap roadmap={activeRoadmap} loading={roadmapsLoading} />
+
+        <SkillsSummary skills={skills} loading={skillsLoading} />
 
         <RecentActivity roadmaps={olderRoadmaps} />
       </div>

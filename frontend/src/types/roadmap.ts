@@ -18,13 +18,20 @@ export type ResourceType =
   | "article"
   | "project"
   | "certification"
-  | "tool";
+  | "tool"
+  // A directory-catalog link (backend's roadmap_resources table, see
+  // services/roadmap_resources.py) attached deterministically from the
+  // DB by skill name, not guessed by the model -- unlike every other
+  // type here, which is AI-suggested and kept only for roadmaps created
+  // before this resource pipeline changed.
+  | "roadmap";
 
 export interface Resource {
   title: string;
   type: ResourceType;
   // AI-suggested, not verified against a live source -- may be wrong,
   // outdated, or absent when the model wasn't confident enough to guess.
+  // Not applicable to type "roadmap", which is always a real DB-backed link.
   provider: string | null;
   url: string | null;
 }
@@ -62,6 +69,8 @@ export interface RoadmapSourcePosting {
   id: string;
   company_name: string;
   title: string;
+  // The posting's own apply URL -- null if the source never had one.
+  url: string | null;
 }
 
 export interface RoadmapResponse {

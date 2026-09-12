@@ -1,15 +1,4 @@
-"""Job-posting skill extraction: match an already-clean job description
-against the ESCO taxonomy (app/taxonomy) with a spaCy PhraseMatcher.
-
-No LLM, no network on this path -- the description handed in here is the
-main-content text Trafilatura pulled out of the posting's HTML
-(`services/job_description_fetch.py::fetch_job_description` for the live
-URL path, or `extract_job_skills_from_html` below for a raw HTML string).
-
-Public contract is unchanged from the old OpenAI version: same
-`ExtractedJobSkill` / `JobSkillExtractionResult` shapes and the same
-`extract_job_skills` / `extract_job_skills_batch` entry points, so
-`ingestion/runner.py` and its error isolation don't change.
+"""drunner.py` and its error isolation don't change.
 """
 
 import re

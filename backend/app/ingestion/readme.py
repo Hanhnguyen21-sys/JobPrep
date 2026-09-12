@@ -20,13 +20,13 @@ DEFAULT_SECTION_NAMES: tuple[str, ...] = ("Software Engineering Internship Roles
                                           "Quantitative Finance Internship Roles",
                                           "Hardware Engineering Internship Roles")
 
-# Only postings strictly older than this (in whole days, per the source's
-# own coarse age label) are kept -- filters out just-listed rows. Compared
-# against the parsed day-count directly (see _parse_age_days), not by
-# re-deriving elapsed wall-clock time from source_updated_at with a second
-# datetime.now() call, which would make a borderline "7d" posting flicker
-# across the threshold depending on exactly when it's checked.
-MIN_POSTING_AGE_DAYS = 7
+# Only postings at least this many days old (in whole days, per the
+# source's own coarse age label) are kept -- filters out just-listed rows.
+# Compared against the parsed day-count directly (see _parse_age_days),
+# not by re-deriving elapsed wall-clock time from source_updated_at with a
+# second datetime.now() call, which would make a borderline "7d" posting
+# flicker across the threshold depending on exactly when it's checked.
+MAX_POSTING_AGE_DAYS = 7
 
 
 @dataclass(frozen=True)
@@ -154,8 +154,8 @@ def _parse_row(
         return None, company_name
 
     age_days = _parse_age_days(age_text)
-    if age_days is None or age_days <= MIN_POSTING_AGE_DAYS:
-        # Unknown age, or not yet older than MIN_POSTING_AGE_DAYS -- skip.
+    if age_days is None or age_days  >= MAX_POSTING_AGE_DAYS:
+        # Unknown age, or not yet at least MIN_POSTING_AGE_DAYS old -- skip.
         return None, company_name
 
     posting = DiscoveredPosting(

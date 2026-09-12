@@ -192,9 +192,10 @@ def _row_with_age(age_text: str) -> Tag:
     return BeautifulSoup(html, "html.parser").find("tr")
 
 
-def test_posting_exactly_at_min_age_is_excluded():
+def test_posting_exactly_at_min_age_is_included():
     posting, _ = readme_source._parse_row(_row_with_age("7d"), carry=None)
-    assert posting is None
+    assert posting is not None
+    assert posting.company_name == "AgeCo"
 
 
 def test_posting_older_than_min_age_is_included():
@@ -204,7 +205,7 @@ def test_posting_older_than_min_age_is_included():
 
 
 def test_posting_younger_than_min_age_is_excluded():
-    posting, _ = readme_source._parse_row(_row_with_age("1d"), carry=None)
+    posting, _ = readme_source._parse_row(_row_with_age("6d"), carry=None)
     assert posting is None
 
 

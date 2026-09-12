@@ -57,6 +57,54 @@ ALLOWED_EXTENSIONS = ALLOWED_IMAGE_EXTENSIONS + (ALLOWED_PDF_EXTENSION,)
 ALLOWED_CONTENT_TYPES = {"image/png", "image/jpeg", "image/jpg", "application/pdf"}
 
 
+@router.get("/skills", response_model=ResumeSkillsResponse)
+def get_resume_skills(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> ResumeSkillsResponse:
+    """The skills currently linked to this user from their last resume
+    submission (origin='resume' on user_skill), without requiring a fresh
+    submit -- unlike POST /resumes/extract-skills*, which only ever
+    returns this right after a submission. Used by the Dashboard's
+    skills section so it can show what's already on file. Excludes any
+    skill linked from a different origin (e.g. none exist yet, but this
+    keeps the section scoped to exactly "what your resume said").
+    """
+    rows = db.execute(
+        select(
+            Skill.id,
+            Skill.name,
+            Skill.category,
+            user_skill.c.proficiency_level,
+            user_skill.c.proficiency_confidence,
+        )
+        .select_from(user_skill)
+        .join(Skill, Skill.id == user_skill.c.skill_id)
+        .where(
+            user_skill.c.user_id == current_user.id,
+            user_skill.c.origin == RESUME_ORIGIN,
+        )
+        .order_by(Skill.category, Skill.name)
+    ).all()
+
+    return ResumeSkillsResponse(
+        skills=[
+            SkillWithContext(
+                id=skill_id,
+                name=name,
+                category=category,
+                # Both columns are nullable at the DB level, but the
+                # resume-extraction path (_upsert_user_skill) always sets
+                # them together -- these defaults only guard a
+                # never-expected null on a resume-origin row.
+                proficiency_level=proficiency_level if proficiency_level is not None else 0,
+                proficiency_confidence=proficiency_confidence or "low",
+            )
+            for skill_id, name, category, proficiency_level, proficiency_confidence in rows
+        ]
+    )
+
+
 def _set_target_position(db: Session, current_user: User, target_position: str) -> None:
     # get target position from user's input
     current_user.target_position = target_position.strip()
