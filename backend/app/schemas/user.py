@@ -10,5 +10,5 @@ class UserRead(BaseModel):
     id: uuid.UUID
     email: str
     full_name: str | None = None
+    target_position: str | None = None
     created_at: datetime
-    

@@ -84,7 +84,7 @@ Two independent extraction paths feed the same `Skill`/`user_skill`/`job_posting
 ## Frontend architecture
 
 - `src/lib/supabase/client.ts` / `server.ts` — Supabase clients for Client Components vs. Server Components/Actions respectively; keep them separate rather than sharing one instance.
-- `src/proxy.ts` + `src/lib/supabase/proxy.ts` (`updateSession`) — the Next.js middleware; gates `/dashboard`, `/resume`, `/jobs`, `/roadmaps` behind a Supabase session, redirecting to `/login?next=...`. Nothing may run between `createServerClient(...)` and `supabase.auth.getUser()` in there (breaks token refresh) — see the inline comment.
+- `src/proxy.ts` + `src/lib/supabase/proxy.ts` (`updateSession`) — the Next.js middleware; gates `/dashboard`, `/resume`, `/jobs`, `/roadmaps`, `/tracker` behind a Supabase session, redirecting to `/login?next=...`. Nothing may run between `createServerClient(...)` and `supabase.auth.getUser()` in there (breaks token refresh) — see the inline comment.
 - `src/lib/api/client.ts` (`apiFetch`) — shared fetch wrapper all of `lib/api/*.ts` use; attaches the Supabase access token as a bearer header and normalizes FastAPI's `{"detail": "..."}` error bodies into `ApiError`. Skips setting `Content-Type` for `FormData` bodies (resume file upload) so the browser can set its own multipart boundary.
 - Data fetching is hook-based (`src/hooks/*`), one hook per backend resource (`useJobMatch`, `useRoadmapGeneration`, `useResume`, etc.), each wrapping the matching `lib/api/*.ts` module — follow that pairing when adding a new backend endpoint.
 - `frontend/AGENTS.md` (pulled in via `frontend/CLAUDE.md`) is auto-generated/rewritten by `next dev` itself — don't hand-edit its content, just let it get committed if it shows as a diff.

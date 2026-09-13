@@ -1,15 +1,19 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
+import { trackJob } from "@/lib/api/tracker";
 import { MAX_SELECTED_POSTINGS } from "@/types/job";
 import type { MatchedJobPosting } from "@/types/job";
 
 // Tracks which matched postings the user has checked -- the User_Job_Selection
 // step feeding roadmap generation (POST /roadmaps, see
-// hooks/useRoadmapGeneration.ts). Deliberately in-memory frontend state
-// only -- nothing here is persisted independently of the roadmap it
-// eventually produces (see setup-progress.md's Step 6 note on why there's
-// no User_Job_Selection table).
+// hooks/useRoadmapGeneration.ts). The checked/unchecked state itself is
+// still in-memory frontend state only -- nothing about *this* is
+// persisted independently of the roadmap it eventually produces (see
+// setup-progress.md's Step 6 note on why there's no User_Job_Selection
+// table). Checking a box IS reused, though, as the trigger for adding a
+// posting to the Tracker page (POST /tracker, see below) -- there's
+// deliberately no separate "Add to Tracker" control.
 //
 // Stores the full posting object per id (a Map, not just a Set of ids)
 // so a selection SURVIVES paging: /jobs/match only returns one page at a
@@ -39,6 +43,10 @@ export function useJobSelection() {
       const next = new Map(prev);
       if (next.has(posting.id)) {
         next.delete(posting.id);
+        // Deliberately does NOT untrack -- unselecting here must not
+        // delete Tracker history. A tracked_jobs row is only ever
+        // removed by an explicit Remove action on /tracker itself (see
+        // hooks/useTracker.ts).
       } else {
         if (next.size >= MAX_SELECTED_POSTINGS) {
           // At the cap -- ignore rather than evict an existing pick. The
@@ -47,6 +55,15 @@ export function useJobSelection() {
           return prev;
         }
         next.set(posting.id, posting);
+        // Reuses this same selection action to seed the Tracker with a
+        // default "saved" entry -- POST /tracker is idempotent
+        // server-side, so re-selecting an already-tracked posting never
+        // resets its status. Fire-and-forget: a tracking failure must
+        // not block job selection or roadmap generation, which remain
+        // this hook's real purpose.
+        trackJob(posting.id).catch((err) => {
+          console.error("Failed to add job to Tracker", err);
+        });
       }
       return next;
     });

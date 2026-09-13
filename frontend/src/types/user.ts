@@ -5,5 +5,6 @@ export interface CurrentUser {
   id: string;
   email: string;
   full_name: string | null;
+  target_position: string | null;
   created_at: string;
 }

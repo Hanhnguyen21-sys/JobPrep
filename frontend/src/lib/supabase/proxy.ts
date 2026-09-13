@@ -6,7 +6,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 // these routes require logged in before accessing
-const PROTECTED_PREFIXES = ["/dashboard", "/resume", "/jobs", "/roadmaps"];
+const PROTECTED_PREFIXES = ["/dashboard", "/resume", "/jobs", "/roadmaps", "/tracker"];
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });

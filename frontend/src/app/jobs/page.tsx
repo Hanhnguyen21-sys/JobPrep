@@ -10,12 +10,14 @@ import { RoadmapCreatedModal } from "@/components/roadmap/RoadmapCreatedModal";
 import { RoadmapViewer } from "@/components/roadmap/RoadmapViewer";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useJobMatch } from "@/hooks/useJobMatch";
 import { useJobSelection } from "@/hooks/useJobSelection";
 import { useRoadmapGeneration } from "@/hooks/useRoadmapGeneration";
 import { MAX_SELECTED_POSTINGS } from "@/types/job";
 
 export default function JobsPage() {
+  const { user } = useCurrentUser();
   const {
     result,
     page,
@@ -41,6 +43,12 @@ export default function JobsPage() {
   // populated (RoadmapViewer keeps showing it below) but the modal only
   // shows right after a fresh POST /roadmaps success.
   const [showCreatedModal, setShowCreatedModal] = useState(false);
+
+  // Prefer the user's saved profile (known before any search runs);
+  // fall back to the last search result's target_position so the label
+  // stays correct even if GET /users/me hasn't resolved yet on a
+  // fast repeat search.
+  const targetPosition = user?.target_position ?? result?.target_position ?? null;
 
   async function handleFindMatches() {
     clearRoadmap();
@@ -75,7 +83,11 @@ export default function JobsPage() {
 
         <Card className="space-y-4">
           <Button onClick={handleFindMatches} disabled={loading}>
-            {loading ? "Searching..." : "Find matching jobs"}
+            {loading
+              ? "Searching..."
+              : targetPosition
+                ? `Find matching jobs for ${targetPosition}`
+                : "Find matching jobs"}
           </Button>
 
           {needsTargetPosition && (
